@@ -1,8 +1,8 @@
 # iataaa-server
 
-a [Sails](http://sailsjs.org) application
-
-## Project under development.
+## Informations
+[Sailsjs](http://sailsjs.org) application.
+Project under development.
 
 ## New on SailsJs ?
 To deploy the project in local :
