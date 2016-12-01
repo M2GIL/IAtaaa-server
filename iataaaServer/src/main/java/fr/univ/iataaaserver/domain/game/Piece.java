@@ -1,11 +1,13 @@
 package fr.univ.iataaaserver.domain.game;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Piece {
-    WHITE_PIECE(1),
-    BLACK_PIECE(-1),
-    WHITE_QUEEN(3),
-    BLACK_QUEEN(-3),
-    EMPTY(0);
+    EMPTY(0),
+    BLACK_PIECE(1),
+    BLACK_QUEEN(2),
+    WHITE_PIECE(3),
+    WHITE_QUEEN(4);
     
     private final int value;
     
@@ -13,8 +15,10 @@ public enum Piece {
         this.value = value;
     }
 
+    @JsonValue
     public int getValue() {
         return value;
     } 
+
     
 }

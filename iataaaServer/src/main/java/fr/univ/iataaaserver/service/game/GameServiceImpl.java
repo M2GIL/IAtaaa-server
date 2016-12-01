@@ -30,14 +30,17 @@ public class GameServiceImpl implements GameService {
         initializeGame();
     }
     
+    @Override
     public Board getBoard() {
         return board;
     }
 
+    @Override
     public PlayerEnum getCurrentPlayer() {
         return board.getCurrentPlayer();
     }
     
+    @Override
     public boolean move(Piece[] pieces, PlayerEnum player) {
         boolean res = false;
         if (player == getCurrentPlayer() && isInGame()) {
@@ -55,10 +58,12 @@ public class GameServiceImpl implements GameService {
         return res;
     }
     
+    @Override
     public boolean isInGame() {
         return looser != null;
     }
     
+    @Override
     public PlayerEnum getWinner() {
         if (looser == PlayerEnum.PLAYER_1) {
             return PlayerEnum.PLAYER_2;
@@ -66,6 +71,7 @@ public class GameServiceImpl implements GameService {
         return PlayerEnum.PLAYER_1;
     }
     
+    @Override
     public PlayerEnum getLooser() {
         return looser;
     }

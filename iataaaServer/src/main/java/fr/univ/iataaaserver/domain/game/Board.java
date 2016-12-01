@@ -5,6 +5,7 @@
  */
 package fr.univ.iataaaserver.domain.game;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.univ.iataaaserver.domain.game.observable.ObservableImpl;
 
 /**
@@ -15,7 +16,10 @@ public class Board extends ObservableImpl {
     
     public static final String CHANGED_PIECES_PROPERTY_NAME = "piece_move";
     
+    @JsonProperty
     private Piece[] pieces;
+    
+    @JsonProperty
     private PlayerEnum currentPlayer;
 
     public Piece[] getPieces() {

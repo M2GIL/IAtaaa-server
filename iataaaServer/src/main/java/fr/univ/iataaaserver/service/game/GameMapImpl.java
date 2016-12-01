@@ -18,7 +18,7 @@ import java.util.Set;
  */
 public class GameMapImpl implements GameMap {
     
-     private final Map<String, GameBean> games;
+    private final Map<String, GameBean> games;
     
     public GameMapImpl() {
         games = new HashMap<>();
@@ -26,7 +26,7 @@ public class GameMapImpl implements GameMap {
 
     @Override
     public boolean addGame(GameBean game) {
-        Contract.checkArgument(game == null, "game should not be null.");
+        Contract.checkArgument(game != null, "game should not be null.");
         String key = game.getId();
     
         return games.put(key, game) != null;
@@ -42,6 +42,7 @@ public class GameMapImpl implements GameMap {
         games.clear();
     }
     
+    @Override
     public Set<String> getAllId() {
         return games.keySet();
     }
@@ -57,6 +58,11 @@ public class GameMapImpl implements GameMap {
         String key = game.getId();
         
         return games.remove(key) != null;
+    }
+
+    @Override
+    public boolean constains(String id) {
+        return games.containsKey(id);
     }
     
 }

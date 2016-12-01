@@ -17,7 +17,11 @@ import fr.univ.iataaaserver.domain.game.PlayerEnum;
  */
 public class GameManagerImpl implements GameManager {
     
-   private GameMap games;
+   private final GameMap games;
+   
+   public GameManagerImpl() {
+       games = new GameMapImpl();
+   }
 
     @Override
     public boolean createGame(String id) {
@@ -33,7 +37,11 @@ public class GameManagerImpl implements GameManager {
 
     @Override
     public Board getGame(String id) {
-        return games.getGame(id).getGame().getBoard();
+        Board board = null;
+        if (games.getGame(id) != null && games.getGame(id).getGame() != null) {
+            board = games.getGame(id).getGame().getBoard();
+        }
+        return board;
     }
 
     @Override
