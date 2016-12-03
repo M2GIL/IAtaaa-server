@@ -3,7 +3,9 @@ package fr.univ.iataaaserver.service.gamePlatform;
 
 import fr.univ.iataaaserver.domain.game.Piece;
 import fr.univ.iataaaserver.domain.game.observable.ObservableImpl;
+import fr.univ.iataaaserver.service.gamePlatform.exception.ForbiddenMoveException;
 import fr.univ.iataaaserver.service.gamePlatform.util.EnumPlayer;
+import fr.univ.iataaaserver.service.gamePlatform.util.Rules;
 
 public class Board extends ObservableImpl{
     private Piece[] pieces;
@@ -23,9 +25,11 @@ public class Board extends ObservableImpl{
         return currentPlayer;
     }
 
-    public void move(Piece[] pieces) {
-
-
+    public void move(Piece[] pieces) throws ForbiddenMoveException {
+        if (!Rules.getAvalaibleMoves(getPieces(), currentPlayer).contains(pieces)) {
+            throw new ForbiddenMoveException();
+        }
+        this.pieces = pieces;
         currentPlayer = EnumPlayer.getNextPlayer(currentPlayer);
     }
 
@@ -36,7 +40,5 @@ public class Board extends ObservableImpl{
         for (int i = 30; i < 50; ++i) pieces[i] = Piece.WHITE_PIECE;
         return pieces;
     }
-
-
 
 }
