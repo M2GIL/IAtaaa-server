@@ -4,9 +4,9 @@ import fr.univ.iataaaserver.domain.game.Piece;
 
 
 public class Util {
-    
+
     private Util() {}
-    
+
     /**
      * Display the char[][] board
      * Begin left bottom to right top
@@ -34,10 +34,10 @@ public class Util {
 
 
     /**
-     * Convert the Piece[] board in Piece[][] board for display
+     * Convert the Case[] board in Case[][] board for display
      *
      * @param boardFifty char[]
-     * @return Piece[][] board
+     * @return Case[][] board
      */
     public static Piece[][] convertFiftyToHundredBoard(Piece[] boardFifty) {
         Piece[][] boardFinal = new Piece[10][10];
@@ -54,7 +54,7 @@ public class Util {
 
         return boardFinal;
     }
-    
+
     /**
      * Get a line of the display
      *

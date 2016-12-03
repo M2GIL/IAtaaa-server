@@ -1,7 +1,7 @@
 package fr.univ.iataaaserver.service.gamePlatform;
 
 
-import fr.univ.iataaaserver.service.gamePlatform.Exception.BusyException;
+import fr.univ.iataaaserver.service.gamePlatform.exception.BusyException;
 
 public class Game {
 
@@ -12,11 +12,11 @@ public class Game {
     // ATTRIBUTES
 
     private String id;
-    private IPlayer[] players = new IPlayer[2];
+    private IAWebServicePlayer[] players = new IAWebServicePlayer[2];
     private boolean isFinished;
     // CONSTRUCTOR
 
-    public Game(IPlayer p1, IPlayer p2) {
+    public Game(IAWebServicePlayer p1, IAWebServicePlayer p2) {
         players[J1] = p1;
         players[J2] = p2;
         isFinished = false;

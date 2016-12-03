@@ -1,10 +1,10 @@
 package fr.univ.iataaaserver.service.gamePlatform;
 
 
-import fr.univ.iataaaserver.service.gamePlatform.Exception.BusyException;
+import fr.univ.iataaaserver.service.gamePlatform.exception.BusyException;
 import fr.univ.iataaaserver.service.gamePlatform.util.*;
 
-public class HumanPlayer implements IPlayer {
+public class HumanPlayer implements IAWebServicePlayer {
 
     private String ip;
     private int port;
@@ -30,7 +30,7 @@ public class HumanPlayer implements IPlayer {
 
 
     @Override
-    public StatutService getStatut() {
+    public StatusService getStatut() {
         return null;
     }
 
