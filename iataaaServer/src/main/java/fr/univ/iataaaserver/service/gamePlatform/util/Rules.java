@@ -23,12 +23,30 @@ public class Rules {
     }
 
     // positionpieces est la liste des position pièces que l'on veut analyser.
-    public static List<Piece[]> getAvalaibleMoves(Piece[] pieces) {
-        List<Integer> whitePieces = getWhitePieces(pieces);
+    public static List<Piece[]> getAvalaibleMoves(Piece[] pieces, EnumPlayer p) {
+        List<Integer> whitePieces;
+        Piece[] clonePieces;
+        if (p == EnumPlayer.Player1) {
+            clonePieces = reversePieces(pieces);
+        } else {
+            clonePieces = pieces;
+        }
+        whitePieces = getWhitePieces(clonePieces);
         whitePieces.stream().forEach((i) -> {
             fillAvalaibleMovesForOnePiece(pieces, i);
         });
-        return AVALAIBLE_MOVES;
+        
+        List<Piece[]> res;      
+        if (p == EnumPlayer.Player1) {
+            res = new ArrayList<>();
+            for (Piece[] ps : AVALAIBLE_MOVES) {
+                res.add(reversePieces(ps));
+            }
+        } else {
+            res = AVALAIBLE_MOVES;
+        }
+        
+        return res;
     }
 
 
@@ -599,6 +617,53 @@ public class Rules {
             }
         }
         return positions;
+    }
+    
+    private static List<Integer> getBlackPieces(Piece[] pieces) {
+        List<Integer> positions = new ArrayList<>(15);
+        for (int i = 0; i < pieces.length; ++i) {
+            if (pieces[i] == Piece.BLACK_PIECE || pieces[i] == Piece.BLACK_QUEEN) {
+                positions.add(i);
+            }
+        }
+        return positions;
+    }
+    
+    private static int reversePieceIndice(int indice) {
+        assert indice > 0 && indice < 49; 
+        return indice + (45 - 10 * (indice / 5)); 
+    }
+    
+    private static Piece[] reversePieces(Piece[] pieces) {
+        Piece[] reversePieces = new Piece[GameService.PIECE_SIZE];
+        for (int i = 0; i < GameService.PIECE_SIZE; ++i) {
+            reversePieces[reversePieceIndice(i)] = oppositeColor(pieces[i]);
+        }
+        
+        return reversePieces;
+    }
+    
+    private static Piece oppositeColor(Piece piece) {
+        Piece opposite;
+        switch (piece) {
+            case WHITE_PIECE :
+                opposite = Piece.BLACK_PIECE;
+                break;
+            case BLACK_PIECE :
+                opposite = Piece.WHITE_PIECE;
+                break;  
+            case WHITE_QUEEN :
+                opposite = Piece.BLACK_QUEEN;
+                break;
+            case BLACK_QUEEN :
+                opposite = Piece.WHITE_QUEEN;
+                break;  
+            default :
+                opposite = Piece.EMPTY;
+                break;
+        }
+        
+        return opposite;
     }
 
 
