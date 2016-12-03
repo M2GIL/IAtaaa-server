@@ -2,7 +2,6 @@ package fr.univ.iataaaserver.service.game.util;
 
 import fr.univ.iataaaserver.domain.game.Piece;
 import fr.univ.iataaaserver.service.game.GameService;
-import fr.univ.iataaaserver.service.game.GameService;
 import java.util.ArrayList;
 import java.util.List;
 
