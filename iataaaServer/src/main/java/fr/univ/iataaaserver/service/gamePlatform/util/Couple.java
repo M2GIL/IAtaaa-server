@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.univ.iataaaserver.service.game.util;
+package fr.univ.iataaaserver.service.gamePlatform.util;
 
 /**
  *

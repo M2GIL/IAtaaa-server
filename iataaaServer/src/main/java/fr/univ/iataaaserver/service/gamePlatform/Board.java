@@ -1,44 +1,26 @@
 package fr.univ.iataaaserver.service.gamePlatform;
 
+import java.util.ArrayList;
+import java.util.List;
 
-import fr.univ.iataaaserver.domain.game.Piece;
-import fr.univ.iataaaserver.domain.game.observable.ObservableImpl;
-import fr.univ.iataaaserver.service.gamePlatform.exception.ForbiddenMoveException;
-import fr.univ.iataaaserver.service.gamePlatform.util.EnumPlayer;
-import fr.univ.iataaaserver.service.gamePlatform.util.Rules;
+/**
+ * Created by z3ddycus on 04/12/16.
+ */
+public class Board<T> {
+    private ArrayList<T> board;
 
-public class Board extends ObservableImpl{
-    private Piece[] pieces;
-    private EnumPlayer currentPlayer;
-
-    public Board() {
-        this.currentPlayer = EnumPlayer.Player1;
-        this.pieces = initializeGame();
-    }
-
-    public Piece[] getPieces()
-    {
-        return pieces;
-    }
-
-    public EnumPlayer getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    public void move(Piece[] pieces) throws ForbiddenMoveException {
-        if (!Rules.getAvalaibleMoves(getPieces(), currentPlayer).contains(pieces)) {
-            throw new ForbiddenMoveException();
+    public Board(T[] array) {
+        board = new ArrayList<T>(array.length);
+        for (T element : array) {
+            board.add(element);
         }
-        this.pieces = pieces;
-        currentPlayer = EnumPlayer.getNextPlayer(currentPlayer);
     }
 
-    private Piece[] initializeGame() {
-        Piece[] pieces = new Piece[50];
-        for (int i = 0 ; i < 20; ++i) pieces[i] = Piece.BLACK_PIECE;
-        for (int i = 20; i < 30; ++i) pieces[i] = Piece.EMPTY;
-        for (int i = 30; i < 50; ++i) pieces[i] = Piece.WHITE_PIECE;
-        return pieces;
+    public List<T> getBoard() {
+        return board;
     }
 
+    public T[] toArray() {
+        return (T[]) board.toArray();
+    }
 }

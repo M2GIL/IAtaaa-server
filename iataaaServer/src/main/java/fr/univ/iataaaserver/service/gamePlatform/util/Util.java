@@ -1,7 +1,4 @@
-package fr.univ.iataaaserver.service.game.util;
-
-import fr.univ.iataaaserver.domain.game.Piece;
-
+package fr.univ.iataaaserver.service.gamePlatform.util;
 
 public class Util {
 
@@ -13,8 +10,8 @@ public class Util {
      *
      * @param boardToDisplay char[][]
      */
-    public static void displayBoard(Piece[] boardToDisplay) {
-        Piece[][] board = convertFiftyToHundredBoard(boardToDisplay);
+    public static void displayBoard(Case[] boardToDisplay) {
+        Case[][] board = convertFiftyToHundredBoard(boardToDisplay);
 
         String line = getLine(board.length);
         String str = line;
@@ -23,7 +20,7 @@ public class Util {
             str += "|";
             for (int j = 0; j < board[i].length; j++) {
                 // Decal to be VERY beautiful <3
-                str += (board[i][j] == Piece.BLACK_PIECE || board[i][j] == Piece.BLACK_QUEEN ) ? "" : " " ;
+                str += (board[i][j] == Case.BLACK_PIECE || board[i][j] == Case.BLACK_QUEEN ) ? "" : " " ;
                 str += board[i][j].getValue() + " |";
             }
 
@@ -39,12 +36,12 @@ public class Util {
      * @param boardFifty char[]
      * @return Case[][] board
      */
-    public static Piece[][] convertFiftyToHundredBoard(Piece[] boardFifty) {
-        Piece[][] boardFinal = new Piece[10][10];
+    public static Case[][] convertFiftyToHundredBoard(Case[] boardFifty) {
+        Case[][] boardFinal = new Case[10][10];
 
         for (int i = 0; i < boardFinal.length; i++) {
             for (int j = 0; j < boardFinal[i].length; j++) {
-                boardFinal[i][j] = Piece.EMPTY;
+                boardFinal[i][j] = Case.EMPTY;
             }
         }
 

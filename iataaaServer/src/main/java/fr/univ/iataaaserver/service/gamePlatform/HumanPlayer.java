@@ -4,7 +4,7 @@ package fr.univ.iataaaserver.service.gamePlatform;
 import fr.univ.iataaaserver.service.gamePlatform.exception.BusyException;
 import fr.univ.iataaaserver.service.gamePlatform.util.*;
 
-public class HumanPlayer implements IAWebServicePlayer {
+public class HumanPlayer implements IPlayer {
 
     private String ip;
     private int port;
@@ -40,7 +40,7 @@ public class HumanPlayer implements IAWebServicePlayer {
     }
 
     @Override
-    public void PlayGame(Token idToken, Difficulty difficulty, Board boardGame, EnumPlayer player) throws Exception {
+    public void PlayGame(Token idToken, Difficulty difficulty, Game boardGame, EnumPlayer player) throws Exception {
 
     }
 

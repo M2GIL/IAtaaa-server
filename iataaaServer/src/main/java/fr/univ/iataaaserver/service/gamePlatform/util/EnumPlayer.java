@@ -4,11 +4,11 @@ package fr.univ.iataaaserver.service.gamePlatform.util;
  * Created by z3ddycus on 03/12/16.
  */
 public enum EnumPlayer {
-    Player1, Player2;
+    PLAYER_1, PLAYER_2;
 
     public static EnumPlayer getNextPlayer(EnumPlayer player) {
         if (player == null) throw new AssertionError();
-        if (player == Player1) return Player2;
-        return Player1;
+        if (player == PLAYER_1) return PLAYER_2;
+        return PLAYER_1;
     }
 }

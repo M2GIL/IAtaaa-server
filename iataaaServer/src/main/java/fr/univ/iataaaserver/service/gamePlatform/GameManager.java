@@ -12,8 +12,8 @@ public class GameManager {
 
     // ATTRIBUTES
 
-    Map<String, Game> games = new HashMap<>();
-    List<CPUPlayer> cpus = new ArrayList<>();
+    Map<String, GameRunner> games = new HashMap<>();
+    List<IAWebServicePlayer> cpus = new ArrayList<>();
     List<HumanPlayer> humans = new ArrayList<>();
 
     // CONSTRUCTOR
@@ -24,11 +24,11 @@ public class GameManager {
 
     // REQUESTS
 
-    public Map<String, Game> getGames() {
+    public Map<String, GameRunner> getGames() {
         return games;
     }
 
-    public List<CPUPlayer> getCpus() {
+    public List<IAWebServicePlayer> getCpus() {
         return cpus;
     }
 
@@ -36,7 +36,7 @@ public class GameManager {
         return humans;
     }
 
-    public Game getGame(String id) {
+    public GameRunner getGame(String id) {
         return games.get(id);
     }
 
@@ -48,9 +48,9 @@ public class GameManager {
         return result;
     }
 
-    public CPUPlayer getCPU(String id) {
-        CPUPlayer result = null;
-        for (CPUPlayer cpu : cpus) {
+    public IAWebServicePlayer getCPU(String id) {
+        IAWebServicePlayer result = null;
+        for (IAWebServicePlayer cpu : cpus) {
             // TODO: 03/12/16
         }
         return result;
