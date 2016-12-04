@@ -21,7 +21,12 @@ public class Board<T> {
         return board;
     }
 
-    public T[] toArray() {
-        return (T[]) board.toArray();
+    public Case[] toArray() {
+        int sizeBoard = board.size();
+        Case[] cases = new Case[sizeBoard];
+        for (int i = 0; i < sizeBoard; ++ i) {
+            cases[i] = (Case) board.get(i);
+        }
+        return cases;
     }
 }
