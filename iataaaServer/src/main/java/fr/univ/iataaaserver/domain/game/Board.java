@@ -1,9 +1,6 @@
 package fr.univ.iataaaserver.domain.game;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Created by z3ddycus on 04/12/16.
@@ -33,6 +30,22 @@ public class Board<T> {
             cases[i] = (Case) board.get(i);
         }
         return cases;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        res.append("[");
+        Iterator<T> it = board.iterator();
+        if (it.hasNext()) {
+            res.append(it.next());
+        }
+        while(it.hasNext()) {
+            res.append(" | ");
+            res.append(it.next());
+        }
+        res.append("]");
+        return res.toString();
     }
 
     @Override

@@ -2,25 +2,31 @@ package fr.univ.iataaaserver.domain.game;
 
 
 public enum Case {
-        EMPTY(0),
-        WHITE_PIECE(1),
-        WHITE_QUEEN(2),
-        BLACK_PIECE(3),
-        BLACK_QUEEN(4);
+    EMPTY(0, " "),
+    WHITE_PIECE(1, "x"),
+    WHITE_QUEEN(2, "X"),
+    BLACK_PIECE(3, "o"),
+    BLACK_QUEEN(4, "O");
 
-        // ATTRIBUTES
+    // ATTRIBUTES
 
-        private final int value;
+    private final int value;
+    private final String abstraction;
 
-        // CONSTRUCTOR
+    // CONSTRUCTOR
 
-        Case(int value) {
-                this.value = value;
-        }
+    Case(int value, String abstraction) {
+        this.value = value;
+        this.abstraction = abstraction;
+    }
 
-        // REQUEST
+    // REQUEST
 
-        public int getValue() {
-                return value;
-            }
+    public int getValue() {
+            return value;
+    }
+
+    public String toString() {
+        return abstraction;
+    }
 }
