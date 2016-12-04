@@ -1,4 +1,4 @@
-package fr.univ.iataaaserver.service.game;
+package fr.univ.iataaaserver.service.game.game;
 
 
 import fr.univ.iataaaserver.service.game.player.Player;

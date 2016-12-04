@@ -1,4 +1,4 @@
-package fr.univ.iataaaserver.domain.game.util;
+package fr.univ.iataaaserver.domain.game;
 
 
 public enum EndGameCase {

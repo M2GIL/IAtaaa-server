@@ -3,15 +3,15 @@ package fr.univ.iataaaserver.service.game.util;
 import fr.univ.iataaaserver.domain.game.Board;
 import fr.univ.iataaaserver.domain.game.Case;
 import fr.univ.iataaaserver.domain.game.EnumPlayer;
-import fr.univ.iataaaserver.service.game.GameService;
+import fr.univ.iataaaserver.service.game.game.Game;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Rules {
     
-    private static final int FIRST_POSITION_OF_LAST_LINE = GameService.CASE_NB_OF_LINE 
-        * (GameService.LINE_NB - 1);
-    private static final int LAST_POSITION_OF_FIRST_LINE = GameService.CASE_NB_OF_LINE 
+    private static final int FIRST_POSITION_OF_LAST_LINE = Game.CASE_NB_OF_LINE 
+        * (Game.LINE_NB - 1);
+    private static final int LAST_POSITION_OF_FIRST_LINE = Game.CASE_NB_OF_LINE 
         - 1;
     
     
@@ -44,7 +44,7 @@ public class Rules {
     private static int getTopLeftCornerPosition(int position) {
         int res = -1;
         if ( !(position % 10 == 0 || position >= FIRST_POSITION_OF_LAST_LINE) ) {
-            res = position + (position / 5) % 2 + (GameService.PIECE_SIZE / 10) - 1;
+            res = position + (position / 5) % 2 + (Game.PIECE_SIZE / 10) - 1;
         }
         return res;
     }
@@ -54,7 +54,7 @@ public class Rules {
     private static int getTopRightCornerPosition(int position) {
         int res = -1;
         if ( !( (position + 1) % 10 == 0 || position >= FIRST_POSITION_OF_LAST_LINE) ) {
-            res = position + (position / 5) % 2 + (GameService.PIECE_SIZE / 10);
+            res = position + (position / 5) % 2 + (Game.PIECE_SIZE / 10);
         }
         return res;
     }
@@ -65,7 +65,7 @@ public class Rules {
         int res = -1;
         if ( !(position % 10 == 0 || position <= LAST_POSITION_OF_FIRST_LINE) ) {
             // Arrière gauche : pos - (SIZE/10)-1 - (pos/5)%2
-            res = position - (GameService.PIECE_SIZE / 10)  - (((position / 5) + 1) % 2);
+            res = position - (Game.PIECE_SIZE / 10)  - (((position / 5) + 1) % 2);
         }
         return res;
     }
@@ -75,7 +75,7 @@ public class Rules {
     private static int getBottomRightCornerPosition(int position) {
         int res = -1;
         if ( !( (position + 1) % 10 == 0 || position <= LAST_POSITION_OF_FIRST_LINE) ) {
-            res = position - GameService.PIECE_SIZE / 10  - ((position / 5 + 1) % 2) + 1;
+            res = position - Game.PIECE_SIZE / 10  - ((position / 5 + 1) % 2) + 1;
         }
         return res;
     }

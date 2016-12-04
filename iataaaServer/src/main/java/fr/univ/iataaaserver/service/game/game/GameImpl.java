@@ -1,4 +1,4 @@
-package fr.univ.iataaaserver.service.game;
+package fr.univ.iataaaserver.service.game.game;
 
 
 import fr.univ.iataaaserver.domain.game.Board;

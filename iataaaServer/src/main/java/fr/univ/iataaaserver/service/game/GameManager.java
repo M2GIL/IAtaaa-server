@@ -5,6 +5,7 @@
  */
 package fr.univ.iataaaserver.service.game;
 
+import fr.univ.iataaaserver.service.game.game.GameRunnerImpl;
 import fr.univ.iataaaserver.service.game.player.WebServicePlayer;
 import fr.univ.iataaaserver.service.game.player.Player;
 import java.util.List;

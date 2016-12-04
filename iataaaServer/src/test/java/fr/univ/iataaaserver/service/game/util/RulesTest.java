@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import fr.univ.iataaaserver.IataaaServerApp;
-import fr.univ.iataaaserver.domain.game.Piece;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = IataaaServerApp.class)
@@ -26,10 +25,11 @@ public class RulesTest {
 		// modifier la visibilité des méthodes de Rules
 
 		//Rules rule = new Rules();
+                /*
 		Piece[] pieces = new Piece[15];
 		for (int i = 0; i < 15; i++) {
 			pieces[i] = Piece.WHITE_PIECE;
-		}
+		}*/
 
 		// le test passe dans le cas ou on modifier la methode getAvalableMoves
 		// avec la valeur 1 de i le test passe

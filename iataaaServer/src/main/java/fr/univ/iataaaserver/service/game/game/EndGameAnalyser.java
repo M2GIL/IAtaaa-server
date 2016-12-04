@@ -1,8 +1,9 @@
-package fr.univ.iataaaserver.service.game;
+package fr.univ.iataaaserver.service.game.game;
 
+import fr.univ.iataaaserver.service.game.game.GameImpl;
 import fr.univ.iataaaserver.domain.game.Board;
 import fr.univ.iataaaserver.domain.game.Case;
-import fr.univ.iataaaserver.domain.game.util.EndGameCase;
+import fr.univ.iataaaserver.domain.game.EndGameCase;
 import fr.univ.iataaaserver.domain.game.EnumPlayer;
 import fr.univ.iataaaserver.service.game.util.Rules;
 

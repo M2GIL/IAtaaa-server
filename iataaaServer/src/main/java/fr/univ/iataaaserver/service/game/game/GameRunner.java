@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.univ.iataaaserver.service.game;
+package fr.univ.iataaaserver.service.game.game;
+
+import fr.univ.iataaaserver.service.game.exception.BusyException;
 
 /**
  *
  * @author anto
  */
-public interface GameService {
-    int PIECE_SIZE = 50;
-    int CASE_NB_OF_LINE = 5;
-    int LINE_NB = 10;
-   
-    
+interface GameRunner {
+    boolean isFinished();
+    void startGame() throws BusyException;
 }
