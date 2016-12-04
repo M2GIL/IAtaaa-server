@@ -28,7 +28,7 @@ public class WebServicePlayer implements Player {
     }
 
     @Override
-    public void startGame(Token idGame, Difficulty difficulty) throws BusyException {
+    public void startGame(Token idGame, Difficulty difficulty, EnumPlayer player) throws BusyException {
 
     }
 
