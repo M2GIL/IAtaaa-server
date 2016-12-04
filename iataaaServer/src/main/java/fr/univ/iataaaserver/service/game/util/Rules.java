@@ -1,8 +1,8 @@
 package fr.univ.iataaaserver.service.game.util;
 
 import fr.univ.iataaaserver.domain.game.Board;
+import fr.univ.iataaaserver.domain.game.Case;
 import fr.univ.iataaaserver.domain.game.EnumPlayer;
-import fr.univ.iataaaserver.domain.game.Piece;
 import fr.univ.iataaaserver.service.game.GameService;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,22 +15,22 @@ public class Rules {
         - 1;
     
     
-    private static final List<Piece[]> AVALAIBLE_MOVES = new ArrayList<>();
+    private static final List<Case[]> AVALAIBLE_MOVES = new ArrayList<>();
     private static int sizeMove = 1;
     
     private Rules() {
     }
 
-    public static List<Piece[]> getAvalaibleMoves(Board board, EnumPlayer p) {
+    public static List<Case[]> getAvalaibleMoves(Board board, EnumPlayer p) {
        
         return AVALAIBLE_MOVES;
     }
     
     // positionpieces est la liste des position pièces que l'on veut analyser.
-    public static List<Piece[]> getAvalaibleMoves(Piece[] pieces, EnumPlayer p) {
-        List<Integer> whitePieces = getWhitePieces(pieces);
-        whitePieces.stream().forEach((i) -> {
-            fillAvalaibleMovesForOnePiece(pieces, i);
+    public static List<Case[]> getAvalaibleMoves(Case[] pieces, EnumPlayer p) {
+        List<Integer> whiteCases = getWhiteCases(pieces);
+        whiteCases.stream().forEach((i) -> {
+            fillAvalaibleMovesForOneCase(pieces, i);
         });
         return AVALAIBLE_MOVES;
     }
@@ -220,25 +220,25 @@ public class Rules {
     // Rempli avalaibleMoves de tous les coups possible de la pièce en position
     // position.
     // Retourne vrai si un pion est sauté.
-    private static void fillAvalaibleMovesForOnePiece(Piece[] pieces, int srcPosition) {
-        assert pieces[srcPosition] != Piece.BLACK_PIECE;
-        assert pieces[srcPosition] != Piece.BLACK_QUEEN;
-        assert pieces[srcPosition] != Piece.EMPTY;
+    private static void fillAvalaibleMovesForOneCase(Case[] pieces, int srcPosition) {
+        assert pieces[srcPosition] != Case.BLACK_PIECE;
+        assert pieces[srcPosition] != Case.BLACK_QUEEN;
+        assert pieces[srcPosition] != Case.EMPTY;
         
         boolean isPossibleToJump = sequenceJump(pieces, srcPosition, 1, 
             new ArrayList<>());
         if (!isPossibleToJump && sizeMove == 1) { // S'il n'est pas possible de sauter une pièce.
             // Si sizeMove n'est pas égale à 1 alors il est inutile d'aller plus loin car il existe des mouvement 
             // plus long dans avalaibleMove.
-            if (pieces[srcPosition] == Piece.WHITE_PIECE) { // Si la piece source est un pion est on ne peut pas sauter de pion.
+            if (pieces[srcPosition] == Case.WHITE_PIECE) { // Si la piece source est un pion est on ne peut pas sauter de pion.
                 
             //------------------------------------------------------------------
             // Coté gauche du pion
                 int topLeftCornerPosition = getTopLeftCornerPosition(srcPosition);
                 if (topLeftCornerPosition != -1) {
-                    Piece topleftcornerPiece = pieces[topLeftCornerPosition];
-                    if (topleftcornerPiece == Piece.EMPTY) { // Si je peux déplacer mon pion en haut à gaucher.
-                        Piece[] move = getMoveWhitePiece(pieces, srcPosition, topLeftCornerPosition);
+                    Case topleftcornerCase = pieces[topLeftCornerPosition];
+                    if (topleftcornerCase == Case.EMPTY) { // Si je peux déplacer mon pion en haut à gaucher.
+                        Case[] move = getMoveWhiteCase(pieces, srcPosition, topLeftCornerPosition);
                         AVALAIBLE_MOVES.add(move);
                     }
                 }
@@ -246,15 +246,15 @@ public class Rules {
                 // Coté droit du pion
                 int topRightCornerPosition = getTopRightCornerPosition(srcPosition);
                 if (topRightCornerPosition != -1) {
-                    Piece topRightcornerPiece = pieces[topRightCornerPosition];
-                    if (topRightcornerPiece == Piece.EMPTY) { // Si je peux déplacer mon pion en haut à droite.
-                        Piece[] move = getMoveWhitePiece(pieces, srcPosition, topRightCornerPosition);
+                    Case topRightcornerCase = pieces[topRightCornerPosition];
+                    if (topRightcornerCase == Case.EMPTY) { // Si je peux déplacer mon pion en haut à droite.
+                        Case[] move = getMoveWhiteCase(pieces, srcPosition, topRightCornerPosition);
                         AVALAIBLE_MOVES.add(move);
                     }
                 }
             } else { // Le pion est une dame et on ne peut pas sauter de pion.
                 int k, i;
-                Piece[] newPieces;
+                Case[] newCases;
                 List<Integer> positions;
                 int sizePositions;
                 
@@ -263,10 +263,10 @@ public class Rules {
                 if (!positions.isEmpty()) {  
                     i = 0;
                     k = positions.get(i);   
-                    while (i < sizePositions && pieces[k] == Piece.EMPTY) { // On ajoute toute les position de positions
+                    while (i < sizePositions && pieces[k] == Case.EMPTY) { // On ajoute toute les position de positions
                         // jusqu'à ce qu'on rencontre une pièce non vide.
-                        newPieces = getMoveWhitePiece(pieces, srcPosition, k);
-                        AVALAIBLE_MOVES.add(newPieces);
+                        newCases = getMoveWhiteCase(pieces, srcPosition, k);
+                        AVALAIBLE_MOVES.add(newCases);
                         k = positions.get(i);
                         ++i;
                         if (i < sizePositions) {
@@ -281,10 +281,10 @@ public class Rules {
                 if (!positions.isEmpty()) {
                     i = 0;
                     k = positions.get(i);   
-                    while (i < sizePositions && pieces[k] == Piece.EMPTY) { // On ajoute toute les position de positions
+                    while (i < sizePositions && pieces[k] == Case.EMPTY) { // On ajoute toute les position de positions
                         // jusqu'à ce qu'on rencontre une pièce non vide.
-                        newPieces = getMoveWhitePiece(pieces, srcPosition, k);
-                        AVALAIBLE_MOVES.add(newPieces);
+                        newCases = getMoveWhiteCase(pieces, srcPosition, k);
+                        AVALAIBLE_MOVES.add(newCases);
                         k = positions.get(i);
                         ++i;
                         if (i < sizePositions) {
@@ -298,10 +298,10 @@ public class Rules {
                 if (!positions.isEmpty()) {
                     i = 0;
                     k = positions.get(i);   
-                    while (i < sizePositions && pieces[k] == Piece.EMPTY) { // On ajoute toute les position de positions
+                    while (i < sizePositions && pieces[k] == Case.EMPTY) { // On ajoute toute les position de positions
                         // jusqu'à ce qu'on rencontre une pièce non vide.
-                        newPieces = getMoveWhitePiece(pieces, srcPosition, k);
-                        AVALAIBLE_MOVES.add(newPieces);
+                        newCases = getMoveWhiteCase(pieces, srcPosition, k);
+                        AVALAIBLE_MOVES.add(newCases);
                         k = positions.get(i);
                         ++i;
                         if (i < sizePositions) {
@@ -315,10 +315,10 @@ public class Rules {
                 if (!positions.isEmpty()) {
                     i = 0;
                     k = positions.get(i);   
-                    while (i < sizePositions && pieces[k] == Piece.EMPTY) { // On ajoute toute les position de positions
+                    while (i < sizePositions && pieces[k] == Case.EMPTY) { // On ajoute toute les position de positions
                         // jusqu'à ce qu'on rencontre une pièce non vide.
-                        newPieces = getMoveWhitePiece(pieces, srcPosition, k);
-                        AVALAIBLE_MOVES.add(newPieces);
+                        newCases = getMoveWhiteCase(pieces, srcPosition, k);
+                        AVALAIBLE_MOVES.add(newCases);
                         k = positions.get(i);
                         ++i;
                         if (i < sizePositions) {
@@ -364,15 +364,15 @@ public class Rules {
     // Retourne faux s'il n'est pas possible de sauter une pion, sinon vrai
     // et enregistre le coup le/les coups les plus longs dans availableMove.
     // La direction est un côté sur lequel on ne souhaite se déplacer.
-    private static boolean sequenceJump(Piece[] pieces, int srcPosition, final int size,
-        List<Integer> jumpedPieces) {
-        assert pieces[srcPosition] != Piece.BLACK_PIECE;
-        assert pieces[srcPosition] != Piece.BLACK_QUEEN;
-        assert pieces[srcPosition] != Piece.EMPTY;
+    private static boolean sequenceJump(Case[] pieces, int srcPosition, final int size,
+        List<Integer> jumpedCases) {
+        assert pieces[srcPosition] != Case.BLACK_PIECE;
+        assert pieces[srcPosition] != Case.BLACK_QUEEN;
+        assert pieces[srcPosition] != Case.EMPTY;
         
         boolean isPossibleToJump = false;
         
-        if (pieces[srcPosition] == Piece.WHITE_PIECE) {
+        if (pieces[srcPosition] == Case.WHITE_PIECE) {
             int tgtPosition;
             int jumpedPosition;
             boolean addJumpedMoveToSequence;
@@ -407,7 +407,7 @@ public class Rules {
             
         } else { // Si la pièce source est une dame.
             List<Integer> positions;
-            Piece[] newPieces;
+            Case[] newCases;
             int jumpedPos;
             Couple<List<Integer>, Integer> couple;
             
@@ -418,12 +418,12 @@ public class Rules {
                 jumpedPos = couple.getSecond();
                 if (jumpedPos != -1) {
                     for (int tgtPos : positions) {
-                        if (!isInInterval(srcPosition, tgtPos, Direction.TOP_LEFT, jumpedPieces)) {
+                        if (!isInInterval(srcPosition, tgtPos, Direction.TOP_LEFT, jumpedCases)) {
                             isPossibleToJump = true;
-                            newPieces = getJumpBlackPiece(pieces, srcPosition, jumpedPos, tgtPos);
-                            jumpedPieces.add(jumpedPos);
-                            sequenceJump(newPieces, tgtPos, size + 1, jumpedPieces);
-                            jumpedPieces.remove(jumpedPieces.indexOf(jumpedPos));
+                            newCases = getJumpBlackCase(pieces, srcPosition, jumpedPos, tgtPos);
+                            jumpedCases.add(jumpedPos);
+                            sequenceJump(newCases, tgtPos, size + 1, jumpedCases);
+                            jumpedCases.remove(jumpedCases.indexOf(jumpedPos));
                         }
                     }
                 }
@@ -435,12 +435,12 @@ public class Rules {
                 jumpedPos = couple.getSecond();
                 if (jumpedPos != -1) {
                     for (int tgtPos : positions) {
-                        if (!isInInterval(srcPosition, tgtPos, Direction.TOP_RIGHT, jumpedPieces)) {
+                        if (!isInInterval(srcPosition, tgtPos, Direction.TOP_RIGHT, jumpedCases)) {
                             isPossibleToJump = true;
-                            newPieces = getJumpBlackPiece(pieces, srcPosition, jumpedPos, tgtPos);
-                            jumpedPieces.add(jumpedPos);
-                            sequenceJump(newPieces, tgtPos, size + 1, jumpedPieces);
-                            jumpedPieces.remove(jumpedPieces.indexOf(jumpedPos));
+                            newCases = getJumpBlackCase(pieces, srcPosition, jumpedPos, tgtPos);
+                            jumpedCases.add(jumpedPos);
+                            sequenceJump(newCases, tgtPos, size + 1, jumpedCases);
+                            jumpedCases.remove(jumpedCases.indexOf(jumpedPos));
                         }
                     }
                 }
@@ -453,12 +453,12 @@ public class Rules {
                 jumpedPos = couple.getSecond();
                 if (jumpedPos != -1) {
                     for (int tgtPos : positions) {
-                        if (!isInInterval(srcPosition, tgtPos, Direction.BOTTOM_LEFT, jumpedPieces)) {
+                        if (!isInInterval(srcPosition, tgtPos, Direction.BOTTOM_LEFT, jumpedCases)) {
                             isPossibleToJump = true;
-                            newPieces = getJumpBlackPiece(pieces, srcPosition, jumpedPos, tgtPos);
-                            jumpedPieces.add(jumpedPos);
-                            sequenceJump(newPieces, tgtPos, size + 1, jumpedPieces);
-                            jumpedPieces.remove(jumpedPieces.indexOf(jumpedPos));
+                            newCases = getJumpBlackCase(pieces, srcPosition, jumpedPos, tgtPos);
+                            jumpedCases.add(jumpedPos);
+                            sequenceJump(newCases, tgtPos, size + 1, jumpedCases);
+                            jumpedCases.remove(jumpedCases.indexOf(jumpedPos));
                         }
                     }
                 }
@@ -471,12 +471,12 @@ public class Rules {
                 jumpedPos = couple.getSecond();
                 if (jumpedPos != -1) {
                     for (int tgtPos : positions) {
-                        if (!isInInterval(srcPosition, tgtPos, Direction.BOTTOM_RIGHT, jumpedPieces)) {
+                        if (!isInInterval(srcPosition, tgtPos, Direction.BOTTOM_RIGHT, jumpedCases)) {
                             isPossibleToJump = true;
-                            newPieces = getJumpBlackPiece(pieces, srcPosition, jumpedPos, tgtPos);
-                            jumpedPieces.add(jumpedPos);
-                            sequenceJump(newPieces, tgtPos, size + 1, jumpedPieces);
-                            jumpedPieces.remove(jumpedPieces.indexOf(jumpedPos));
+                            newCases = getJumpBlackCase(pieces, srcPosition, jumpedPos, tgtPos);
+                            jumpedCases.add(jumpedPos);
+                            sequenceJump(newCases, tgtPos, size + 1, jumpedCases);
+                            jumpedCases.remove(jumpedCases.indexOf(jumpedPos));
                         }
                     }
                 }
@@ -506,29 +506,29 @@ public class Rules {
     // positions est une liste de position diagonale. Cette méthode retourne une liste des positions
     // où une dame peut aller après avoir sauté un pion. Et elle retourne aussi la position du pion sauté.
     // couple.getSecond == -1 si on ne peut pas sauter de pion.
-    private static Couple<List<Integer>, Integer> getPositionsToJump(Piece[] pieces, List<Integer> positions) {
+    private static Couple<List<Integer>, Integer> getPositionsToJump(Case[] pieces, List<Integer> positions) {
         List<Integer> positionsToJump = new ArrayList<>();
         int jumpedPosition = -1;
         if (!positions.isEmpty()) {
             int i = 0;
             int k = positions.get(i);
-            while (pieces[k] == Piece.EMPTY && i < positions.size()) {
+            while (pieces[k] == Case.EMPTY && i < positions.size()) {
                 ++i;
                 if (i < positions.size()) {
                     k = positions.get(i);
                 }
             }
             if (i < positions.size() && 
-                (pieces[k] == Piece.BLACK_PIECE 
-                || pieces[k] == Piece.BLACK_QUEEN)) {
+                (pieces[k] == Case.BLACK_PIECE 
+                || pieces[k] == Case.BLACK_QUEEN)) {
                 
                 jumpedPosition = k;
                 ++i;
                 k = positions.get(i);
-                if (pieces[k] != Piece.EMPTY) {
+                if (pieces[k] != Case.EMPTY) {
                     jumpedPosition = -1;
                 }
-                while (pieces[k] == Piece.EMPTY && i < positions.size()) {
+                while (pieces[k] == Case.EMPTY && i < positions.size()) {
                     positionsToJump.add(k);
                     ++i;
                     if (i < positions.size()) {
@@ -542,17 +542,17 @@ public class Rules {
     
     
 
-    private static boolean addJumpedMoveToSequence(Piece[] pieces, int srcPosition, 
+    private static boolean addJumpedMoveToSequence(Case[] pieces, int srcPosition, 
         int jumpedPosition, int tgtPosition, int size) {
         boolean isPossibleToJump = false;
         if (jumpedPosition != -1 && tgtPosition != -1) {
-            if (pieces[tgtPosition] == Piece.EMPTY 
-                && (pieces[jumpedPosition] == Piece.BLACK_PIECE 
-                    || pieces[jumpedPosition] == Piece.BLACK_QUEEN)) {
+            if (pieces[tgtPosition] == Case.EMPTY 
+                && (pieces[jumpedPosition] == Case.BLACK_PIECE 
+                    || pieces[jumpedPosition] == Case.BLACK_QUEEN)) {
             // Si on peut sauter un pion adverse dans le coin supérieur gauche
                 isPossibleToJump = true;
-                Piece[] newPieces = getJumpBlackPiece(pieces, srcPosition, jumpedPosition, tgtPosition);
-                sequenceJump(newPieces, tgtPosition, size + 1, null);
+                Case[] newCases = getJumpBlackCase(pieces, srcPosition, jumpedPosition, tgtPosition);
+                sequenceJump(newCases, tgtPosition, size + 1, null);
             }
         }
         return isPossibleToJump;
@@ -561,18 +561,18 @@ public class Rules {
     
     // Retourne un tableau avec le pion noir en jumpedPosition sauté.
     // Et la pièce blanche en srcPosition est déplacé en tgtPosition.
-    private static Piece[] getJumpBlackPiece(Piece[] pieces, int srcPosition, 
+    private static Case[] getJumpBlackCase(Case[] pieces, int srcPosition, 
         int jumpedPosition, int tgtPosition) {
         
-        assert (pieces[srcPosition] == Piece.WHITE_QUEEN) 
-            || pieces[srcPosition] == Piece.WHITE_PIECE;
-        assert pieces[tgtPosition] == Piece.EMPTY;
-        assert pieces[jumpedPosition] == Piece.BLACK_PIECE 
-            || pieces[jumpedPosition] == Piece.BLACK_QUEEN;
-        Piece[] res = pieces.clone();
-        Piece srcPi = res[srcPosition];
-        res[srcPosition] = Piece.EMPTY;
-        res[jumpedPosition] = Piece.EMPTY;
+        assert (pieces[srcPosition] == Case.WHITE_QUEEN) 
+            || pieces[srcPosition] == Case.WHITE_PIECE;
+        assert pieces[tgtPosition] == Case.EMPTY;
+        assert pieces[jumpedPosition] == Case.BLACK_PIECE 
+            || pieces[jumpedPosition] == Case.BLACK_QUEEN;
+        Case[] res = pieces.clone();
+        Case srcPi = res[srcPosition];
+        res[srcPosition] = Case.EMPTY;
+        res[jumpedPosition] = Case.EMPTY;
         res[tgtPosition] = srcPi;
         return res;
     }
@@ -581,24 +581,24 @@ public class Rules {
     // positionTgt.
     // Je suppose que cette fonction va prendre de la place en mémoire. 
     // Faudra la supprimer je suppose.
-    private static Piece[] getMoveWhitePiece(Piece[] pieces, int srcPosition, int tgtPosition) {
-        assert pieces[srcPosition] != Piece.BLACK_PIECE;
-        assert pieces[srcPosition] != Piece.BLACK_QUEEN;
-        assert pieces[srcPosition] != Piece.EMPTY;
-        assert pieces[tgtPosition] == Piece.EMPTY;
+    private static Case[] getMoveWhiteCase(Case[] pieces, int srcPosition, int tgtPosition) {
+        assert pieces[srcPosition] != Case.BLACK_PIECE;
+        assert pieces[srcPosition] != Case.BLACK_QUEEN;
+        assert pieces[srcPosition] != Case.EMPTY;
+        assert pieces[tgtPosition] == Case.EMPTY;
         
-        Piece[] res = pieces.clone();
-        Piece p = res[srcPosition];
-        res[srcPosition] = Piece.EMPTY;
+        Case[] res = pieces.clone();
+        Case p = res[srcPosition];
+        res[srcPosition] = Case.EMPTY;
         res[tgtPosition] = p;
         return res;
     }
     
     
-    private static List<Integer> getWhitePieces(Piece[] pieces) {
+    private static List<Integer> getWhiteCases(Case[] pieces) {
         List<Integer> positions = new ArrayList<>(15);
         for (int i = 0; i < pieces.length; ++i) {
-            if (pieces[i] == Piece.WHITE_PIECE || pieces[i] == Piece.WHITE_QUEEN) {
+            if (pieces[i] == Case.WHITE_PIECE || pieces[i] == Case.WHITE_QUEEN) {
                 positions.add(i);
             }
         }
