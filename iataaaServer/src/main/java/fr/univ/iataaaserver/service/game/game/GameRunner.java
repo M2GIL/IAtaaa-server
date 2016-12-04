@@ -15,7 +15,7 @@ import fr.univ.iataaaserver.service.game.player.Player;
  *
  * @author anto
  */
-interface GameRunner {
+public interface GameRunner {
     EndGameCase getStatus();
     Game getGame();
     Player getPlayer(EnumPlayer player);

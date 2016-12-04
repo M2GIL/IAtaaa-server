@@ -1,12 +1,14 @@
 package fr.univ.iataaaserver.service.game;
 
-import fr.univ.iataaaserver.service.game.game.GameRunnerImpl;
+import fr.univ.iataaaserver.domain.game.Board;
+import fr.univ.iataaaserver.service.game.game.GameRunner;
 import fr.univ.iataaaserver.service.game.player.WebServicePlayer;
 import fr.univ.iataaaserver.service.game.player.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Manager of games.
@@ -15,7 +17,7 @@ public class GameManagerImpl implements GameManager {
     
     // ATTRIBUTES
 
-    Map<String, GameRunnerImpl> games = new HashMap<>();
+    Map<String, GameRunner> games = new HashMap<>();
     List<WebServicePlayer> cpus = new ArrayList<>();
     List<Player> humans = new ArrayList<>();
 
@@ -28,7 +30,7 @@ public class GameManagerImpl implements GameManager {
     // REQUESTS
 
     @Override
-    public Map<String, GameRunnerImpl> getGames() {
+    public Map<String, GameRunner> getGames() {
         return games;
     }
 
@@ -43,7 +45,7 @@ public class GameManagerImpl implements GameManager {
     }
 
     @Override
-    public GameRunnerImpl getGame(String id) {
+    public GameRunner getGame(String id) {
         return games.get(id);
     }
 
@@ -67,5 +69,20 @@ public class GameManagerImpl implements GameManager {
 
 
     // METHODS
+
+    @Override
+    public boolean createGame(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Set<String> getGameNames() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Board getBoard(String gameID) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }
