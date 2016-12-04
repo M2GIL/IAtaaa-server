@@ -1,6 +1,7 @@
 package fr.univ.iataaaserver.domain.game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,13 +13,20 @@ public class Board<T> {
 
     public Board(T[] array) {
         board = new ArrayList<>(array.length);
-        for (T element : array) {
-            board.add(element);
-        }
+        Collections.addAll(board, array);
+    }
+
+    public Board(Board<T> board) {
+        this.board = new ArrayList<>(board.size());
+        this.board.addAll(board.getBoard());
     }
 
     public List<T> getBoard() {
         return board;
+    }
+
+    public int size() {
+        return board.size();
     }
 
     public T[] toArray() {
