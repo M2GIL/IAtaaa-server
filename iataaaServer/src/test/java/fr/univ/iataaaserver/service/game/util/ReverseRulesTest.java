@@ -447,4 +447,36 @@ public class ReverseRulesTest {
 
         assertThat(result).containsOnly(expected);
     }
+    
+    @Test
+    public void getAvailableMovesForP2() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(5, Case.BLACK_PIECE)
+        );
+        Case[] expected1 = TestUtil.createBoard(); 
+        Case[] expected2 = TestUtil.createBoard();
+        expected1[0] = Case.BLACK_QUEEN;
+        expected2[1] = Case.BLACK_QUEEN;
+        List<Case[]> expected = new ArrayList<>();
+        expected.add(expected1);
+        expected.add(expected2);
+         
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_2);
+         
+        assertThat(result).containsOnlyElementsOf(expected);
+    }
+    
+    @Test
+    public void getAvailableMovesTo1JumpForP2() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(11, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(5, Case.WHITE_QUEEN)
+        );
+        Case[] expected = TestUtil.createBoard(); 
+        expected[0] = Case.BLACK_QUEEN;
+        
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_2);
+
+        assertThat(result).containsOnly(expected);
+    }
 }

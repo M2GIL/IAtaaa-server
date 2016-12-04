@@ -15,7 +15,7 @@ public class ReverseRules {
         - 1;
 
 
-    private static List<Case[]> avalaibleMoves = new ArrayList<>();
+    private static List<Case[]> availableMoves = new ArrayList<>();
     private static int sizeMove = 1;
 
     // positionpieces est la liste des position pièces que l'on veut analyser.
@@ -28,15 +28,17 @@ public class ReverseRules {
         for (int i : whiteCases) {
             fillAvalaibleMovesForOneCase(cases, i);
         }
+        
+        transformPieceToQueen();
 
         List<Case[]> avalaibleMovesList;
         if (p == EnumPlayer.PLAYER_2) {
             avalaibleMovesList = new ArrayList<>();
-            avalaibleMoves.stream().forEach((c) -> {
+            availableMoves.stream().forEach((c) -> {
                 avalaibleMovesList.add(reverseCases(c));
             });
         } else {
-            avalaibleMovesList = avalaibleMoves;
+            avalaibleMovesList = availableMoves;
         }
 
         List<Case[]> res = new ArrayList<>();
@@ -44,7 +46,7 @@ public class ReverseRules {
             res.add(c);
         }
 
-        avalaibleMoves = new ArrayList<>();
+        availableMoves = new ArrayList<>();
         sizeMove = 1;
 
         return res;
@@ -254,7 +256,7 @@ public class ReverseRules {
                     Case topleftcornerCase = pieces[topLeftCornerPosition];
                     if (topleftcornerCase == Case.EMPTY) { // Si je peux déplacer mon pion en haut à gaucher.
                         Case[] move = getMoveWhiteCase(pieces, srcPosition, topLeftCornerPosition);
-                        avalaibleMoves.add(move);
+                        availableMoves.add(move);
                     }
                 }
                 //------------------------------------------------------------------
@@ -264,7 +266,7 @@ public class ReverseRules {
                     Case topRightcornerCase = pieces[topRightCornerPosition];
                     if (topRightcornerCase == Case.EMPTY) { // Si je peux déplacer mon pion en haut à droite.
                         Case[] move = getMoveWhiteCase(pieces, srcPosition, topRightCornerPosition);
-                        avalaibleMoves.add(move);
+                        availableMoves.add(move);
                     }
                 }
             } else { // Le pion est une dame et on ne peut pas sauter de pion.
@@ -281,7 +283,7 @@ public class ReverseRules {
                     while (i < sizePositions && pieces[k] == Case.EMPTY) { // On ajoute toute les position de positions
                         // jusqu'à ce qu'on rencontre une pièce non vide.
                         newCases = getMoveWhiteCase(pieces, srcPosition, k);
-                        avalaibleMoves.add(newCases);
+                        availableMoves.add(newCases);
                         k = positions.get(i);
                         ++i;
                         if (i < sizePositions) {
@@ -299,7 +301,7 @@ public class ReverseRules {
                     while (i < sizePositions && pieces[k] == Case.EMPTY) { // On ajoute toute les position de positions
                         // jusqu'à ce qu'on rencontre une pièce non vide.
                         newCases = getMoveWhiteCase(pieces, srcPosition, k);
-                        avalaibleMoves.add(newCases);
+                        availableMoves.add(newCases);
                         k = positions.get(i);
                         ++i;
                         if (i < sizePositions) {
@@ -316,7 +318,7 @@ public class ReverseRules {
                     while (i < sizePositions && pieces[k] == Case.EMPTY) { // On ajoute toute les position de positions
                         // jusqu'à ce qu'on rencontre une pièce non vide.
                         newCases = getMoveWhiteCase(pieces, srcPosition, k);
-                        avalaibleMoves.add(newCases);
+                        availableMoves.add(newCases);
                         k = positions.get(i);
                         ++i;
                         if (i < sizePositions) {
@@ -333,7 +335,7 @@ public class ReverseRules {
                     while (i < sizePositions && pieces[k] == Case.EMPTY) { // On ajoute toute les position de positions
                         // jusqu'à ce qu'on rencontre une pièce non vide.
                         newCases = getMoveWhiteCase(pieces, srcPosition, k);
-                        avalaibleMoves.add(newCases);
+                        availableMoves.add(newCases);
                         k = positions.get(i);
                         ++i;
                         if (i < sizePositions) {
@@ -505,11 +507,11 @@ public class ReverseRules {
             */
 
             if (size == sizeMove) {
-                avalaibleMoves.add(pieces);
+                availableMoves.add(pieces);
             } else if (size > sizeMove) {
                 sizeMove = size;
-                avalaibleMoves.clear();
-                avalaibleMoves.add(pieces);
+                availableMoves.clear();
+                availableMoves.add(pieces);
             }
         }
 
@@ -652,7 +654,16 @@ public class ReverseRules {
 
         return opposite;
     }
-
+    
+    private static void transformPieceToQueen() {
+        for(Case[] pcs : availableMoves) {
+            for (int i = 49; i >= 45; --i) {
+                if (pcs[i] == Case.WHITE_PIECE) {
+                    pcs[i] = Case.WHITE_QUEEN;
+                }
+            }
+        }
+    }
 
 
 // ENUM
