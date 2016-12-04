@@ -1,6 +1,7 @@
 package fr.univ.iataaaserver.service.game;
 
 
+import fr.univ.iataaaserver.service.game.player.Player;
 import fr.univ.iataaaserver.service.game.exception.BusyException;
 
 public class GameRunner {
