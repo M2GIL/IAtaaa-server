@@ -40,6 +40,11 @@ public class GameRunnerImpl implements GameRunner {
     }
 
     @Override
+    public Game getGame() {
+        return game;
+    }
+
+    @Override
     public Player getPlayer(EnumPlayer player) {
         return players[player.ordinal()];
     }

@@ -8,14 +8,15 @@ package fr.univ.iataaaserver.service.game.game;
 import fr.univ.iataaaserver.domain.game.Board;
 import fr.univ.iataaaserver.domain.game.Case;
 import fr.univ.iataaaserver.domain.game.EnumPlayer;
+import fr.univ.iataaaserver.domain.game.util.observable.Observable;
 import fr.univ.iataaaserver.service.game.exception.ForbiddenMoveException;
 
 /**
  *
  * @author anto
  */
-public interface Game {
-    
+public interface Game extends Observable {
+
     /**
      * The size of the board.
      */

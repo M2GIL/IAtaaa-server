@@ -17,6 +17,7 @@ import fr.univ.iataaaserver.service.game.player.Player;
  */
 interface GameRunner {
     EndGameCase getStatus();
+    Game getGame();
     Player getPlayer(EnumPlayer player);
     Difficulty getDifficulty(EnumPlayer player);
     void startGame() throws BusyException;
