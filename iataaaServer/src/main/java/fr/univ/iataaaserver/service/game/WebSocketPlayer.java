@@ -8,13 +8,13 @@ import fr.univ.iataaaserver.domain.game.EnumPlayer;
 import fr.univ.iataaaserver.service.game.util.StatusService;
 import fr.univ.iataaaserver.service.game.util.Token;
 
-public class HumanPlayer implements Player {
+public class WebSocketPlayer implements Player {
 
     private String ip;
     private int port;
     private String name;
 
-    public HumanPlayer(String ip, int port, String name) {
+    public WebSocketPlayer(String ip, int port, String name) {
         this.ip = ip;
         this.port = port;
         this.name = name;
@@ -44,12 +44,12 @@ public class HumanPlayer implements Player {
     }
 
     @Override
-    public void PlayGame(Token idToken, Difficulty difficulty, GameImpl boardGame, EnumPlayer player) throws Exception {
+    public void PlayGame(Difficulty difficulty, GameImpl boardGame, EnumPlayer player) throws Exception {
 
     }
 
     @Override
-    public void endGame(Token idToken, String idGame, EndGameCase endType) throws Exception {
+    public void endGame(Token idGame, EndGameCase endType) throws Exception {
 
     }
 }

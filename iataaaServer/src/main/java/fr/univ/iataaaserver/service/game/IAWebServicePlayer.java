@@ -11,6 +11,17 @@ import fr.univ.iataaaserver.service.game.util.Token;
  * Created by z3ddycus on 03/12/16.
  */
 public class IAWebServicePlayer implements Player {
+
+    private String id;
+    private String url;
+    private int port;
+
+    public IAWebServicePlayer(String token, String url, int port) {
+        this.id = token;
+        this.url = url;
+        this.port = port;
+    }
+
     void connect() {
         // TODO: 03/12/16
     }
@@ -26,12 +37,12 @@ public class IAWebServicePlayer implements Player {
     }
 
     @Override
-    public void PlayGame(Token idToken, Difficulty difficulty, GameImpl boardGame, EnumPlayer player) throws Exception {
+    public void PlayGame(Difficulty difficulty, GameImpl boardGame, EnumPlayer player) throws Exception {
 
     }
 
     @Override
-    public void endGame(Token idToken, String idGame, EndGameCase endType) throws Exception {
+    public void endGame(Token idGame, EndGameCase endType) throws Exception {
 
     }
 }

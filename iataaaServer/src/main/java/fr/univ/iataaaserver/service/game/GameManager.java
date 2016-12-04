@@ -14,7 +14,7 @@ public class GameManager {
 
     Map<String, GameRunner> games = new HashMap<>();
     List<IAWebServicePlayer> cpus = new ArrayList<>();
-    List<HumanPlayer> humans = new ArrayList<>();
+    List<WebSocketPlayer> humans = new ArrayList<>();
 
     // CONSTRUCTOR
 
@@ -32,7 +32,7 @@ public class GameManager {
         return cpus;
     }
 
-    public List<HumanPlayer> getHumans() {
+    public List<WebSocketPlayer> getHumans() {
         return humans;
     }
 
@@ -40,9 +40,9 @@ public class GameManager {
         return games.get(id);
     }
 
-    public HumanPlayer getHuman(String id) {
-        HumanPlayer result = null;
-        for (HumanPlayer human : humans) {
+    public WebSocketPlayer getHuman(String id) {
+        WebSocketPlayer result = null;
+        for (WebSocketPlayer human : humans) {
             // TODO: 03/12/16
         }
         return result;
