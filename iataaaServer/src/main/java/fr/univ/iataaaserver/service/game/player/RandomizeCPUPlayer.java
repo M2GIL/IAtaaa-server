@@ -1,37 +1,18 @@
 package fr.univ.iataaaserver.service.game.player;
 
-
 import fr.univ.iataaaserver.domain.game.*;
 import fr.univ.iataaaserver.service.game.exception.BusyException;
+import fr.univ.iataaaserver.service.game.util.Rules;
 
-public class WebSocketPlayer implements Player {
+import java.util.List;
+import java.util.Random;
 
-    private final String ip;
-    private final int port;
-    private final String name;
 
-    public WebSocketPlayer(String ip, int port, String name) {
-        this.ip = ip;
-        this.port = port;
-        this.name = name;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public String getName() {
-        return name;
-    }
-
+public class RandomizeCPUPlayer implements Player {
 
     @Override
     public StatusService getStatus() {
-        return null;
+        return StatusService.AVAILABLE;
     }
 
     @Override
@@ -41,7 +22,8 @@ public class WebSocketPlayer implements Player {
 
     @Override
     public Board<Case> PlayGame(Difficulty difficulty, Board<Case> boardGame, EnumPlayer player) throws Exception {
-        return null;
+        List<Board<Case>> coupsPossibles = Rules.getAvalaibleMoves(boardGame, player);
+        return coupsPossibles.get(new Random().nextInt(coupsPossibles.size()));
     }
 
     @Override
