@@ -36,7 +36,7 @@ public class GameRunnerImpl implements GameRunner {
 
     @Override
     public EndGameCase getStatus() {
-        return victoryAborted == null ? analyser.getStatusGame() : victoryAborted;
+        return (victoryAborted == null ? analyser.getStatusGame() : victoryAborted);
     }
 
     @Override

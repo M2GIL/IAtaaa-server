@@ -15,7 +15,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 public class GameRunnerImplTest {
     @Test
     public void Launch2RandomIAWithoutException() {
-        boolean display = true;
+        boolean display = false;
 
         try {
             Player p1 = new RandomizeCPUPlayer();
