@@ -1,5 +1,7 @@
 package model;
 
-public enum Difficulte {
-
+public enum DIFFICULTE {
+    EASY,
+    MEDIUM,
+    HARD;
 }

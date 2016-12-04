@@ -1,57 +1,50 @@
 package controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+import model.STATUS;
+import paquetsJSON.EntreeIaGamesEndId;
+import paquetsJSON.EntreeIaGamesStart;
+import paquetsJSON.EntreeIaStatus;
+import paquetsJSON.EntreeRetourIaGamePlayId;
+import paquetsJSON.RetourIaGamesEndId;
+import paquetsJSON.RetourIaGamesStart;
+import paquetsJSON.RetourIaStatus;
 
-import model.Board;
 
 @RestController
 public class DameController {
 
-    private static String URL ="http://localhost:8080/rest-ws";
+    @RequestMapping(value = "/ai/status", method = RequestMethod.POST)
+    public RetourIaStatus status(@RequestBody EntreeIaStatus token) {
+        //TODO Demander l'état d'une IA
+        //test de retour
+        return new RetourIaStatus(token.getToken(), STATUS.available);
+    }
+    
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home() {
-        return "hello Dame";
+    @RequestMapping(value="/ai/games/start/", method = RequestMethod.POST)
+    public RetourIaGamesStart beginGame(@RequestBody EntreeIaGamesStart e) {
+        //TODO Prévenir les IA qu’une partie les concernant va commencer
+        //test de retour
+        return new RetourIaGamesStart(e.getToken(), STATUS.available, "testTokenPartie");
     }
     
-    /*
-     * Retourne un objet Board serializé en Json
-     */
-    @RequestMapping(value="/basicBoard", method=RequestMethod.GET)
-    public Board getBoard() {
-        //RestTemplate rest = new RestTemplate();
-        char[] board = {'1','2','3'};
-        Board b = new Board(board);
-        return b;
+    @RequestMapping(value = "/ai/games/play/{game_id:.+}", method = RequestMethod.POST)
+    public EntreeRetourIaGamePlayId getMove(@PathVariable("game_id") String game_id, @RequestBody EntreeRetourIaGamePlayId e) {
+        // TODO:  Demande de jouer un coup sur un plateau donnée sur une partie
+        //test de retour
+        return new EntreeRetourIaGamePlayId(e.getToken(), e.getDifficulty(), e.getPlayer(), e.getBoard());
     }
     
-    /*
-     * Attend un flux Json en entrée, 
-     * le convertie en objet Board Java et le 
-     * retourne de nouveau en tant que Json 
-     */
-    
-    @RequestMapping(value = "/sendAndReturnBoardJson", method = RequestMethod.POST)
-    public Board update(@RequestBody Board b) {
-        // TODO: call persistence layer to update
-        return new ResponseEntity<Board>(b, HttpStatus.OK).getBody();
-    }
-    
-    /*
-     * Va chercher un flux json à l'url donnée, le convertie en Board
-     * et le retourne en le reconvertisant en Json
-     */
-    @RequestMapping(value="/TestRecupData", method=RequestMethod.GET)
-    public Board getBoardSend() {
-        RestTemplate rest = new RestTemplate();
-        Board b2 = rest.getForObject(URL + "/basicBoard", Board.class);
-        return b2;
+    @RequestMapping(value="/ai/games/end/{game_id:.+}", method=RequestMethod.POST)
+    public RetourIaGamesEndId endGame(@PathVariable("game_id") String game_id, @RequestBody EntreeIaGamesEndId e) {
+        // TODO: Annoncer la fin de partie avec code explicatif pour gérer les parties avortées et les parties standards.
+        //test de retour
+        return new RetourIaGamesEndId (game_id + " " + e.getToken(), STATUS.available);
     }
 
 }

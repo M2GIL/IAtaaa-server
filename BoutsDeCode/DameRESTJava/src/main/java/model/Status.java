@@ -1,6 +1,6 @@
 package model;
 
-public enum Status {
+public enum STATUS {
     busy,
     available
 }
