@@ -2,6 +2,7 @@ package fr.univ.iataaaserver.domain.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by z3ddycus on 04/12/16.
@@ -29,4 +30,30 @@ public class Board<T> {
         }
         return cases;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Board<?> other = (Board<?>) obj;
+        if (!Objects.equals(this.board, other.board)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }
