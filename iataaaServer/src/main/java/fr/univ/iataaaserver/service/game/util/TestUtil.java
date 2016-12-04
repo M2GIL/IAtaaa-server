@@ -1,8 +1,8 @@
 package fr.univ.iataaaserver.service.game.util;
 
-import fr.univ.iataaaserver.service.game.util.*;
 import fr.univ.iataaaserver.domain.game.Case;
 import fr.univ.iataaaserver.service.game.game.Game;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,16 +10,16 @@ import java.util.Map;
 
 public class TestUtil {
     private TestUtil() {
-        
+
     }
-    
+
     public static Case[] moveCaseFrom(Case[] board, int sourcePosition, int targetPosition) {
         Case[] result = Arrays.copyOf(board, board.length);
         result[targetPosition] = result[sourcePosition];
         result[sourcePosition] = Case.EMPTY;
         return result;
     }
-    
+
     public static List<Integer> getIACases(Case[] pieces) {
         List<Integer> positions = new ArrayList<>(15);
         for (int i = 0; i < pieces.length; ++i) {
@@ -29,7 +29,7 @@ public class TestUtil {
         }
         return positions;
     }
-    
+
     /**
      * Display the char[][] board
      * Begin left bottom to right top
@@ -42,12 +42,12 @@ public class TestUtil {
         String line = getLine(board.length);
         String str = line;
 
-        for (int i = board.length - 1; i >= 0; i--) {
+        for (int i = 0; i < 10; i++) {
             str += "|";
-            for (int j = 0; j < board[i].length; j++) {
+            for (int j = 0; j < 10; j++) {
                 // Decal to be VERY beautiful <3
                 str += " " ;
-                str += board[i][j].getValue() + " |";
+                str += board[i][j].toString() + " |";
             }
 
             str += "\n" + line;
@@ -88,12 +88,13 @@ public class TestUtil {
         }
 
         for (int i = 0; i < boardFifty.length; i++) {
-            boardFinal[(i / 5)][(((i / 5)) % 2) + (i % 5 * 2)] = boardFifty[i];
+            int row = (i / 5);
+            int column = (((i / 5) + 1) % 2) + (i % 5 * 2);
+            boardFinal[row][column] = boardFifty[i];
         }
-
         return boardFinal;
     }
-    
+
     /**
      * Get a line of the display
      *
@@ -106,5 +107,12 @@ public class TestUtil {
             line += "---|";
         }
         return line + "\n";
+    }
+
+
+    public static void affichageTableau(Object[] array) {
+        for (int k = 0; k < array.length; ++k) {
+            System.out.println(k + " -> " + array[k]);
+        }
     }
 }
