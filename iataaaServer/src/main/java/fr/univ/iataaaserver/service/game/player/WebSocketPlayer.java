@@ -1,13 +1,8 @@
 package fr.univ.iataaaserver.service.game.player;
 
 
+import fr.univ.iataaaserver.domain.game.*;
 import fr.univ.iataaaserver.service.game.exception.BusyException;
-import fr.univ.iataaaserver.domain.game.Difficulty;
-import fr.univ.iataaaserver.domain.game.EndGameCase;
-import fr.univ.iataaaserver.domain.game.EnumPlayer;
-import fr.univ.iataaaserver.domain.game.StatusService;
-import fr.univ.iataaaserver.domain.game.Token;
-import fr.univ.iataaaserver.service.game.game.GameImpl;
 
 public class WebSocketPlayer implements Player {
 
@@ -35,7 +30,7 @@ public class WebSocketPlayer implements Player {
 
 
     @Override
-    public StatusService getStatut() {
+    public StatusService getStatus() {
         return null;
     }
 
@@ -45,8 +40,8 @@ public class WebSocketPlayer implements Player {
     }
 
     @Override
-    public void PlayGame(Difficulty difficulty, GameImpl boardGame, EnumPlayer player) throws Exception {
-
+    public Board<Case> PlayGame(Difficulty difficulty, Board<Case> boardGame, EnumPlayer player) throws Exception {
+        return null;
     }
 
     @Override
