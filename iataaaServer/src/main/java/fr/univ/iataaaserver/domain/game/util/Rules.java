@@ -1,9 +1,10 @@
-package fr.univ.iataaaserver.service.game.util;
+package fr.univ.iataaaserver.domain.game.util;
 
 import fr.univ.iataaaserver.domain.game.EnumPlayer;
 import fr.univ.iataaaserver.domain.game.util.Couple;
 import fr.univ.iataaaserver.domain.game.Case;
 import fr.univ.iataaaserver.domain.game.Board;
+import fr.univ.iataaaserver.service.game.util.Util;
 import java.util.ArrayList;
 import java.util.List;
 
