@@ -1,10 +1,14 @@
-package fr.univ.iataaaserver.service.gamePlatform;
+package fr.univ.iataaaserver.service.game;
 
 
-import fr.univ.iataaaserver.service.gamePlatform.exception.BusyException;
-import fr.univ.iataaaserver.service.gamePlatform.util.*;
+import fr.univ.iataaaserver.service.game.exception.BusyException;
+import fr.univ.iataaaserver.domain.game.Difficulty;
+import fr.univ.iataaaserver.domain.game.util.EndGameCase;
+import fr.univ.iataaaserver.domain.game.EnumPlayer;
+import fr.univ.iataaaserver.service.game.util.StatusService;
+import fr.univ.iataaaserver.service.game.util.Token;
 
-public class HumanPlayer implements IPlayer {
+public class HumanPlayer implements Player {
 
     private String ip;
     private int port;
@@ -40,7 +44,7 @@ public class HumanPlayer implements IPlayer {
     }
 
     @Override
-    public void PlayGame(Token idToken, Difficulty difficulty, Game boardGame, EnumPlayer player) throws Exception {
+    public void PlayGame(Token idToken, Difficulty difficulty, GameImpl boardGame, EnumPlayer player) throws Exception {
 
     }
 

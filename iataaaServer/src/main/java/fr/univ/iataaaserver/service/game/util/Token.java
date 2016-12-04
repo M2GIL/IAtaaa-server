@@ -1,4 +1,4 @@
-package fr.univ.iataaaserver.service.gamePlatform.util;
+package fr.univ.iataaaserver.service.game.util;
 
 
 public class Token {

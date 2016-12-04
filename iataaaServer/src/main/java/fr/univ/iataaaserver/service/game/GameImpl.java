@@ -1,13 +1,14 @@
-package fr.univ.iataaaserver.service.gamePlatform;
+package fr.univ.iataaaserver.service.game;
 
 
-import fr.univ.iataaaserver.service.gamePlatform.exception.ForbiddenMoveException;
-import fr.univ.iataaaserver.service.gamePlatform.util.Case;
-import fr.univ.iataaaserver.service.gamePlatform.util.EnumPlayer;
-import fr.univ.iataaaserver.service.gamePlatform.util.ObservableImpl;
-import fr.univ.iataaaserver.service.gamePlatform.util.Rules;
+import fr.univ.iataaaserver.domain.game.Board;
+import fr.univ.iataaaserver.service.game.exception.ForbiddenMoveException;
+import fr.univ.iataaaserver.domain.game.Case;
+import fr.univ.iataaaserver.domain.game.EnumPlayer;
+import fr.univ.iataaaserver.domain.game.util.observable.ObservableImpl;
+import fr.univ.iataaaserver.service.game.util.Rules;
 
-public class Game extends ObservableImpl{
+public class GameImpl extends ObservableImpl implements Game {
 
     // CONSTANTS
 
@@ -20,7 +21,7 @@ public class Game extends ObservableImpl{
 
     // CONSTRUCTOR
 
-    public Game() {
+    public GameImpl() {
         this.currentPlayer = EnumPlayer.PLAYER_1;
         this.pieces = initializeGame();
         firePropertyChange(EVENT_BOARD_CHANGED, null, getPieces());
@@ -28,8 +29,7 @@ public class Game extends ObservableImpl{
 
     // REQUESTS
 
-    public Board<Case> getPieces()
-    {
+    public Board<Case> getPieces() {
         return pieces;
     }
 

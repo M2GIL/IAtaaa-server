@@ -1,21 +1,62 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univ.iataaaserver.service.game;
 
-import fr.univ.iataaaserver.domain.game.Board;
-import fr.univ.iataaaserver.domain.game.Piece;
-import fr.univ.iataaaserver.domain.game.Player;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- *
- * @author anto
+ * Manager of games.
  */
-public interface GameManager {
-    boolean createGame(String id);
-    Board getGame(String id);
-    boolean move(String ig, String tokenPlayer, Piece[] pieces);
-    boolean subsribePlayer(String id, Player p);
+public class GameManager {
+
+    // ATTRIBUTES
+
+    Map<String, GameRunner> games = new HashMap<>();
+    List<IAWebServicePlayer> cpus = new ArrayList<>();
+    List<HumanPlayer> humans = new ArrayList<>();
+
+    // CONSTRUCTOR
+
+    public GameManager() {
+
+    }
+
+    // REQUESTS
+
+    public Map<String, GameRunner> getGames() {
+        return games;
+    }
+
+    public List<IAWebServicePlayer> getCpus() {
+        return cpus;
+    }
+
+    public List<HumanPlayer> getHumans() {
+        return humans;
+    }
+
+    public GameRunner getGame(String id) {
+        return games.get(id);
+    }
+
+    public HumanPlayer getHuman(String id) {
+        HumanPlayer result = null;
+        for (HumanPlayer human : humans) {
+            // TODO: 03/12/16
+        }
+        return result;
+    }
+
+    public IAWebServicePlayer getCPU(String id) {
+        IAWebServicePlayer result = null;
+        for (IAWebServicePlayer cpu : cpus) {
+            // TODO: 03/12/16
+        }
+        return result;
+    }
+
+
+    // METHODS
+
 }

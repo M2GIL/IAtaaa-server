@@ -1,9 +1,10 @@
-package fr.univ.iataaaserver.service.gamePlatform;
+package fr.univ.iataaaserver.service.game;
 
-import fr.univ.iataaaserver.service.gamePlatform.util.Case;
-import fr.univ.iataaaserver.service.gamePlatform.util.EndGameCase;
-import fr.univ.iataaaserver.service.gamePlatform.util.EnumPlayer;
-import fr.univ.iataaaserver.service.gamePlatform.util.Rules;
+import fr.univ.iataaaserver.domain.game.Board;
+import fr.univ.iataaaserver.domain.game.Case;
+import fr.univ.iataaaserver.domain.game.util.EndGameCase;
+import fr.univ.iataaaserver.domain.game.EnumPlayer;
+import fr.univ.iataaaserver.service.game.util.Rules;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -18,8 +19,8 @@ class EndGameAnalyser {
     private int turnWithoutPawnJump = 0;
 
     // CONSTRUCTOR
-    EndGameAnalyser(Game board) {
-        board.addPropertyChangeListener(Game.EVENT_BOARD_CHANGED, evt -> {
+    EndGameAnalyser(GameImpl board) {
+        board.addPropertyChangeListener(GameImpl.EVENT_BOARD_CHANGED, evt -> {
             if (status != EndGameCase.CONTINUE) {
                 // get argument
                 Board<Case> newBoard = (Board<Case>) evt.getNewValue();

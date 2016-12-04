@@ -1,7 +1,7 @@
-package fr.univ.iataaaserver.service.gamePlatform;
+package fr.univ.iataaaserver.service.game;
 
 
-import fr.univ.iataaaserver.service.gamePlatform.exception.BusyException;
+import fr.univ.iataaaserver.service.game.exception.BusyException;
 
 public class GameRunner {
 
@@ -12,17 +12,17 @@ public class GameRunner {
     // ATTRIBUTES
 
     private String id;
-    private IPlayer[] players = new IPlayer[2];
+    private Player[] players = new Player[2];
     private boolean isFinished;
-    private Game board;
+    private GameImpl board;
     private EndGameAnalyser analyser;
 
     // CONSTRUCTOR
 
-    public GameRunner(IPlayer p1, IPlayer p2) {
+    public GameRunner(Player p1, Player p2) {
         players[J1] = p1;
         players[J2] = p2;
-        board = new Game();
+        board = new GameImpl();
         isFinished = false;
         analyser = new EndGameAnalyser(board);
     }

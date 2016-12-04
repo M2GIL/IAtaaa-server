@@ -1,44 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univ.iataaaserver.domain.game;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.univ.iataaaserver.domain.game.observable.ObservableImpl;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- *
- * @author anto
+ * Created by z3ddycus on 04/12/16.
+ * @param <T>
  */
-public class Board extends ObservableImpl {
-    
-    public static final String CHANGED_PIECES_PROPERTY_NAME = "piece_move";
-    
-    @JsonProperty
-    private Piece[] pieces;
-    
-    @JsonProperty
-    private PlayerEnum currentPlayer;
+public class Board<T> {
+    private final ArrayList<T> board;
 
-    public Piece[] getPieces() {
-        return pieces;
+    public Board(T[] array) {
+        board = new ArrayList<>(array.length);
+        for (T element : array) {
+            board.add(element);
+        }
     }
 
-    public void setPieces(Piece[] pieces) {
-        Piece[] old = pieces;
-        this.pieces = pieces;
-        firePropertyChange(CHANGED_PIECES_PROPERTY_NAME, old, pieces);
+    public List<T> getBoard() {
+        return board;
     }
 
-    public PlayerEnum getCurrentPlayer() {
-        return currentPlayer;
+    public T[] toArray() {
+        return (T[]) board.toArray();
     }
-
-    public void setCurrentPlayer(PlayerEnum currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-    
-    
 }

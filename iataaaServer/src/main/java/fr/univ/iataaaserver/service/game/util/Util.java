@@ -1,4 +1,6 @@
-package fr.univ.iataaaserver.service.gamePlatform.util;
+package fr.univ.iataaaserver.service.game.util;
+
+import fr.univ.iataaaserver.domain.game.Case;
 
 public class Util {
 

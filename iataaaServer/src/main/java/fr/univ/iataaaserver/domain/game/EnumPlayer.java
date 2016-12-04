@@ -1,4 +1,4 @@
-package fr.univ.iataaaserver.service.gamePlatform.util;
+package fr.univ.iataaaserver.domain.game;
 
 /**
  * Created by z3ddycus on 03/12/16.
