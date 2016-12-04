@@ -1,7 +1,7 @@
 package fr.univ.iataaaserver.service.game;
 
-import fr.univ.iataaaserver.service.game.player.HumanPlayer;
-import fr.univ.iataaaserver.service.game.player.IAWebServicePlayer;
+import fr.univ.iataaaserver.service.game.player.WebServicePlayer;
+import fr.univ.iataaaserver.service.game.player.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,13 +10,13 @@ import java.util.Map;
 /**
  * Manager of games.
  */
-public class GameManagerImpl implements GameManager{
-
+public class GameManagerImpl implements GameManager {
+    
     // ATTRIBUTES
 
-    Map<String, GameRunner> games = new HashMap<>();
-    List<IAWebServicePlayer> cpus = new ArrayList<>();
-    List<HumanPlayer> humans = new ArrayList<>();
+    Map<String, GameRunnerImpl> games = new HashMap<>();
+    List<WebServicePlayer> cpus = new ArrayList<>();
+    List<Player> humans = new ArrayList<>();
 
     // CONSTRUCTOR
 
@@ -27,38 +27,38 @@ public class GameManagerImpl implements GameManager{
     // REQUESTS
 
     @Override
-    public Map<String, GameRunner> getGames() {
+    public Map<String, GameRunnerImpl> getGames() {
         return games;
     }
 
     @Override
-    public List<IAWebServicePlayer> getCpus() {
+    public List<WebServicePlayer> getCpus() {
         return cpus;
     }
 
     @Override
-    public List<HumanPlayer> getHumans() {
+    public List<Player> getHumans() {
         return humans;
     }
 
     @Override
-    public GameRunner getGame(String id) {
+    public GameRunnerImpl getGame(String id) {
         return games.get(id);
     }
 
     @Override
-    public HumanPlayer getHuman(String id) {
-        HumanPlayer result = null;
-        for (HumanPlayer human : humans) {
+    public Player getHuman(String id) {
+        Player result = null;
+        for (Player human : humans) {
             // TODO: 03/12/16
         }
         return result;
     }
 
     @Override
-    public IAWebServicePlayer getCPU(String id) {
-        IAWebServicePlayer result = null;
-        for (IAWebServicePlayer cpu : cpus) {
+    public WebServicePlayer getCPU(String id) {
+        WebServicePlayer result = null;
+        for (WebServicePlayer cpu : cpus) {
             // TODO: 03/12/16
         }
         return result;

@@ -1,6 +1,5 @@
 package fr.univ.iataaaserver.service.game.player;
 
-
 import fr.univ.iataaaserver.service.game.exception.BusyException;
 import fr.univ.iataaaserver.domain.game.Difficulty;
 import fr.univ.iataaaserver.domain.game.util.EndGameCase;
@@ -9,30 +8,24 @@ import fr.univ.iataaaserver.domain.game.StatusService;
 import fr.univ.iataaaserver.domain.game.Token;
 import fr.univ.iataaaserver.service.game.GameImpl;
 
-public class HumanPlayer implements Player {
+/**
+ * Created by z3ddycus on 03/12/16.
+ */
+public class WebServicePlayer implements Player {
 
-    private String ip;
-    private int port;
-    private String name;
+    private final String id;
+    private final String url;
+    private final int port;
 
-    public HumanPlayer(String ip, int port, String name) {
-        this.ip = ip;
+    public WebServicePlayer(String token, String url, int port) {
+        this.id = token;
+        this.url = url;
         this.port = port;
-        this.name = name;
     }
 
-    public String getIp() {
-        return ip;
+    void connect() {
+        // TODO: 03/12/16
     }
-
-    public int getPort() {
-        return port;
-    }
-
-    public String getName() {
-        return name;
-    }
-
 
     @Override
     public StatusService getStatut() {
@@ -45,12 +38,12 @@ public class HumanPlayer implements Player {
     }
 
     @Override
-    public void PlayGame(Token idToken, Difficulty difficulty, GameImpl boardGame, EnumPlayer player) throws Exception {
+    public void PlayGame(Difficulty difficulty, GameImpl boardGame, EnumPlayer player) throws Exception {
 
     }
 
     @Override
-    public void endGame(Token idToken, String idGame, EndGameCase endType) throws Exception {
+    public void endGame(Token idGame, EndGameCase endType) throws Exception {
 
     }
 }

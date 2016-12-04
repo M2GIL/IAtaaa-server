@@ -14,9 +14,9 @@ class EndGameAnalyser {
     // ATTRIBUTES
 
     private LinkedList<Board<Case>> stories = new LinkedList<>();
-    private HashMap<Board<Case>, Integer> count = new HashMap<>();
+    private final HashMap<Board<Case>, Integer> count = new HashMap<>();
     private EndGameCase status = EndGameCase.CONTINUE;
-    private int turnWithoutPawnJump = 0;
+    private final int turnWithoutPawnJump = 0;
 
     // CONSTRUCTOR
     EndGameAnalyser(GameImpl board) {

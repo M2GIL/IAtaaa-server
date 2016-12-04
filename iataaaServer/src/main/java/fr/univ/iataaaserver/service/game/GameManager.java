@@ -5,8 +5,8 @@
  */
 package fr.univ.iataaaserver.service.game;
 
-import fr.univ.iataaaserver.service.game.player.HumanPlayer;
-import fr.univ.iataaaserver.service.game.player.IAWebServicePlayer;
+import fr.univ.iataaaserver.service.game.player.WebServicePlayer;
+import fr.univ.iataaaserver.service.game.player.Player;
 import java.util.List;
 import java.util.Map;
 
@@ -14,16 +14,13 @@ import java.util.Map;
  *
  * @author anto
  */
-interface GameManager {
-    Map<String, GameRunner> getGames();
 
-    List<IAWebServicePlayer> getCpus();
-
-    List<HumanPlayer> getHumans();
-
-    GameRunner getGame(String id);
-
-    HumanPlayer getHuman(String id);
-
-    IAWebServicePlayer getCPU(String id);
+public interface GameManager {
+    
+    Map<String, GameRunnerImpl> getGames();
+    List<WebServicePlayer> getCpus();
+    List<Player> getHumans();
+    GameRunnerImpl getGame(String id);
+    Player getHuman(String id);
+    WebServicePlayer getCPU(String id);
 }

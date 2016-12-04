@@ -12,7 +12,7 @@ public interface Player {
 
     StatusService getStatut();
     void startGame(Token idGame, Difficulty difficulty) throws BusyException;
-    void PlayGame(Token idToken, Difficulty difficulty, GameImpl boardGame, EnumPlayer player) throws Exception;
-    void endGame(Token idToken, String idGame, EndGameCase endType) throws Exception;
+    void PlayGame(Difficulty difficulty, GameImpl boardGame, EnumPlayer player) throws Exception;
+    void endGame(Token idGame, EndGameCase endType) throws Exception;
 
 }
