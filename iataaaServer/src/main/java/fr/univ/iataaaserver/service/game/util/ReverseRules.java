@@ -1,6 +1,5 @@
 package fr.univ.iataaaserver.service.game.util;
 
-import fr.univ.iataaaserver.domain.game.Board;
 import fr.univ.iataaaserver.domain.game.Case;
 import fr.univ.iataaaserver.domain.game.EnumPlayer;
 import fr.univ.iataaaserver.service.game.game.Game;
@@ -20,9 +19,7 @@ public class ReverseRules {
     private static int sizeMove = 1;
 
     // positionpieces est la liste des position pièces que l'on veut analyser.
-    public static List<Board<Case>> getAvalaibleMoves(Board<Case> board, EnumPlayer p) {
-        Case[] cases = board.toArray();
-        
+    public static List<Case[]> getAvalaibleMoves(Case[] cases, EnumPlayer p) {        
         List<Integer> whiteCases;
         if (p == EnumPlayer.PLAYER_2) {
             cases = reverseCases(cases);
@@ -42,11 +39,9 @@ public class ReverseRules {
             avalaibleMovesList = avalaibleMoves;
         }
         
-        List<Board<Case>> res = new ArrayList<>();
-        Board b;
+        List<Case[]> res = new ArrayList<>();
         for (Case[] c : avalaibleMovesList) {
-            b = new Board(c);
-            res.add(b);
+            res.add(c);
         }
         
         avalaibleMoves = new ArrayList<>();
