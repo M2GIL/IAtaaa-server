@@ -4,8 +4,8 @@ import fr.univ.iataaaserver.service.game.exception.BusyException;
 import fr.univ.iataaaserver.domain.game.Difficulty;
 import fr.univ.iataaaserver.domain.game.util.EndGameCase;
 import fr.univ.iataaaserver.domain.game.EnumPlayer;
-import fr.univ.iataaaserver.service.game.util.StatusService;
-import fr.univ.iataaaserver.service.game.util.Token;
+import fr.univ.iataaaserver.domain.game.StatusService;
+import fr.univ.iataaaserver.domain.game.Token;
 
 public interface Player {
 
@@ -13,7 +13,5 @@ public interface Player {
     void startGame(Token idGame, Difficulty difficulty) throws BusyException;
     void PlayGame(Difficulty difficulty, GameImpl boardGame, EnumPlayer player) throws Exception;
     void endGame(Token idGame, EndGameCase endType) throws Exception;
-
-
 
 }

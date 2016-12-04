@@ -1,4 +1,4 @@
-package fr.univ.iataaaserver.service.game.util;
+package fr.univ.iataaaserver.domain.game;
 
 
 public enum StatusService {

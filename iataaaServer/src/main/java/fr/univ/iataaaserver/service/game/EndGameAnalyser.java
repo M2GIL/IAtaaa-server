@@ -4,7 +4,7 @@ import fr.univ.iataaaserver.domain.game.Board;
 import fr.univ.iataaaserver.domain.game.Case;
 import fr.univ.iataaaserver.domain.game.util.EndGameCase;
 import fr.univ.iataaaserver.domain.game.EnumPlayer;
-import fr.univ.iataaaserver.service.game.util.Rules;
+import fr.univ.iataaaserver.domain.game.util.Rules;
 
 import java.util.HashMap;
 import java.util.LinkedList;
