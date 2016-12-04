@@ -5,17 +5,14 @@
  */
 package fr.univ.iataaaserver.service.game.util;
 
-import fr.univ.iataaaserver.IataaaServerApp;
+import fr.univ.iataaaserver.domain.game.Case;
+import fr.univ.iataaaserver.domain.game.EnumPlayer;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import static org.assertj.core.api.Assertions.assertThat;
-
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = IataaaServerApp.class)
+import org.junit.Test;
 
 public class ReverseRulesTest {
     @Test
@@ -127,4 +124,327 @@ public class ReverseRulesTest {
         
         assertThat(result).isEqualTo(8);
     } 
+    
+    @Test
+    public void getAvailableMovesStart() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(15, Case.WHITE_PIECE),
+                new HashMap.SimpleEntry<>(16, Case.WHITE_PIECE),
+                new HashMap.SimpleEntry<>(17, Case.WHITE_PIECE),
+                new HashMap.SimpleEntry<>(18, Case.WHITE_PIECE),
+                new HashMap.SimpleEntry<>(19, Case.WHITE_PIECE),
+                new HashMap.SimpleEntry<>(30, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(31, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(32, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(33, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(34, Case.BLACK_PIECE)
+        );
+
+        List<Case[]> expected = Arrays.asList(
+                TestUtil.moveCaseFrom(board, 15, 20),
+                TestUtil.moveCaseFrom(board, 15, 21),
+                TestUtil.moveCaseFrom(board, 16, 21),
+                TestUtil.moveCaseFrom(board, 16, 22),
+                TestUtil.moveCaseFrom(board, 17, 22),
+                TestUtil.moveCaseFrom(board, 17, 23),
+                TestUtil.moveCaseFrom(board, 18, 23),
+                TestUtil.moveCaseFrom(board, 18, 24),
+                TestUtil.moveCaseFrom(board, 19, 24)
+        );
+        assertThat(ReverseRules.getAvalaibleMoves(board, EnumPlayer.PLAYER_1))
+                .containsOnlyElementsOf(expected);
+    }
+    
+    
+    @Test
+    public void getAvailableMovesCaseJump1() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(5, Case.WHITE_PIECE),
+                new HashMap.SimpleEntry<>(11, Case.BLACK_PIECE)
+        );
+        Case[] expected = TestUtil.moveCaseFrom(board, 5, 16);
+        expected[11] = Case.EMPTY;
+        List<Case[]> result = ReverseRules.getAvalaibleMoves(board, EnumPlayer.PLAYER_1);
+        
+        assertThat(result).containsOnly(expected);
+    }
+    
+    
+    
+    @Test
+    public void getAvailableMovesCaseJump1With2Choices() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(0, Case.WHITE_PIECE),
+                new HashMap.SimpleEntry<>(6, Case.WHITE_PIECE),
+                new HashMap.SimpleEntry<>(11, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(12, Case.BLACK_PIECE)
+        );
+        Case[] expected1 = TestUtil.moveCaseFrom(board, 6, 15);
+        expected1[11] = Case.EMPTY;
+        Case[] expected2 = TestUtil.moveCaseFrom(board, 6, 17);
+        expected2[12] = Case.EMPTY;
+        
+        List<Case[]> result = ReverseRules.getAvalaibleMoves(board, EnumPlayer.PLAYER_1);
+        
+        assertThat(result).containsOnly(expected1, expected2);
+    }
+    
+    
+    @Test
+    public void getAvailableMovesCaseJump2() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(6, Case.WHITE_PIECE),
+                new HashMap.SimpleEntry<>(11, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(12, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(21, Case.BLACK_PIECE)
+        );
+        Case[] expected = TestUtil.moveCaseFrom(board, 6, 26);
+        expected[11] = Case.EMPTY;
+        expected[21] = Case.EMPTY;
+        assertThat(ReverseRules.getAvalaibleMoves(board, EnumPlayer.PLAYER_1))
+                .containsOnly(expected);
+    }
+    
+    @Test
+    public void getAvailableMovesCaseJump3() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(20, Case.WHITE_PIECE),
+                new HashMap.SimpleEntry<>(15, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(16, Case.BLACK_QUEEN),
+                new HashMap.SimpleEntry<>(26, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(25, Case.BLACK_PIECE)
+        );
+        Case[] expected = board.clone();
+        expected[15] = Case.EMPTY;
+        expected[16] = Case.EMPTY;
+        expected[26] = Case.EMPTY;
+        expected[25] = Case.EMPTY;
+        
+        List<Case[]> result = ReverseRules.getAvalaibleMoves(board, EnumPlayer.PLAYER_1);
+        assertThat(result).containsOnly(expected);
+    }
+    
+    @Test
+    public void getAvailableMovesQueen1() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(0, Case.WHITE_QUEEN),
+                new HashMap.SimpleEntry<>(16, Case.WHITE_PIECE),
+                new HashMap.SimpleEntry<>(17, Case.BLACK_PIECE)
+        );
+        List<Case[]> expected = Arrays.asList(
+                TestUtil.moveCaseFrom(board, 0, 5),
+                TestUtil.moveCaseFrom(board, 0, 11),
+                TestUtil.moveCaseFrom(board, 16, 21),
+                TestUtil.moveCaseFrom(board, 16, 22)
+        );
+        
+        List<Case[]> result = ReverseRules.getAvalaibleMoves(board, EnumPlayer.PLAYER_1);
+        
+        assertThat(result).containsOnlyElementsOf(expected);
+    }
+    
+    
+    
+    @Test
+    public void getAvailableMovesQueen2() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(0, Case.WHITE_QUEEN),
+                new HashMap.SimpleEntry<>(17, Case.BLACK_PIECE)
+        );
+        List<Case[]> expected = Arrays.asList(
+                TestUtil.moveCaseFrom(board, 0, 5),
+                TestUtil.moveCaseFrom(board, 0, 11),
+                TestUtil.moveCaseFrom(board, 0, 16),
+                TestUtil.moveCaseFrom(board, 0, 22),
+                TestUtil.moveCaseFrom(board, 0, 27),
+                TestUtil.moveCaseFrom(board, 0, 33),
+                TestUtil.moveCaseFrom(board, 0, 38),
+                TestUtil.moveCaseFrom(board, 0, 44),
+                TestUtil.moveCaseFrom(board, 0, 49)
+        );
+        
+        assertThat(ReverseRules.getAvalaibleMoves(board, EnumPlayer.PLAYER_1))
+                .containsOnlyElementsOf(expected);
+    }
+    
+    @Test
+    public void getAvailableMovesQueen3() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(0, Case.WHITE_QUEEN),
+                new HashMap.SimpleEntry<>(16, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(22, Case.BLACK_PIECE)
+        );
+        List<Case[]> expected = Arrays.asList(
+                TestUtil.moveCaseFrom(board, 0, 5),
+                TestUtil.moveCaseFrom(board, 0, 11)
+        );
+        
+        List<Case[]> result = ReverseRules.getAvalaibleMoves(board, EnumPlayer.PLAYER_1);
+        
+        assertThat(result).containsOnlyElementsOf(expected);
+    }
+    
+    
+    @Test
+    public void getAvailableMovesQueenJump1() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(0, Case.WHITE_QUEEN),
+                new HashMap.SimpleEntry<>(16, Case.BLACK_PIECE)
+        );
+        List<Case[]> expected = Arrays.asList(
+                TestUtil.moveCaseFrom(board, 0, 22),
+                TestUtil.moveCaseFrom(board, 0, 27),
+                TestUtil.moveCaseFrom(board, 0, 33),
+                TestUtil.moveCaseFrom(board, 0, 38),
+                TestUtil.moveCaseFrom(board, 0, 44),
+                TestUtil.moveCaseFrom(board, 0, 49)
+        );
+        for (Case[] e : expected) {
+            e[16] = Case.EMPTY;
+        }
+        
+        assertThat(ReverseRules.getAvalaibleMoves(board, EnumPlayer.PLAYER_1))
+                .containsOnlyElementsOf(expected);
+    }
+    
+    @Test
+    public void getAvailableMovesQueenJump3() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(0, Case.WHITE_QUEEN),
+                new HashMap.SimpleEntry<>(16, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(23, Case.BLACK_PIECE)
+        );
+        List<Case[]> expected = Arrays.asList(
+                TestUtil.moveCaseFrom(board, 0, 18),
+                TestUtil.moveCaseFrom(board, 0, 14),
+                TestUtil.moveCaseFrom(board, 0, 9)
+        );
+        for (Case[] e : expected) {
+            e[16] = Case.EMPTY;
+            e[23] = Case.EMPTY;
+        }
+        
+        assertThat(ReverseRules.getAvalaibleMoves(board, EnumPlayer.PLAYER_1))
+                .containsOnlyElementsOf(expected);
+    }
+    
+    @Test
+    public void getAvailableMovesQueenJump4() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(0, Case.WHITE_QUEEN),
+                new HashMap.SimpleEntry<>(22, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(32, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(41, Case.BLACK_PIECE)
+        );
+        Case[] expected = TestUtil.moveCaseFrom(board, 0, 45);
+
+        expected[22] = Case.EMPTY;
+        expected[32] = Case.EMPTY;
+        expected[41] = Case.EMPTY;
+        
+        List<Case[]> result = ReverseRules.getAvalaibleMoves(board, EnumPlayer.PLAYER_1);
+        
+        assertThat(result).containsOnly(expected);
+    }
+    
+    @Test
+    public void getAvailableMovesQueenJump5() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(13, Case.WHITE_QUEEN),
+                new HashMap.SimpleEntry<>(22, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(32, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(33, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(23, Case.BLACK_PIECE)
+        );
+        List<Case[]> expected = Arrays.asList(
+                TestUtil.moveCaseFrom(board, 13, 17),
+                TestUtil.moveCaseFrom(board, 13, 12),
+                TestUtil.moveCaseFrom(board, 13, 6),
+                TestUtil.moveCaseFrom(board, 13, 1)
+        );
+        for (Case[] e : expected) {
+            e[22] = Case.EMPTY;
+            e[32] = Case.EMPTY;
+            e[33] = Case.EMPTY;
+            e[23] = Case.EMPTY;
+        }
+        
+        List<Case[]> result = ReverseRules.getAvalaibleMoves(board, EnumPlayer.PLAYER_1);
+        assertThat(result).containsOnlyElementsOf(expected);
+    }
+    
+    @Test
+    public void getAvailableMovesQueenJump6() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(13, Case.WHITE_QUEEN),
+                new HashMap.SimpleEntry<>(22, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(32, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(33, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(23, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(35, Case.BLACK_PIECE)
+        );
+        List<Case[]> expected = Arrays.asList(
+                TestUtil.moveCaseFrom(board, 13, 17),
+                TestUtil.moveCaseFrom(board, 13, 12),
+                TestUtil.moveCaseFrom(board, 13, 6),
+                TestUtil.moveCaseFrom(board, 13, 1)
+        );
+        for (Case[] e : expected) {
+            e[22] = Case.EMPTY;
+            e[32] = Case.EMPTY;
+            e[33] = Case.EMPTY;
+            e[23] = Case.EMPTY;
+        }
+        
+        /*
+        System.out.println("INITIAL");
+        Util.displayBoard(board);
+        System.out.println("Cases blanches : " + TestUtil.getIACases(board));
+        
+        System.out.println("RESULT");
+        for(Case[] p : result) {
+            Util.displayBoard(p);
+        }
+        
+        System.out.println("WAITING RESULT");
+        for(Case[] e : expected) {
+            Util.displayBoard(e);
+        }
+        */
+        
+        
+        List<Case[]> result = ReverseRules.getAvalaibleMoves(board, EnumPlayer.PLAYER_1);
+        
+        assertThat(result).containsOnlyElementsOf(expected);
+    }
+    
+    @Test
+    public void reverseCases1() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(31, Case.BLACK_PIECE)
+        );
+        
+        Case[] reverse = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(18, Case.WHITE_PIECE)
+        );
+        
+        Case[] test = ReverseRules.reverseCases(board);
+        assertThat(test).isEqualTo(reverse);
+    }      
+    
+    @Test
+    public void getAvailableMovesQueenJump6ForP2() {
+        Case[] board = TestUtil.createBoard(
+                new HashMap.SimpleEntry<>(31, Case.BLACK_PIECE),
+                new HashMap.SimpleEntry<>(26, Case.WHITE_PIECE)
+        );
+        Case[] expected = TestUtil.moveCaseFrom(board, 31, 22);
+        expected[26] = Case.EMPTY;
+        
+        TestUtil.displayBoard(board);
+         
+        List<Case[]> result = ReverseRules.getAvalaibleMoves(board, EnumPlayer.PLAYER_2);
+         
+        assertThat(result).containsOnly(expected);
+    }
 }
