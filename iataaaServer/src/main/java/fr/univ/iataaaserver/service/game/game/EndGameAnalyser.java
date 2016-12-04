@@ -5,7 +5,7 @@ import fr.univ.iataaaserver.domain.game.Board;
 import fr.univ.iataaaserver.domain.game.Case;
 import fr.univ.iataaaserver.domain.game.EndGameCase;
 import fr.univ.iataaaserver.domain.game.EnumPlayer;
-import fr.univ.iataaaserver.service.game.util.Rules;
+import fr.univ.iataaaserver.service.game.util.ReverseRules;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -44,7 +44,7 @@ class EndGameAnalyser {
     private void verifyEndGame(Board<Case> oldBoard, Board<Case> newBoard) {
         EnumPlayer lastPlayer = playerToPlay();
 
-        if (Rules.getAvalaibleMoves(oldBoard, lastPlayer).size() == 0) {
+        if (ReverseRules.getAvalaibleMoves(oldBoard, lastPlayer).size() == 0) {
             status = (lastPlayer == EnumPlayer.PLAYER_1 ? EndGameCase.PLAYER_1_VICTORY : EndGameCase.PLAYER_2_VICTORY);
             return;
         }

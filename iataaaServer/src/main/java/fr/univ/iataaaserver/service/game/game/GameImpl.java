@@ -6,7 +6,7 @@ import fr.univ.iataaaserver.service.game.exception.ForbiddenMoveException;
 import fr.univ.iataaaserver.domain.game.Case;
 import fr.univ.iataaaserver.domain.game.EnumPlayer;
 import fr.univ.iataaaserver.domain.game.util.observable.ObservableImpl;
-import fr.univ.iataaaserver.service.game.util.Rules;
+import fr.univ.iataaaserver.service.game.util.ReverseRules;
 
 public class GameImpl extends ObservableImpl implements Game {
 
@@ -44,7 +44,7 @@ public class GameImpl extends ObservableImpl implements Game {
     @Override
     public void move(Board<Case> pieces) throws ForbiddenMoveException {
 
-        if (!Rules.getAvalaibleMoves(getPieces(), currentPlayer).contains(pieces)) {
+        if (!ReverseRules.getAvalaibleMoves(getPieces(), currentPlayer).contains(pieces)) {
             throw new ForbiddenMoveException();
         }
         Board<Case> old = this.pieces;
