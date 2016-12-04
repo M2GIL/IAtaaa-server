@@ -26,7 +26,7 @@ public class RulesTest {
         expectedBoard.add(new Board<Case>(expected));
 
         Board<Case> board = new Board(cases);
-        List<Board<Case>> res = Rules.getAvalaibleMoves(board, EnumPlayer.PLAYER_1);
+        List<Board<Case>> res = Rules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
 
         assertThat(res).containsOnlyElementsOf(expectedBoard);
     }

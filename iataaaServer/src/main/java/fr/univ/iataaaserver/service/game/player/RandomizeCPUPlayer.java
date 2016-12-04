@@ -24,7 +24,7 @@ public class RandomizeCPUPlayer implements Player {
 
     @Override
     public Board<Case> PlayGame(Difficulty difficulty, Board<Case> boardGame, EnumPlayer player) throws Exception {
-        List<Board<Case>> coupsPossibles = Rules.getAvalaibleMoves(boardGame, player);
+        List<Board<Case>> coupsPossibles = Rules.getAvailableMoves(boardGame, player);
         return coupsPossibles.get(new Random().nextInt(coupsPossibles.size()));
     }
 

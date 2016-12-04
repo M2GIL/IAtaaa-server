@@ -17,11 +17,11 @@ import java.util.List;
  * @author anto
  */
 public class Rules {
-    public static List<Board<Case>> getAvalaibleMoves(Board<Case> board, EnumPlayer p) {
+    public static List<Board<Case>> getAvailableMoves(Board<Case> board, EnumPlayer p) {
         List<Board<Case>> boards = new ArrayList<>();
         Case[] cases = reverseCases(board.toArray());
 
-        List<Case[]> casesList = ReverseRules.getAvalaibleMoves(cases, p);
+        List<Case[]> casesList = ReverseRules.getAvailableMoves(cases, p);
         Board b;
         for(Case[] c : casesList) {
             b = new Board(reverseCases(c));

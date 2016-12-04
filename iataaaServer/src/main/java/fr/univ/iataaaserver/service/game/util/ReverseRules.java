@@ -8,28 +8,28 @@ import java.util.List;
 
 
 public class ReverseRules {
-    
-    private static final int FIRST_POSITION_OF_LAST_LINE = Game.CASE_NB_OF_LINE 
+
+    private static final int FIRST_POSITION_OF_LAST_LINE = Game.CASE_NB_OF_LINE
         * (Game.LINE_NB - 1);
-    private static final int LAST_POSITION_OF_FIRST_LINE = Game.CASE_NB_OF_LINE 
+    private static final int LAST_POSITION_OF_FIRST_LINE = Game.CASE_NB_OF_LINE
         - 1;
-    
-    
+
+
     private static List<Case[]> avalaibleMoves = new ArrayList<>();
     private static int sizeMove = 1;
 
     // positionpieces est la liste des position pièces que l'on veut analyser.
-    public static List<Case[]> getAvalaibleMoves(Case[] cases, EnumPlayer p) {        
+    public static List<Case[]> getAvailableMoves(Case[] cases, EnumPlayer p) {
         List<Integer> whiteCases;
         if (p == EnumPlayer.PLAYER_2) {
             cases = reverseCases(cases);
-        } 
+        }
         whiteCases = getWhiteCases(cases);
         for (int i : whiteCases) {
             fillAvalaibleMovesForOneCase(cases, i);
         }
-        
-        List<Case[]> avalaibleMovesList;      
+
+        List<Case[]> avalaibleMovesList;
         if (p == EnumPlayer.PLAYER_2) {
             avalaibleMovesList = new ArrayList<>();
             avalaibleMoves.stream().forEach((c) -> {
@@ -38,22 +38,22 @@ public class ReverseRules {
         } else {
             avalaibleMovesList = avalaibleMoves;
         }
-        
+
         List<Case[]> res = new ArrayList<>();
         for (Case[] c : avalaibleMovesList) {
             res.add(c);
         }
-        
+
         avalaibleMoves = new ArrayList<>();
         sizeMove = 1;
-        
+
         return res;
     }
-    
-    
+
+
 // PRIVATE
 // Elle devront être privé quand les tests ne serviront plus.
-    
+
     // Donne la position de la case supérieur gauche.
     // Retourne -1 s'il n'y en a pas.
     public static int getTopLeftCornerPosition(int position) {
@@ -63,7 +63,7 @@ public class ReverseRules {
         }
         return res;
     }
-    
+
     // Donne la position de la case supérieur droite.
     // Retourne -1 s'il n'y en a pas.
     public static int getTopRightCornerPosition(int position) {
@@ -73,7 +73,7 @@ public class ReverseRules {
         }
         return res;
     }
-    
+
     // Donne la position de la case inférieur gauche.
     // Retourne -1 s'il n'y en a pas.
     public static int getBottomLeftCornerPosition(int position) {
@@ -84,7 +84,7 @@ public class ReverseRules {
         }
         return res;
     }
-    
+
     // Donne la position de la case inférieur droite.
     // Retourne -1 s'il n'y en a pas.
     public static int getBottomRightCornerPosition(int position) {
@@ -94,144 +94,144 @@ public class ReverseRules {
         }
         return res;
     }
-    
+
     // Donne la position de la case supérieur gauche pour manger une pièce.
     // Retourne -1 s'il n'y en a pas.
     public static int getTopLeftCornerPosition(int position, int distance) {
         int tmpPosition = position;
-        do { 
+        do {
             tmpPosition = getTopLeftCornerPosition(tmpPosition);
             --distance;
         } while (tmpPosition != -1 && distance > 0);
         return tmpPosition;
     }
-    
+
     // Donne la position de la case supérieur droite pour manger une pièce.
     // Retourne -1 s'il n'y en a pas.
     public static int getTopRightCornerPosition(int position, int distance) {
         int tmpPosition = position;
-        do { 
+        do {
             tmpPosition = getTopRightCornerPosition(tmpPosition);
             --distance;
         } while (tmpPosition != -1 && distance > 0);
         return tmpPosition;
     }
-    
+
     // Donne la position de la case inférieur gauche pour manger une pièce.
     // Retourne -1 s'il n'y en a pas.
     public static int getBottomLeftCornerPosition(int position, int distance) {
         int tmpPosition = position;
-        do { 
+        do {
             tmpPosition = getBottomLeftCornerPosition(tmpPosition);
             --distance;
         } while (tmpPosition != -1 && distance > 0);
         return tmpPosition;
     }
-    
+
     // Donne la position de la case inférieur droite pour manger une pièce.
     // Retourne -1 s'il n'y en a pas.
     public static int getBottomRightCornerPosition(int position, int distance) {
         int tmpPosition = position;
-        do { 
+        do {
             tmpPosition = getBottomRightCornerPosition(tmpPosition);
             --distance;
         } while (tmpPosition != -1 && distance > 0);
         return tmpPosition;
     }
-    
-    
+
+
     // Donne toutes les positions des cases supérieurs gauches.
     // Retourne -1 s'il n'y en a pas.
     public static List<Integer> getAllTopLeftCornerPosition(int position) {
         List<Integer> res = new ArrayList<>();
-        for (int tmpPosition = getTopLeftCornerPosition(position); tmpPosition != -1; 
+        for (int tmpPosition = getTopLeftCornerPosition(position); tmpPosition != -1;
             tmpPosition = getTopLeftCornerPosition(tmpPosition)) {
             res.add(tmpPosition);
         }
         return res;
     }
-    
+
     // Donne toutes les positions des cases supérieurs droites.
     // Retourne -1 s'il n'y en a pas.
     public static List<Integer> getAllTopRightCornerPosition(int position) {
         List<Integer> res = new ArrayList<>();
-        for (int tmpPosition = getTopRightCornerPosition(position); tmpPosition != -1; 
+        for (int tmpPosition = getTopRightCornerPosition(position); tmpPosition != -1;
             tmpPosition = getTopRightCornerPosition(tmpPosition)) {
             res.add(tmpPosition);
         }
         return res;
     }
-    
+
     // Donne toutes les positions des cases inférieurs gauches.
     // Retourne -1 s'il n'y en a pas.
     public static List<Integer> getAllBottomLeftCornerPosition(int position) {
         List<Integer> res = new ArrayList<>();
-        for (int tmpPosition = getBottomLeftCornerPosition(position); tmpPosition != -1; 
+        for (int tmpPosition = getBottomLeftCornerPosition(position); tmpPosition != -1;
             tmpPosition = getBottomLeftCornerPosition(tmpPosition)) {
             res.add(tmpPosition);
         }
         return res;
     }
-    
+
     // Donne toutes les positions des cases inférieurs droites.
     // Retourne -1 s'il n'y en a pas.
     public static List<Integer> getAllBottomRightCornerPosition(int position) {
         List<Integer> res = new ArrayList<>();
-        for (int tmpPosition = getBottomRightCornerPosition(position); tmpPosition != -1; 
+        for (int tmpPosition = getBottomRightCornerPosition(position); tmpPosition != -1;
             tmpPosition = getBottomRightCornerPosition(tmpPosition)) {
             res.add(tmpPosition);
         }
         return res;
     }
-    
+
     // Donne toutes les positions des cases supérieurs gauches jusqu'à tgtPosition.
     // Retourne -1 s'il n'y en a pas.
     public static List<Integer> getAllTopLeftCornerPosition(int src, int tgt) {
         List<Integer> res = new ArrayList<>();
-        for (int tmpPosition = getTopLeftCornerPosition(src); 
-            tmpPosition != -1 && tmpPosition != tgt; 
+        for (int tmpPosition = getTopLeftCornerPosition(src);
+            tmpPosition != -1 && tmpPosition != tgt;
             tmpPosition = getTopLeftCornerPosition(tmpPosition)) {
             res.add(tmpPosition);
         }
         return res;
     }
-    
+
     // Donne toutes les positions des cases supérieurs droites jusqu'à tgtPosition.
     // Retourne -1 s'il n'y en a pas.
     public static List<Integer> getAllTopRightCornerPosition(int src, int tgt) {
         List<Integer> res = new ArrayList<>();
-        for (int tmpPosition = getTopRightCornerPosition(src); 
-            tmpPosition != -1 && tmpPosition != tgt; 
+        for (int tmpPosition = getTopRightCornerPosition(src);
+            tmpPosition != -1 && tmpPosition != tgt;
             tmpPosition = getTopRightCornerPosition(tmpPosition)) {
             res.add(tmpPosition);
         }
         return res;
     }
-    
+
     // Donne toutes les positions des cases inférieur gauches jusqu'à tgtPosition.
     // Retourne -1 s'il n'y en a pas.
     public static List<Integer> getAllBottomLeftCornerPosition(int src, int tgt) {
         List<Integer> res = new ArrayList<>();
-        for (int tmpPosition = getBottomLeftCornerPosition(src); 
-            tmpPosition != -1 && tmpPosition != tgt; 
+        for (int tmpPosition = getBottomLeftCornerPosition(src);
+            tmpPosition != -1 && tmpPosition != tgt;
             tmpPosition = getBottomLeftCornerPosition(tmpPosition)) {
             res.add(tmpPosition);
         }
         return res;
     }
-    
+
     // Donne toutes les positions des cases inférieur droites jusqu'à tgtPosition.
     // Retourne -1 s'il n'y en a pas.
     public static List<Integer> getAllBottomRightCornerPosition(int src, int tgt) {
         List<Integer> res = new ArrayList<>();
-        for (int tmpPosition = getBottomRightCornerPosition(src); 
-            tmpPosition != -1 && tmpPosition != tgt; 
+        for (int tmpPosition = getBottomRightCornerPosition(src);
+            tmpPosition != -1 && tmpPosition != tgt;
             tmpPosition = getBottomRightCornerPosition(tmpPosition)) {
             res.add(tmpPosition);
         }
         return res;
     }
-    
+
     // Rempli avalaibleMoves de tous les coups possible de la pièce en position
     // position.
     // Retourne vrai si un pion est sauté.
@@ -239,14 +239,14 @@ public class ReverseRules {
         assert pieces[srcPosition] != Case.BLACK_PIECE;
         assert pieces[srcPosition] != Case.BLACK_QUEEN;
         assert pieces[srcPosition] != Case.EMPTY;
-        
-        boolean isPossibleToJump = sequenceJump(pieces, srcPosition, 1, 
+
+        boolean isPossibleToJump = sequenceJump(pieces, srcPosition, 1,
             new ArrayList<>());
         if (!isPossibleToJump && sizeMove == 1) { // S'il n'est pas possible de sauter une pièce.
-            // Si sizeMove n'est pas égale à 1 alors il est inutile d'aller plus loin car il existe des mouvement 
+            // Si sizeMove n'est pas égale à 1 alors il est inutile d'aller plus loin car il existe des mouvement
             // plus long dans avalaibleMove.
             if (pieces[srcPosition] == Case.WHITE_PIECE) { // Si la piece source est un pion est on ne peut pas sauter de pion.
-                
+
             //------------------------------------------------------------------
             // Coté gauche du pion
                 int topLeftCornerPosition = getTopLeftCornerPosition(srcPosition);
@@ -272,12 +272,12 @@ public class ReverseRules {
                 Case[] newCases;
                 List<Integer> positions;
                 int sizePositions;
-                
+
                 positions = getAllTopLeftCornerPosition(srcPosition);
                 sizePositions = positions.size();
-                if (!positions.isEmpty()) {  
+                if (!positions.isEmpty()) {
                     i = 0;
-                    k = positions.get(i);   
+                    k = positions.get(i);
                     while (i < sizePositions && pieces[k] == Case.EMPTY) { // On ajoute toute les position de positions
                         // jusqu'à ce qu'on rencontre une pièce non vide.
                         newCases = getMoveWhiteCase(pieces, srcPosition, k);
@@ -285,17 +285,17 @@ public class ReverseRules {
                         k = positions.get(i);
                         ++i;
                         if (i < sizePositions) {
-                            k = positions.get(i); 
+                            k = positions.get(i);
                         }
                     }
                 }
-                
-                
+
+
                 positions = getAllTopRightCornerPosition(srcPosition);
                 sizePositions = positions.size();
                 if (!positions.isEmpty()) {
                     i = 0;
-                    k = positions.get(i);   
+                    k = positions.get(i);
                     while (i < sizePositions && pieces[k] == Case.EMPTY) { // On ajoute toute les position de positions
                         // jusqu'à ce qu'on rencontre une pièce non vide.
                         newCases = getMoveWhiteCase(pieces, srcPosition, k);
@@ -303,16 +303,16 @@ public class ReverseRules {
                         k = positions.get(i);
                         ++i;
                         if (i < sizePositions) {
-                            k = positions.get(i); 
+                            k = positions.get(i);
                         }
                     }
                 }
-                
+
                 positions = getAllBottomLeftCornerPosition(srcPosition);
                 sizePositions = positions.size();
                 if (!positions.isEmpty()) {
                     i = 0;
-                    k = positions.get(i);   
+                    k = positions.get(i);
                     while (i < sizePositions && pieces[k] == Case.EMPTY) { // On ajoute toute les position de positions
                         // jusqu'à ce qu'on rencontre une pièce non vide.
                         newCases = getMoveWhiteCase(pieces, srcPosition, k);
@@ -320,16 +320,16 @@ public class ReverseRules {
                         k = positions.get(i);
                         ++i;
                         if (i < sizePositions) {
-                            k = positions.get(i); 
+                            k = positions.get(i);
                         }
                     }
                 }
-                
+
                 positions = getAllBottomRightCornerPosition(srcPosition);
                 sizePositions = positions.size();
                 if (!positions.isEmpty()) {
                     i = 0;
-                    k = positions.get(i);   
+                    k = positions.get(i);
                     while (i < sizePositions && pieces[k] == Case.EMPTY) { // On ajoute toute les position de positions
                         // jusqu'à ce qu'on rencontre une pièce non vide.
                         newCases = getMoveWhiteCase(pieces, srcPosition, k);
@@ -337,19 +337,19 @@ public class ReverseRules {
                         k = positions.get(i);
                         ++i;
                         if (i < sizePositions) {
-                            k = positions.get(i); 
+                            k = positions.get(i);
                         }
                     }
                 }
             }
         }
     }
-    private static boolean isInInterval(int src, int tgt, Direction direction, 
+    private static boolean isInInterval(int src, int tgt, Direction direction,
         List<Integer> prohibited) {
         boolean res = false;
-        
+
         List<Integer> positions;
-        
+
         switch (direction) {
             case TOP_LEFT :
                 positions = getAllTopLeftCornerPosition(src, tgt);
@@ -364,16 +364,16 @@ public class ReverseRules {
                 positions = getAllBottomRightCornerPosition(src, tgt);
                 break;
         }
-        
+
         for (int p : prohibited) {
             if (positions.contains(p)) {
                 res = true;
                 break;
             }
         }
-        
+
         return res;
-    }    
+    }
     // Retourne faux s'il n'est pas possible de sauter une pion, sinon vrai
     // et enregistre le coup le/les coups les plus longs dans availableMove.
     // La direction est un côté sur lequel on ne souhaite se déplacer.
@@ -382,48 +382,48 @@ public class ReverseRules {
         assert pieces[srcPosition] != Case.BLACK_PIECE;
         assert pieces[srcPosition] != Case.BLACK_QUEEN;
         assert pieces[srcPosition] != Case.EMPTY;
-        
+
         boolean isPossibleToJump = false;
-        
+
         if (pieces[srcPosition] == Case.WHITE_PIECE) {
             int tgtPosition;
             int jumpedPosition;
             boolean addJumpedMoveToSequence;
-            
+
         // Haut gauche
                 jumpedPosition = getTopLeftCornerPosition(srcPosition);
                 tgtPosition = getTopLeftCornerPosition(srcPosition, 2);
-                addJumpedMoveToSequence = addJumpedMoveToSequence(pieces, 
+                addJumpedMoveToSequence = addJumpedMoveToSequence(pieces,
                     srcPosition, jumpedPosition, tgtPosition, size);
                 isPossibleToJump = isPossibleToJump || addJumpedMoveToSequence;
-            
+
         // Haut droit
                 jumpedPosition = getTopRightCornerPosition(srcPosition);
                 tgtPosition = getTopRightCornerPosition(srcPosition, 2);
-                addJumpedMoveToSequence = addJumpedMoveToSequence(pieces, 
+                addJumpedMoveToSequence = addJumpedMoveToSequence(pieces,
                     srcPosition, jumpedPosition, tgtPosition, size);
                 isPossibleToJump = isPossibleToJump || addJumpedMoveToSequence;
-     
+
         // Bas gauche
                 jumpedPosition = getBottomLeftCornerPosition(srcPosition);
                 tgtPosition = getBottomLeftCornerPosition(srcPosition, 2);
-                addJumpedMoveToSequence = addJumpedMoveToSequence(pieces, 
+                addJumpedMoveToSequence = addJumpedMoveToSequence(pieces,
                     srcPosition, jumpedPosition, tgtPosition, size);
                 isPossibleToJump = isPossibleToJump || addJumpedMoveToSequence;
-            
+
         // Bas droit
                 jumpedPosition = getBottomRightCornerPosition(srcPosition);
                 tgtPosition = getBottomRightCornerPosition(srcPosition, 2);
-                addJumpedMoveToSequence = addJumpedMoveToSequence(pieces, 
+                addJumpedMoveToSequence = addJumpedMoveToSequence(pieces,
                     srcPosition, jumpedPosition, tgtPosition, size);
                 isPossibleToJump = isPossibleToJump || addJumpedMoveToSequence;
-            
+
         } else { // Si la pièce source est une dame.
             List<Integer> positions;
             Case[] newCases;
             int jumpedPos;
             Couple<List<Integer>, Integer> couple;
-            
+
             // Haut gauche
                 positions = getAllTopLeftCornerPosition(srcPosition);
                 couple = getPositionsToJump(pieces, positions);
@@ -440,11 +440,11 @@ public class ReverseRules {
                         }
                     }
                 }
-            
+
             // Haut droit
                 positions = getAllTopRightCornerPosition(srcPosition);
                 couple = getPositionsToJump(pieces, positions);
-                positions = couple.getFirst();  
+                positions = couple.getFirst();
                 jumpedPos = couple.getSecond();
                 if (jumpedPos != -1) {
                     for (int tgtPos : positions) {
@@ -457,8 +457,8 @@ public class ReverseRules {
                         }
                     }
                 }
-            
-            
+
+
             // Bas gauche
                 positions = getAllBottomLeftCornerPosition(srcPosition);
                 couple = getPositionsToJump(pieces, positions);
@@ -475,8 +475,8 @@ public class ReverseRules {
                         }
                     }
                 }
-            
-            
+
+
             // Bas droit
                 positions = getAllBottomRightCornerPosition(srcPosition);
                 couple = getPositionsToJump(pieces, positions);
@@ -493,17 +493,17 @@ public class ReverseRules {
                         }
                     }
                 }
-            
+
         }
-        
+
         if (size != 1 && !isPossibleToJump) {
-            /* Si size == 1 alors la methode n'a pas eu d'appel récursif. 
+            /* Si size == 1 alors la methode n'a pas eu d'appel récursif.
                On ne souhaite pas ajouter de move.
                Si il est possible de sauter encore un pion alors le mouvement n'est pas encore complet
                et on ne souhaite pas ajouter ce Move. C'est un appel recursif sur la suite du mouvement
                qui ajoutera le Move en entier.
             */
-            
+
             if (size == sizeMove) {
                 avalaibleMoves.add(pieces);
             } else if (size > sizeMove) {
@@ -512,10 +512,10 @@ public class ReverseRules {
                 avalaibleMoves.add(pieces);
             }
         }
-        
+
         return isPossibleToJump;
     }
-    
+
     // positions est une liste de position diagonale. Cette méthode retourne une liste des positions
     // où une dame peut aller après avoir sauté un pion. Et elle retourne aussi la position du pion sauté.
     // couple.getSecond == -1 si on ne peut pas sauter de pion.
@@ -531,10 +531,10 @@ public class ReverseRules {
                     k = positions.get(i);
                 }
             }
-            if (i < positions.size() && 
-                (pieces[k] == Case.BLACK_PIECE 
+            if (i < positions.size() &&
+                (pieces[k] == Case.BLACK_PIECE
                 || pieces[k] == Case.BLACK_QUEEN)) {
-                
+
                 jumpedPosition = k;
                 ++i;
                 k = positions.get(i);
@@ -552,14 +552,14 @@ public class ReverseRules {
         }
         return new Couple(positionsToJump, jumpedPosition);
     }
-    
-    
-    private static boolean addJumpedMoveToSequence(Case[] pieces, int srcPosition, 
+
+
+    private static boolean addJumpedMoveToSequence(Case[] pieces, int srcPosition,
         int jumpedPosition, int tgtPosition, int size) {
         boolean isPossibleToJump = false;
         if (jumpedPosition != -1 && tgtPosition != -1) {
-            if (pieces[tgtPosition] == Case.EMPTY 
-                && (pieces[jumpedPosition] == Case.BLACK_PIECE 
+            if (pieces[tgtPosition] == Case.EMPTY
+                && (pieces[jumpedPosition] == Case.BLACK_PIECE
                     || pieces[jumpedPosition] == Case.BLACK_QUEEN)) {
             // Si on peut sauter un pion adverse dans le coin supérieur gauche
                 isPossibleToJump = true;
@@ -569,17 +569,17 @@ public class ReverseRules {
         }
         return isPossibleToJump;
     }
-    
-    
+
+
     // Retourne un tableau avec le pion noir en jumpedPosition sauté.
     // Et la pièce blanche en srcPosition est déplacé en tgtPosition.
-    private static Case[] getJumpBlackCase(Case[] pieces, int srcPosition, 
+    private static Case[] getJumpBlackCase(Case[] pieces, int srcPosition,
         int jumpedPosition, int tgtPosition) {
-        
-        assert (pieces[srcPosition] == Case.WHITE_QUEEN) 
+
+        assert (pieces[srcPosition] == Case.WHITE_QUEEN)
             || pieces[srcPosition] == Case.WHITE_PIECE;
         assert pieces[tgtPosition] == Case.EMPTY;
-        assert pieces[jumpedPosition] == Case.BLACK_PIECE 
+        assert pieces[jumpedPosition] == Case.BLACK_PIECE
             || pieces[jumpedPosition] == Case.BLACK_QUEEN;
         Case[] res = pieces.clone();
         Case srcPi = res[srcPosition];
@@ -588,24 +588,24 @@ public class ReverseRules {
         res[tgtPosition] = srcPi;
         return res;
     }
-    
+
     // Retourne une copie de pieces avec une piece déplacé de positionSrc à
     // positionTgt.
-    // Je suppose que cette fonction va prendre de la place en mémoire. 
+    // Je suppose que cette fonction va prendre de la place en mémoire.
     // Faudra la supprimer je suppose.
     private static Case[] getMoveWhiteCase(Case[] pieces, int srcPosition, int tgtPosition) {
         assert pieces[srcPosition] != Case.BLACK_PIECE;
         assert pieces[srcPosition] != Case.BLACK_QUEEN;
         assert pieces[srcPosition] != Case.EMPTY;
         assert pieces[tgtPosition] == Case.EMPTY;
-        
+
         Case[] res = pieces.clone();
         Case p = res[srcPosition];
         res[srcPosition] = Case.EMPTY;
         res[tgtPosition] = p;
         return res;
     }
-    
+
     private static List<Integer> getWhiteCases(Case[] pieces) {
         List<Integer> positions = new ArrayList<>(15);
         for (int i = 0; i < pieces.length; ++i) {
@@ -615,21 +615,21 @@ public class ReverseRules {
         }
         return positions;
     }
-    
+
     private static int reverseCaseIndice(int indice) {
-        assert indice >= 0 && indice < Game.PIECE_SIZE : "indice = " + indice; 
-        return 49 - indice; 
+        assert indice >= 0 && indice < Game.PIECE_SIZE : "indice = " + indice;
+        return 49 - indice;
     }
-    
+
     public static Case[] reverseCases(Case[] pieces) {
         Case[] reverseCases = new Case[Game.PIECE_SIZE];
         for (int i = 0; i < Game.PIECE_SIZE; ++i) {
             reverseCases[reverseCaseIndice(i)] = oppositeColor(pieces[i]);
         }
-        
+
         return reverseCases;
     }
-    
+
     private static Case oppositeColor(Case piece) {
         Case opposite;
         switch (piece) {
@@ -638,27 +638,27 @@ public class ReverseRules {
                 break;
             case BLACK_PIECE :
                 opposite = Case.WHITE_PIECE;
-                break;  
+                break;
             case WHITE_QUEEN :
                 opposite = Case.BLACK_QUEEN;
                 break;
             case BLACK_QUEEN :
                 opposite = Case.WHITE_QUEEN;
-                break;  
+                break;
             default :
                 opposite = Case.EMPTY;
                 break;
         }
-        
+
         return opposite;
     }
 
-    
-    
+
+
 // ENUM
-    
+
     private enum Direction {
         TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT;
     }
-  
+
 }

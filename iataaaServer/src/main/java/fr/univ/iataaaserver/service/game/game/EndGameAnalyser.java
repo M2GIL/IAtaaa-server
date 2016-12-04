@@ -43,7 +43,7 @@ class EndGameAnalyser {
     private void verifyEndGame(Board<Case> oldBoard, Board<Case> newBoard) {
         EnumPlayer lastPlayer = playerToPlay();
 
-        if (Rules.getAvalaibleMoves(oldBoard, lastPlayer).size() == 0) {
+        if (Rules.getAvailableMoves(oldBoard, lastPlayer).size() == 0) {
             status = (lastPlayer == EnumPlayer.PLAYER_1 ? EndGameCase.PLAYER_1_VICTORY : EndGameCase.PLAYER_2_VICTORY);
             return;
         }

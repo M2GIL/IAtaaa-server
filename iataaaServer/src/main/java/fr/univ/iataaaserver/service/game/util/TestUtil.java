@@ -1,5 +1,6 @@
 package fr.univ.iataaaserver.service.game.util;
 
+import fr.univ.iataaaserver.domain.game.Board;
 import fr.univ.iataaaserver.domain.game.Case;
 import fr.univ.iataaaserver.service.game.game.Game;
 
@@ -30,12 +31,9 @@ public class TestUtil {
         return positions;
     }
 
-    /**
-     * Display the char[][] board
-     * Begin left bottom to right top
-     *
-     * @param boardToDisplay char[][]
-     */
+    public static void displayBoard(Board<Case> board) {
+        displayBoard(board.toArray());
+    }
     public static void displayBoard(Case[] boardToDisplay) {
         Case[][] board = convertFiftyToHundredBoard(boardToDisplay);
 
