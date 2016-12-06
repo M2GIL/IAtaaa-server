@@ -1,8 +1,12 @@
 package fr.univrouen.iataaaserver.controller;
 
 import fr.univrouen.iataaaserver.entities.Board;
-import fr.univrouen.iataaaserver.entities.GameBean;
+import fr.univrouen.iataaaserver.entities.Case;
+import fr.univrouen.iataaaserver.entities.Difficulty;
+import fr.univrouen.iataaaserver.entities.PlayerType;
+import fr.univrouen.iataaaserver.entities.bean.GameBean;
 import fr.univrouen.iataaaserver.entities.StatusGameCreation;
+import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +33,8 @@ public class GameController {
     }
     
     @RequestMapping(value = { "/{gameID}" }, method = RequestMethod.GET)
-    public ResponseEntity<Board> getGame(ModelMap model, @PathVariable("gameID") String gameID) {
-        Board board = gamesService.getBoard(gameID);
+    public ResponseEntity<Board<Case>> getGame(ModelMap model, @PathVariable("gameID") String gameID) {
+        Board<Case> board = gamesService.getBoard(gameID);
         return new ResponseEntity<>(board, HttpStatus.OK);
     }
     
