@@ -14,6 +14,7 @@ import java.util.Set;
  * @author anto
  */
 
+
 public interface GameManager {
     
     boolean createGame(String id);
