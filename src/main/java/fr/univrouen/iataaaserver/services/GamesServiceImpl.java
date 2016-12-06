@@ -2,6 +2,7 @@ package fr.univrouen.iataaaserver.services;
 
 
 import fr.univrouen.iataaaserver.entities.Board;
+import fr.univrouen.iataaaserver.entities.Case;
 import fr.univrouen.iataaaserver.entities.Difficulty;
 import fr.univrouen.iataaaserver.entities.GameBean;
 import fr.univrouen.iataaaserver.entities.StatusGameCreation;
@@ -34,12 +35,12 @@ public class GamesServiceImpl implements GamesService {
         String iaName1 = gameBean.getIaName1(); 
         String iaIP1 = gameBean.getIaIP1(); 
         int iaPort1 = gameBean.getIaPort1(); 
-        Difficulty difficulty1 = gameBean.getDifficulty1();
+        Difficulty difficulty1 = gameBean.getIaDifficulty1();
         String iaToken2 = gameBean.getIaToken2(); 
         String iaName2 = gameBean.getIaName2(); 
         String iaIP2 = gameBean.getIaIP2();
         int iaPort2 = gameBean.getIaPort2();
-        Difficulty difficulty2 = gameBean.getDifficulty2();
+        Difficulty difficulty2 = gameBean.getIaDifficulty2();
 
         Token tokenGame = new Token(gameID);
         Player p1 = new WebServicePlayer(iaToken1, iaIP1, iaPort1);
@@ -58,7 +59,7 @@ public class GamesServiceImpl implements GamesService {
     }
 
     @Override
-    public Board getBoard(String gameID) {
+    public Board<Case> getBoard(String gameID) {
         GameRunner gr = games.get(gameID);
         return gr.getGame().getPieces();
     }

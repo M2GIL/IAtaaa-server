@@ -24,7 +24,7 @@ public class GameBean {
     @JsonProperty  
     private int iaPort1; 
     @JsonProperty  
-    private Difficulty difficulty1;
+    private Difficulty iaDifficulty1;
     @JsonProperty  
     private String iaToken2; 
     @JsonProperty  
@@ -34,7 +34,7 @@ public class GameBean {
     @JsonProperty  
     private int iaPort2;
     @JsonProperty  
-    private Difficulty difficulty2;
+    private Difficulty iaDifficulty2;
 
     public String getGameID() {
         return gameID;
@@ -76,12 +76,12 @@ public class GameBean {
         this.iaPort1 = iaPort1;
     }
     
-    public Difficulty getDifficulty1() {
-        return difficulty1;
+    public Difficulty getIaDifficulty1() {
+        return iaDifficulty1;
     }
 
-    public void setDifficulty1(Difficulty difficulty1) {
-        this.difficulty1 = difficulty1;
+    public void setIaDifficulty1(Difficulty iaDifficulty1) {
+        this.iaDifficulty1 = iaDifficulty1;
     }
 
     public String getIaToken2() {
@@ -116,12 +116,12 @@ public class GameBean {
         this.iaPort2 = iaPort2;
     }
 
-    public Difficulty getDifficulty2() {
-        return difficulty2;
+    public Difficulty getIaDifficulty2() {
+        return iaDifficulty2;
     }
 
-    public void setDifficulty2(Difficulty difficulty2) {
-        this.difficulty2 = difficulty2;
+    public void setIaDifficulty2(Difficulty iaDifficulty2) {
+        this.iaDifficulty2 = iaDifficulty2;
     }
     
 }
