@@ -2,8 +2,11 @@ package fr.univrouen.iataaaserver.controller;
 
 import fr.univrouen.iataaaserver.entities.Board;
 import fr.univrouen.iataaaserver.entities.Case;
-import fr.univrouen.iataaaserver.entities.GameBean;
+import fr.univrouen.iataaaserver.entities.Difficulty;
+import fr.univrouen.iataaaserver.entities.PlayerType;
+import fr.univrouen.iataaaserver.entities.bean.GameBean;
 import fr.univrouen.iataaaserver.entities.StatusGameCreation;
+import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

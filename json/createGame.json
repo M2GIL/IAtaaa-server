@@ -1,1 +1,19 @@
-{"gameID":"game1","iaToken1":"token1","iaName1":"name2","iaIP1":"189.265.551.493","iaPort1":8080,"difficulty1":"EASY","iaToken2":"token2","iaName2":"name2","iaIP2":"189.265.551.494","iaPort2":8080,"difficulty2":"EASY"}
+{
+	"gameID":"gameOne",
+	"players":
+		[{
+			"type":"IA",
+			"token":"token",
+			"name":"ia",
+			"ip":"156.123.456.789",
+			"port":8080,
+			"difficulty":"MEDIUM"
+		},{
+			"type":"IA",
+			"token":"token",
+			"name":"ia",
+			"ip":"156.123.456.789",
+			"port":8080,
+			"difficulty":"MEDIUM"
+		}]
+}
