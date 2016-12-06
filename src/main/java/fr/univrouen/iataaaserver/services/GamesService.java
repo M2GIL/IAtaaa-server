@@ -7,17 +7,22 @@ package fr.univrouen.iataaaserver.services;
 
 
 import fr.univrouen.iataaaserver.entities.Board;
+import fr.univrouen.iataaaserver.entities.Difficulty;
+import fr.univrouen.iataaaserver.entities.StatusGameCreation;
 import java.util.Set;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  *
  * @author anto
  */
 
-
-public interface GameManager {
+public interface GamesService {
     
-    boolean createGame(String id);
+    StatusGameCreation createGame(String gameID, @RequestBody String iaName, 
+         String iaIP1, int iaPort1, String iaIP2, int iaPort2,
+         Difficulty difficulty);
     Set<String> getGameNames();
     Board getBoard(String gameID);
     

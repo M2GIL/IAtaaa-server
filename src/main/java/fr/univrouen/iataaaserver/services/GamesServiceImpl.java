@@ -2,25 +2,29 @@ package fr.univrouen.iataaaserver.services;
 
 
 import fr.univrouen.iataaaserver.entities.Board;
+import fr.univrouen.iataaaserver.entities.Difficulty;
+import fr.univrouen.iataaaserver.entities.StatusGameCreation;
 import fr.univrouen.iataaaserver.services.game.GameRunner;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.springframework.stereotype.Service;
 
 /**
  * Manager of games.
  */
-public class GameManagerImpl implements GameManager {
+@Service
+public class GamesServiceImpl implements GamesService {
     
     private final Map<String, GameRunner> games;
 
-    public GameManagerImpl() {
+    public GamesServiceImpl() {
         games = new HashMap<>();
     }
     
-      @Override
-    public boolean createGame(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    @Override
+    public StatusGameCreation createGame(String gameID, String iaName, String iaIP1, int iaPort1, String iaIP2, int iaPort2, Difficulty difficulty) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -76,9 +80,7 @@ public class GameManagerImpl implements GameManager {
 
 
     // METHODS
-
-  
-
     */
+
 
 }

@@ -443,8 +443,6 @@ public class ReverseRulesTest {
         Case[] expected = TestUtil.moveCaseFrom(board, 31, 22);
         expected[26] = Case.EMPTY;
 
-        TestUtil.displayBoard(board);
-
         List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_2);
 
         assertThat(result).containsOnly(expected);
