@@ -1,10 +1,8 @@
 package fr.univrouen.iataaaserver.controller;
 
-
 import fr.univrouen.iataaaserver.entities.Board;
-import fr.univrouen.iataaaserver.entities.Difficulty;
+import fr.univrouen.iataaaserver.entities.GameBean;
 import fr.univrouen.iataaaserver.entities.StatusGameCreation;
-import fr.univrouen.iataaaserver.services.GamesServiceImpl;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,22 +21,11 @@ public class GameController {
 
     @Autowired
     private GamesService gamesService;
-    
-    @RequestMapping(value = { "/{message}" }, method = RequestMethod.GET)
-    public String coucou(@PathVariable("message") String message) {
-        return message;
-    }
-    
-    @RequestMapping(value = { "/{gameID}" }, method = RequestMethod.POST)
-    public ResponseEntity<StatusGameCreation> create(ModelMap model, 
-        @PathVariable("gameID") String gameID, @RequestBody String iaName, 
-        @RequestBody String iaIP1, @RequestBody int iaPort1, 
-        @RequestBody String iaIP2, @RequestBody int iaPort2,
-        @RequestBody Difficulty difficulty) {
-        StatusGameCreation st = gamesService.createGame(gameID, iaName, iaIP1, 
-                iaPort1, iaIP2, iaPort2, difficulty);
-        
-        return new ResponseEntity<>(st, HttpStatus.OK);
+
+    @RequestMapping(value = { "/" }, method = RequestMethod.GET)
+    public ResponseEntity<Set<String>> getGameNames(ModelMap model) {
+        Set<String> names = gamesService.getGameNames();
+        return new ResponseEntity<>(names, HttpStatus.OK);
     }
     
     @RequestMapping(value = { "/{gameID}" }, method = RequestMethod.GET)
@@ -47,9 +34,9 @@ public class GameController {
         return new ResponseEntity<>(board, HttpStatus.OK);
     }
     
-    @RequestMapping(value = { "/" }, method = RequestMethod.GET)
-    public ResponseEntity<Set<String>> getGameNames(ModelMap model) {
-        Set<String> names = gamesService.getGameNames();
-        return new ResponseEntity<>(names, HttpStatus.OK);
+    @RequestMapping(value = { "/create" }, method = RequestMethod.POST)
+    public ResponseEntity<StatusGameCreation> create(ModelMap model, @RequestBody GameBean gameBean) {
+        StatusGameCreation st = gamesService.createGame(gameBean);
+        return new ResponseEntity<>(st, HttpStatus.OK);
     }
 }

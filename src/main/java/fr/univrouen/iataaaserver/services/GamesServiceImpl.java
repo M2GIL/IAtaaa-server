@@ -3,8 +3,13 @@ package fr.univrouen.iataaaserver.services;
 
 import fr.univrouen.iataaaserver.entities.Board;
 import fr.univrouen.iataaaserver.entities.Difficulty;
+import fr.univrouen.iataaaserver.entities.GameBean;
 import fr.univrouen.iataaaserver.entities.StatusGameCreation;
+import fr.univrouen.iataaaserver.entities.Token;
 import fr.univrouen.iataaaserver.services.game.GameRunner;
+import fr.univrouen.iataaaserver.services.game.GameRunnerImpl;
+import fr.univrouen.iataaaserver.services.player.Player;
+import fr.univrouen.iataaaserver.services.player.WebServicePlayer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -23,64 +28,39 @@ public class GamesServiceImpl implements GamesService {
     }
     
     @Override
-    public StatusGameCreation createGame(String gameID, String iaName, String iaIP1, int iaPort1, String iaIP2, int iaPort2, Difficulty difficulty) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public StatusGameCreation createGame(GameBean gameBean) {
+        String gameID = gameBean.getGameID(); 
+        String iaToken1 = gameBean.getIaToken1(); 
+        String iaName1 = gameBean.getIaName1(); 
+        String iaIP1 = gameBean.getIaIP1(); 
+        int iaPort1 = gameBean.getIaPort1(); 
+        Difficulty difficulty1 = gameBean.getDifficulty1();
+        String iaToken2 = gameBean.getIaToken2(); 
+        String iaName2 = gameBean.getIaName2(); 
+        String iaIP2 = gameBean.getIaIP2();
+        int iaPort2 = gameBean.getIaPort2();
+        Difficulty difficulty2 = gameBean.getDifficulty2();
+
+        Token tokenGame = new Token(gameID);
+        Player p1 = new WebServicePlayer(iaToken1, iaIP1, iaPort1);
+        Player p2 = new WebServicePlayer(iaToken2, iaIP2, iaPort2);
+
+        GameRunner gr = new GameRunnerImpl(tokenGame, p1, difficulty1, p2, difficulty2);
+        games.put(gameID, gr);
+        
+        return StatusGameCreation.OK;
     }
 
     @Override
     public Set<String> getGameNames() {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        Set<String> names = games.keySet();
+        return names;
     }
 
     @Override
     public Board getBoard(String gameID) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        GameRunner gr = games.get(gameID);
+        return gr.getGame().getPieces();
     }
-    
-    
-
-    /*
-    @Override
-    public Map<String, GameRunner> getGames() {
-        return games;
-    }
-
-    @Override
-    public List<WebServicePlayer> getCpus() {
-        return cpus;
-    }
-
-    @Override
-    public List<Player> getHumans() {
-        return humans;
-    }
-
-    @Override
-    public GameRunner getGame(String id) {
-        return games.get(id);
-    }
-
-    @Override
-    public Player getHuman(String id) {
-        Player result = null;
-        for (Player human : humans) {
-            // TODO: 03/12/16
-        }
-        return result;
-    }
-
-    @Override
-    public WebServicePlayer getCPU(String id) {
-        WebServicePlayer result = null;
-        for (WebServicePlayer cpu : cpus) {
-            // TODO: 03/12/16
-        }
-        return result;
-    }
-
-
-    // METHODS
-    */
-
 
 }
