@@ -84,10 +84,7 @@ public class GamesServiceImpl implements GamesService {
         } while (players.containsKey(token));
 
         playerBean.setToken(token);
-        if (players.put(token, playerBean) == null) {
-            res = StatusResponse.ERROR;
-        };
-        
+        players.put(token, playerBean);
         return res;
     }
     
