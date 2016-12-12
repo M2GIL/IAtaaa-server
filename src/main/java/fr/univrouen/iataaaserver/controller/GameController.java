@@ -2,10 +2,8 @@ package fr.univrouen.iataaaserver.controller;
 
 import fr.univrouen.iataaaserver.entities.Board;
 import fr.univrouen.iataaaserver.entities.Case;
-import fr.univrouen.iataaaserver.entities.Difficulty;
-import fr.univrouen.iataaaserver.entities.PlayerType;
 import fr.univrouen.iataaaserver.entities.bean.GameBean;
-import fr.univrouen.iataaaserver.entities.StatusGameCreation;
+import fr.univrouen.iataaaserver.entities.status.StatusResponse;
 import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.univrouen.iataaaserver.services.GamesService;
 
 @RestController
-@RequestMapping("/games")
+@RequestMapping("api/games")
 public class GameController {
 
     @Autowired
@@ -38,9 +36,15 @@ public class GameController {
         return new ResponseEntity<>(board, HttpStatus.OK);
     }
     
+    @RequestMapping(value = { "/subscribe" }, method = RequestMethod.POST)
+    public ResponseEntity<StatusResponse> subscribe(ModelMap model, @RequestBody PlayerBean playerBean) {
+        StatusResponse st = gamesService.subscribePlayer(playerBean);
+        return new ResponseEntity<>(st, HttpStatus.OK);
+    }
+    
     @RequestMapping(value = { "/create" }, method = RequestMethod.POST)
-    public ResponseEntity<StatusGameCreation> create(ModelMap model, @RequestBody GameBean gameBean) {
-        StatusGameCreation st = gamesService.createGame(gameBean);
+    public ResponseEntity<StatusResponse> create(ModelMap model, @RequestBody GameBean gameBean) {
+        StatusResponse st = gamesService.createGame(gameBean);
         return new ResponseEntity<>(st, HttpStatus.OK);
     }
 }

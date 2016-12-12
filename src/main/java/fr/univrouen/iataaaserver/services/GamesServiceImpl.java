@@ -5,13 +5,14 @@ import fr.univrouen.iataaaserver.entities.Board;
 import fr.univrouen.iataaaserver.entities.Case;
 import fr.univrouen.iataaaserver.entities.Difficulty;
 import fr.univrouen.iataaaserver.entities.bean.GameBean;
-import fr.univrouen.iataaaserver.entities.StatusGameCreation;
+import fr.univrouen.iataaaserver.entities.status.StatusResponse;
 import fr.univrouen.iataaaserver.entities.Token;
 import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
 import fr.univrouen.iataaaserver.services.game.GameRunner;
 import fr.univrouen.iataaaserver.services.game.GameRunnerImpl;
 import fr.univrouen.iataaaserver.services.player.Player;
 import fr.univrouen.iataaaserver.services.player.WebServicePlayer;
+import fr.univrouen.iataaaserver.services.util.RandomStringGenerator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -24,31 +25,33 @@ import org.springframework.stereotype.Service;
 public class GamesServiceImpl implements GamesService {
     
     private final Map<String, GameRunner> games;
+    private final Map<String, PlayerBean> players;
 
     public GamesServiceImpl() {
         games = new HashMap<>();
+        players = new HashMap<>();
     }
     
     @Override
-    public StatusGameCreation createGame(GameBean gameBean) {
+    public StatusResponse createGame(GameBean gameBean) {
         
-        StatusGameCreation status = checkGameBean(gameBean);
-        if (status == StatusGameCreation.OK) {
+        StatusResponse status = checkGameBean(gameBean);
+        if (status == StatusResponse.OK) {
             String gameID = gameBean.getGameID();
-            PlayerBean p1 = gameBean.getPlayers()[0];
-            PlayerBean p2 = gameBean.getPlayers()[1];
+            
+            String[] playersBean = gameBean.getPlayers();
+            PlayerBean p1 = getPlayerBean(playersBean[0]);
+            PlayerBean p2 = getPlayerBean(playersBean[1]);
 
-            String tokenP1 = p1.getToken(); 
-            String nameP1 = p1.getName(); 
             String ipP1 = p1.getIp(); 
             int portP1 = p1.getPort(); 
             Difficulty difficultyP1 = p1.getDifficulty();
+            String tokenP1 = p1.getToken();
 
-            String tokenP2 = p2.getToken(); 
-            String nameP2 = p2.getName(); 
             String ipP2 = p2.getIp(); 
             int portP2 = p2.getPort(); 
             Difficulty difficultyP2 = p2.getDifficulty();
+            String tokenP2 = p2.getToken();
 
             Token tokenGame = new Token(gameID);
             Player player1 = new WebServicePlayer(tokenP1, ipP1, portP1);
@@ -72,8 +75,40 @@ public class GamesServiceImpl implements GamesService {
         return gr.getGame().getPieces();
     }
     
-    private StatusGameCreation checkGameBean(GameBean game) {
-        return StatusGameCreation.OK;
+    public StatusResponse subscribePlayer(PlayerBean playerBean) {
+        StatusResponse res = checkPlayerBean(playerBean);
+        
+        String token;
+        do {
+            token = RandomStringGenerator.getRandomString(TOKEN_SIZE);
+        } while (players.containsKey(token));
+
+        playerBean.setToken(token);
+        if (players.put(token, playerBean) == null) {
+            res = StatusResponse.ERROR;
+        };
+        
+        return res;
+    }
+    
+    
+// PRIVATE
+    
+    private StatusResponse checkGameBean(GameBean game) {
+        return StatusResponse.OK;
+    }
+    
+    private StatusResponse checkPlayerBean(PlayerBean game) {
+        return StatusResponse.OK;
+    }
+    
+    private PlayerBean getPlayerBean(String name) {
+        for (PlayerBean p : players.values()) {
+            if (p.getName().equals(name)) {
+                return p;
+            }
+        }
+        return null;
     }
 
 }
