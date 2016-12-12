@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import fr.univrouen.iataaaserver.services.GamesService;
+import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 @RequestMapping("api/games")
@@ -36,7 +37,8 @@ public class GameController {
         return new ResponseEntity<>(board, HttpStatus.OK);
     }
     
-    @RequestMapping(value = { "/subscribe" }, method = RequestMethod.POST)
+
+    @RequestMapping(value = { "/player/subscribe" }, method = RequestMethod.POST)
     public ResponseEntity<StatusResponse> subscribe(ModelMap model, @RequestBody PlayerBean playerBean) {
         StatusResponse st = gamesService.subscribePlayer(playerBean);
         return new ResponseEntity<>(st, HttpStatus.OK);
