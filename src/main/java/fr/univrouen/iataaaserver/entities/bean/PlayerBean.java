@@ -18,9 +18,9 @@ public class PlayerBean {
     @JsonProperty
     private PlayerType type;
     @JsonProperty
-    private String token;
-    @JsonProperty
     private String name;
+    @JsonProperty
+    private String token;
     @JsonProperty
     private String ip;
     @JsonProperty
@@ -35,6 +35,14 @@ public class PlayerBean {
     public void setType(PlayerType type) {
         this.type = type;
     }
+    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getToken() {
         return token;
@@ -42,14 +50,6 @@ public class PlayerBean {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getIp() {

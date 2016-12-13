@@ -16,7 +16,7 @@ public class GameBean {
     @JsonProperty  
     private String gameID;
     @JsonProperty  
-    private PlayerBean[] players; 
+    private String[] players; 
 
     public String getGameID() {
         return gameID;
@@ -26,11 +26,11 @@ public class GameBean {
         this.gameID = gameID;
     }
 
-    public PlayerBean[] getPlayers() {
+    public String[] getPlayers() {
         return players;
     }
 
-    public void setPlayers(PlayerBean[] players) {
+    public void setPlayers(String[] players) {
         this.players = players;
     }
     

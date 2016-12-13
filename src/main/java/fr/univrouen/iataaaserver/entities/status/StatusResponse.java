@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.univrouen.iataaaserver.entities;
+package fr.univrouen.iataaaserver.entities.status;
 
-public enum StatusGameCreation {
+public enum StatusResponse {
     OK("No error"), ERROR("Error");
     
     private String message;
 
-    private StatusGameCreation(String message) {
+    private StatusResponse(String message) {
         this.message = message;
     }
     

@@ -1,6 +1,7 @@
 package fr.univrouen.iataaaserver.services.player;
 
 import fr.univrouen.iataaaserver.entities.*;
+import fr.univrouen.iataaaserver.entities.status.StatusService;
 import fr.univrouen.iataaaserver.services.exception.BusyException;
 
 import java.io.IOException;
