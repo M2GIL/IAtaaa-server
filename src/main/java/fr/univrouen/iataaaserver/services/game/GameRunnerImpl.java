@@ -7,12 +7,13 @@ import fr.univrouen.iataaaserver.entities.EndGameCase;
 import fr.univrouen.iataaaserver.entities.EnumPlayer;
 import fr.univrouen.iataaaserver.entities.StatusService;
 import fr.univrouen.iataaaserver.entities.Token;
+import fr.univrouen.iataaaserver.entities.util.observable.ObservableImpl;
 import fr.univrouen.iataaaserver.services.exception.BusyException;
 import fr.univrouen.iataaaserver.services.player.Player;
 
 
 
-public class GameRunnerImpl implements GameRunner {
+public class GameRunnerImpl extends ObservableImpl implements GameRunner {
 
     // CONSTANTS
 
@@ -37,6 +38,7 @@ public class GameRunnerImpl implements GameRunner {
         difficulties[J2] = difficulty2;
         game = new GameImpl();
         analyser = new EndGameAnalyser(game);
+        firePropertyChange(EVENT_NEW_MOVE, null, null); // TODO: 13/12/16
     }
 
     // REQUESTS
@@ -71,16 +73,17 @@ public class GameRunnerImpl implements GameRunner {
             throw new BusyException();
         }
 
-        players[J1].startGame(id, difficulties[J1], EnumPlayer.PLAYER_1);
-        players[J1].startGame(id, difficulties[J2], EnumPlayer.PLAYER_2);
-
+        players[J1].startGame(id, EnumPlayer.PLAYER_1);
+        players[J1].startGame(id, EnumPlayer.PLAYER_2);
+        firePropertyChange(EVENT_START_GAME, null, null);
         while (getStatus() == EndGameCase.CONTINUE) {
             EnumPlayer player = game.getCurrentPlayer();
             Player current = players[player.ordinal()];
             Difficulty difficulty = difficulties[player.ordinal()];
             try {
-                Board<Case> move = current.PlayGame(difficulty, game.getPieces(), player);
+                Board<Case> move = current.PlayGame(game.getPieces(), player);
                 game.move(move);
+                firePropertyChange(EVENT_NEW_MOVE, null, null); // TODO: 13/12/16
            /* } catch (ForbiddenMoveException e) {
                 // Specify what to do if ia dont play in rules
                 victoryAborted = EndGameCase.getVictory(EnumPlayer.getNextPlayer(player));*/
@@ -95,5 +98,6 @@ public class GameRunnerImpl implements GameRunner {
         try {
             players[J2].endGame(id, getStatus());
         } catch (Exception ignored) {}
+        firePropertyChange(EVENT_END_GAME, EndGameCase.CONTINUE, getStatus()); // TODO: 13/12/16
     }
 }

@@ -1,21 +1,18 @@
 package fr.univrouen.iataaaserver.services;
 
 
-import fr.univrouen.iataaaserver.entities.Board;
-import fr.univrouen.iataaaserver.entities.Case;
-import fr.univrouen.iataaaserver.entities.Difficulty;
+import fr.univrouen.iataaaserver.entities.*;
 import fr.univrouen.iataaaserver.entities.bean.GameBean;
-import fr.univrouen.iataaaserver.entities.StatusGameCreation;
-import fr.univrouen.iataaaserver.entities.Token;
 import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
 import fr.univrouen.iataaaserver.services.game.GameRunner;
 import fr.univrouen.iataaaserver.services.game.GameRunnerImpl;
 import fr.univrouen.iataaaserver.services.player.Player;
 import fr.univrouen.iataaaserver.services.player.WebServicePlayer;
+import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import org.springframework.stereotype.Service;
 
 /**
  * Manager of games.
@@ -51,10 +48,11 @@ public class GamesServiceImpl implements GamesService {
             Difficulty difficultyP2 = p2.getDifficulty();
 
             Token tokenGame = new Token(gameID);
-            Player player1 = new WebServicePlayer(tokenP1, ipP1, portP1);
-            Player player2 = new WebServicePlayer(tokenP2, ipP2, portP2);
+            Player player1 = new WebServicePlayer(tokenP1, ipP1, portP1, Difficulty.EASY);
+            Player player2 = new WebServicePlayer(tokenP2, ipP2, portP2, Difficulty.EASY);
 
-            GameRunner gr = new GameRunnerImpl(tokenGame, player1, difficultyP1, player2, difficultyP2);
+            GameRunner gr = null;
+            gr = new GameRunnerImpl(tokenGame, player1, difficultyP1, player2, difficultyP2);
             games.put(gameID, gr);
         }
         return status;
