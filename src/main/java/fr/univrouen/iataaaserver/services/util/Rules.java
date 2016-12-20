@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univrouen.iataaaserver.services.util;
 
 import fr.univrouen.iataaaserver.entities.Board;
@@ -11,7 +6,6 @@ import fr.univrouen.iataaaserver.entities.EnumPlayer;
 import fr.univrouen.iataaaserver.services.game.Game;
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 /**

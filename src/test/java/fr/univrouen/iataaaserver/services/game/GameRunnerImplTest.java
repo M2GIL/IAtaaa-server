@@ -6,6 +6,7 @@ import fr.univrouen.iataaaserver.entities.Difficulty;
 import fr.univrouen.iataaaserver.entities.Token;
 import fr.univrouen.iataaaserver.services.player.Player;
 import fr.univrouen.iataaaserver.services.player.RandomizeCPUPlayer;
+import fr.univrouen.iataaaserver.services.util.TestUtil;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import org.junit.Test;
 
