@@ -1,6 +1,6 @@
 {
 	"type":"IA",
-	"name":"ia",
+	"name":"ia1",
 	"ip":"156.123.456.789",
 	"port":8080,
 	"difficulty":"MEDIUM"

@@ -13,7 +13,10 @@ import fr.univrouen.iataaaserver.services.player.Player;
 import fr.univrouen.iataaaserver.services.player.WebServicePlayer;
 import org.springframework.stereotype.Service;
 import fr.univrouen.iataaaserver.services.util.RandomStringGenerator;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -78,6 +81,16 @@ public class GamesServiceImpl implements GamesService {
     public Board<Case> getBoard(String gameID) {
         GameRunner gr = games.get(gameID);
         return gr.getGame().getPieces();
+    }
+    
+    @Override
+    public List<String> getPlayers() {
+        Collection<PlayerBean> pls = players.values();
+        List<String> playerNames = new ArrayList<>();
+        for (PlayerBean p : pls) {
+            playerNames.add(p.getName());
+        }
+        return playerNames;
     }
     
     public StatusResponse subscribePlayer(PlayerBean playerBean) {

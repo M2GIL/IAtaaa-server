@@ -1,19 +1,8 @@
 {
 	"gameID":"gameOne",
 	"players":
-		[{
-			"type":"IA",
-			"token":"token",
-			"name":"ia",
-			"ip":"156.123.456.789",
-			"port":8080,
-			"difficulty":"MEDIUM"
-		},{
-			"type":"IA",
-			"token":"token",
-			"name":"ia",
-			"ip":"156.123.456.789",
-			"port":8080,
-			"difficulty":"MEDIUM"
-		}]
+	[
+	  "ia1",
+	  "ia2"
+	]
 }

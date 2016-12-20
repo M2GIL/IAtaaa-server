@@ -74,7 +74,7 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
         }
 
         players[J1].startGame(id, EnumPlayer.PLAYER_1);
-        players[J1].startGame(id, EnumPlayer.PLAYER_2);
+        players[J2].startGame(id, EnumPlayer.PLAYER_2);
         firePropertyChange(EVENT_START_GAME, null, null);
         while (getStatus() == EndGameCase.CONTINUE) {
             EnumPlayer player = game.getCurrentPlayer();

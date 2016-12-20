@@ -1,5 +1,6 @@
 package fr.univrouen.iataaaserver.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.*;
 
 /**
@@ -7,6 +8,8 @@ import java.util.*;
  * @param <T>
  */
 public class Board<T> {
+    
+    @JsonProperty
     private final ArrayList<T> board;
 
     public Board(T[] array) {

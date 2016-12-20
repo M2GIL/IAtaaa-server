@@ -11,6 +11,8 @@ import fr.univrouen.iataaaserver.entities.Case;
 import fr.univrouen.iataaaserver.entities.bean.GameBean;
 import fr.univrouen.iataaaserver.entities.status.StatusResponse;
 import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,7 +27,7 @@ public interface GamesService {
     StatusResponse createGame(GameBean gameBean);
     Set<String> getGameNames();
     Board<Case> getBoard(String gameID);
-    
+    List<String> getPlayers();
     StatusResponse subscribePlayer(PlayerBean player);
 
 }
