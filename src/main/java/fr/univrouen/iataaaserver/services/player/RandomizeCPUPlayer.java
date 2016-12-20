@@ -30,7 +30,7 @@ public class RandomizeCPUPlayer implements Player {
     }
 
     @Override
-    public void startGame(Token idGame, EnumPlayer player) throws BusyException {
+    public void startGame(EnumPlayer player) throws BusyException {
 
     }
 
@@ -41,7 +41,7 @@ public class RandomizeCPUPlayer implements Player {
     }
 
     @Override
-    public void endGame(Token idGame, EndGameCase endType) throws Exception {
+    public void endGame(EndGameCase endType) throws Exception {
 
     }
 }

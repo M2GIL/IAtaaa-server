@@ -2,6 +2,8 @@ package fr.univrouen.iataaaserver.controller;
 
 import fr.univrouen.iataaaserver.entities.Board;
 import fr.univrouen.iataaaserver.entities.Case;
+import fr.univrouen.iataaaserver.entities.Difficulty;
+import fr.univrouen.iataaaserver.entities.EnumPlayer;
 import fr.univrouen.iataaaserver.entities.bean.GameBean;
 import fr.univrouen.iataaaserver.entities.status.StatusResponse;
 import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import fr.univrouen.iataaaserver.services.GamesService;
+import fr.univrouen.iataaaserver.services.player.WebServicePlayer;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -49,4 +52,5 @@ public class GameController {
         StatusResponse st = gamesService.createGame(gameBean);
         return new ResponseEntity<>(st, HttpStatus.OK);
     }
+    
 }

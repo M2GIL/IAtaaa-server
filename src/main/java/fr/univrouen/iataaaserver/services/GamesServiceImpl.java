@@ -80,6 +80,7 @@ public class GamesServiceImpl implements GamesService {
         return gr.getGame().getPieces();
     }
     
+    
     public StatusResponse subscribePlayer(PlayerBean playerBean) {
         StatusResponse res = checkPlayerBean(playerBean);
         
