@@ -8,6 +8,7 @@ import fr.univrouen.iataaaserver.entities.bean.GameBean;
 import fr.univrouen.iataaaserver.entities.status.StatusResponse;
 import fr.univrouen.iataaaserver.entities.Token;
 import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
+import fr.univrouen.iataaaserver.services.exception.BusyException;
 import fr.univrouen.iataaaserver.services.game.GameRunner;
 import fr.univrouen.iataaaserver.services.game.GameRunnerImpl;
 import fr.univrouen.iataaaserver.services.player.Player;
@@ -16,6 +17,8 @@ import fr.univrouen.iataaaserver.services.util.RandomStringGenerator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
 
 /**
@@ -59,6 +62,11 @@ public class GamesServiceImpl implements GamesService {
 
             GameRunner gr = new GameRunnerImpl(tokenGame, player1, difficultyP1, player2, difficultyP2);
             games.put(gameID, gr);
+            try {
+                gr.startGame();
+            } catch (BusyException ex) {
+                return StatusResponse.ERROR;
+            }
         }
         return status;
     }
