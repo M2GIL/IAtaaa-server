@@ -22,12 +22,12 @@ import java.util.Set;
 
 public interface GamesService {
     
-    int TOKEN_SIZE = 10;
+    int TOKEN_SIZE = 20;
     
     StatusResponse createGame(GameBean gameBean);
     Set<String> getGameNames();
     Board<Case> getBoard(String gameID);
     List<String> getPlayers();
-    StatusResponse subscribePlayer(PlayerBean player);
+    PlayerBean subscribePlayer(PlayerBean player);
 
 }

@@ -46,9 +46,15 @@ public class GameController {
     
 
     @RequestMapping(value = { "player" }, method = RequestMethod.POST)
-    public ResponseEntity<StatusResponse> createPlayer(ModelMap model, @RequestBody PlayerBean playerBean) {
-        StatusResponse st = gamesService.subscribePlayer(playerBean);
-        return new ResponseEntity<>(st, HttpStatus.OK);
+    public ResponseEntity<String> createPlayer(ModelMap model, @RequestBody PlayerBean playerBean) {
+        PlayerBean p = gamesService.subscribePlayer(playerBean);
+        String token = null;
+        HttpStatus httpS = HttpStatus.CONFLICT;
+        if (p != null) {
+            token = p.getToken();
+            httpS = HttpStatus.OK;
+        }
+        return new ResponseEntity<>(token, httpS);
     }
     
     @RequestMapping(value = { "players" }, method = RequestMethod.GET)
