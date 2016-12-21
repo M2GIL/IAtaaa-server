@@ -48,7 +48,12 @@ public class GameController {
     @RequestMapping(value = { "game" }, method = RequestMethod.POST)
     public ResponseEntity<Response<GameBean>> createGame(ModelMap model, @RequestBody GameBean gameBean) {
         Response<GameBean> response = gamesService.createGame(gameBean);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        StatusResponse st = response.getStatus();
+        HttpStatus httpS = HttpStatus.OK;
+        if (st != StatusResponse.OK) {
+            httpS = HttpStatus.BAD_REQUEST;
+        }
+        return new ResponseEntity<>(response, httpS);
     }
 
     @RequestMapping(value = { "player" }, method = RequestMethod.POST)
@@ -56,7 +61,7 @@ public class GameController {
         Response<PlayerBean> responsePlayer = gamesService.subscribePlayer(playerBean);
         PlayerBean p = responsePlayer.getContent();
         String token = null;
-        HttpStatus httpS = HttpStatus.CONFLICT;
+        HttpStatus httpS = HttpStatus.BAD_REQUEST;
         if (p != null) {
             token = p.getToken();
             httpS = HttpStatus.OK;

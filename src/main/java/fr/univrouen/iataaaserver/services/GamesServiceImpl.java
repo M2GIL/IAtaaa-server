@@ -70,7 +70,7 @@ public class GamesServiceImpl implements GamesService {
             try {
                 gr.startGame();
             } catch (BusyException ex) {
-                status = StatusResponse.ERROR;
+                status = StatusResponse.BUSY_IA;
             }
             response.setContent(gameBean);
         } else {

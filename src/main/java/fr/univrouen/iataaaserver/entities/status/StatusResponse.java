@@ -12,5 +12,6 @@ public enum StatusResponse {
     BAD_IP, 
     PLAYERS_NO_FOUND, 
     NAME_PLAYER_NOT_AVAILABLE, 
-    NAME_GAME_NOT_AVAILABLE;
+    NAME_GAME_NOT_AVAILABLE,
+    BUSY_IA;
 }
