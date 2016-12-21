@@ -9,15 +9,21 @@ import fr.univrouen.iataaaserver.entities.bean.GameBean;
 import fr.univrouen.iataaaserver.entities.status.StatusResponse;
 import fr.univrouen.iataaaserver.entities.Token;
 import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
+import fr.univrouen.iataaaserver.services.exception.BusyException;
 import fr.univrouen.iataaaserver.services.game.GameRunner;
 import fr.univrouen.iataaaserver.services.game.GameRunnerImpl;
 import fr.univrouen.iataaaserver.services.player.Player;
 import fr.univrouen.iataaaserver.services.player.WebServicePlayer;
+import fr.univrouen.iataaaserver.services.util.IPValidator;
 import fr.univrouen.iataaaserver.services.util.RandomStringGenerator;
+import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Manager of games.
@@ -56,11 +62,16 @@ public class GamesServiceImpl implements GamesService {
             String tokenP2 = p2.getToken();
 
             Token tokenGame = new Token(gameID);
-            Player player1 = new WebServicePlayer(tokenP1, ipP1, portP1);
-            Player player2 = new WebServicePlayer(tokenP2, ipP2, portP2);
+            Player player1 = new WebServicePlayer(tokenP1, ipP1, portP1, difficultyP1);
+            Player player2 = new WebServicePlayer(tokenP2, ipP2, portP2, difficultyP2);
 
-            GameRunner gr = new GameRunnerImpl(tokenGame, player1, difficultyP1, player2, difficultyP2);
+            GameRunner gr = gr = new GameRunnerImpl(tokenGame, player1, difficultyP1, player2, difficultyP2);
             games.put(gameID, gr);
+            try {
+                gr.startGame();
+            } catch (BusyException ex) {
+                status = StatusResponse.ERROR;
+            }
             response.setContent(gameBean);
         } else {
             response.setContent(null);
@@ -82,12 +93,24 @@ public class GamesServiceImpl implements GamesService {
         return gr.getGame().getPieces();
     }
     
+
+    @Override
+    public List<String> getPlayers() {
+        Collection<PlayerBean> pls = players.values();
+        List<String> playerNames = new ArrayList<>();
+        for (PlayerBean p : pls) {
+            playerNames.add(p.getName());
+        }
+        return playerNames;
+    }
+    
+    @Override
     public Response<PlayerBean> subscribePlayer(PlayerBean playerBean) {
-        StatusResponse res = checkPlayerBean(playerBean);
         Response<PlayerBean> response = new Response<>();
-        
+        StatusResponse res = checkPlayerBean(playerBean);
+        String token;
+        PlayerBean p = null;
         if (res == StatusResponse.OK) {
-            String token;
             do {
                 token = RandomStringGenerator.getRandomString(TOKEN_SIZE);
             } while (players.containsKey(token));
@@ -98,6 +121,7 @@ public class GamesServiceImpl implements GamesService {
         } else {
             response.setContent(playerBean);
         }
+        
         response.setStatus(res);
         
         return response;
@@ -107,10 +131,59 @@ public class GamesServiceImpl implements GamesService {
 // PRIVATE
     
     private StatusResponse checkGameBean(GameBean game) {
+        String[] playersNames = game.getPlayers();
+        String gameName = game.getGameID();
+        if (game.getGameID() == null 
+            || playersNames == null 
+            || playersNames.length != 2) {
+            return StatusResponse.INVALIDE_ARGUMENT;
+        }
+        Collection<PlayerBean> playersBean = players.values();
+        
+        boolean containsP1 = false;
+        boolean containsP2 = false;
+        for (PlayerBean p : playersBean) {
+            if (p.getName().equals(playersNames[0]) ) {
+                containsP1 = true;
+            }
+            if (p.getName().equals(playersNames[1]) ) {
+                containsP2 = true;
+            }
+        }
+        if (!containsP1 || !containsP2) {
+            return StatusResponse.PLAYERS_NO_FOUND;
+        }
+        
+        if (games.containsKey(gameName)) {
+            return StatusResponse.NAME_GAME_NOT_AVAILABLE;
+        }
+        
         return StatusResponse.OK;
     }
     
-    private StatusResponse checkPlayerBean(PlayerBean game) {
+    private StatusResponse checkPlayerBean(PlayerBean player) {
+        String ip = player.getIp();
+        String name = player.getName();
+        
+        if (player.getDifficulty() == null 
+            || player.getIp() == null 
+            || name == null) {
+            return StatusResponse.INVALIDE_ARGUMENT;
+        }
+        
+        IPValidator ipValidador = new IPValidator();
+        if (!ipValidador.validate(ip)) {
+            return StatusResponse.BAD_IP;
+        }
+        
+        Collection<PlayerBean> playersBean = players.values();
+        
+        for (PlayerBean p : playersBean) {
+            if (p.getName().equals(name) ) {
+                return StatusResponse.NAME_PLAYER_NOT_AVAILABLE;
+            }
+        }
+        
         return StatusResponse.OK;
     }
     

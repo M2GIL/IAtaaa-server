@@ -6,20 +6,11 @@
 package fr.univrouen.iataaaserver.entities.status;
 
 public enum StatusResponse {
-    OK("No error"), ERROR("Error");
-    
-    private String message;
-
-    private StatusResponse(String message) {
-        this.message = message;
-    }
-    
-    public void setMessage(String message) {
-        this.message = message;
-    }
-    
-    public String getMessage() {
-        return message;
-    }
-    
+    OK, 
+    ERROR, 
+    INVALIDE_ARGUMENT, 
+    BAD_IP, 
+    PLAYERS_NO_FOUND, 
+    NAME_PLAYER_NOT_AVAILABLE, 
+    NAME_GAME_NOT_AVAILABLE;
 }

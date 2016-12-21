@@ -16,38 +16,65 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import fr.univrouen.iataaaserver.services.GamesService;
+import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("api/games")
+@RequestMapping("api/")
 public class GameController {
 
     @Autowired
     private GamesService gamesService;
 
-    @RequestMapping(value = { "/" }, method = RequestMethod.GET)
-    public ResponseEntity<Set<String>> getGameNames(ModelMap model) {
+    @RequestMapping(value = { "games" }, method = RequestMethod.GET)
+    public ResponseEntity<Response<Set<String>>> getGameNames(ModelMap model) {
         Set<String> names = gamesService.getGameNames();
-        return new ResponseEntity<>(names, HttpStatus.OK);
-    }
-    
-    @RequestMapping(value = { "/{gameID}" }, method = RequestMethod.GET)
-    public ResponseEntity<Board<Case>> getGame(ModelMap model, @PathVariable("gameID") String gameID) {
-        Board<Case> board = gamesService.getBoard(gameID);
-        return new ResponseEntity<>(board, HttpStatus.OK);
-    }
-    
-
-    @RequestMapping(value = { "/player/subscribe" }, method = RequestMethod.POST)
-    public ResponseEntity<Response<PlayerBean>> subscribe(ModelMap model, @RequestBody PlayerBean playerBean) {
-        Response<PlayerBean> response = gamesService.subscribePlayer(playerBean);
+        Response<Set<String>> response = new Response<>();
+        response.setContent(names);
+        response.setStatus(StatusResponse.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
-    @RequestMapping(value = { "/create" }, method = RequestMethod.POST)
-    public ResponseEntity<Response<GameBean>> create(ModelMap model, @RequestBody GameBean gameBean) {
+    @RequestMapping(value = { "game/{gameID}" }, method = RequestMethod.GET)
+    public ResponseEntity<Response<Board<Case>>> findGameById(ModelMap model, @PathVariable("gameID") String gameID) {
+        Board<Case> board = gamesService.getBoard(gameID);
+        Response<Board<Case>> response = new Response<>();
+        response.setContent(board);
+        response.setStatus(StatusResponse.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = { "game" }, method = RequestMethod.POST)
+    public ResponseEntity<Response<GameBean>> createGame(ModelMap model, @RequestBody GameBean gameBean) {
         Response<GameBean> response = gamesService.createGame(gameBean);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @RequestMapping(value = { "player" }, method = RequestMethod.POST)
+    public ResponseEntity<Response<String>> createPlayer(ModelMap model, @RequestBody PlayerBean playerBean) {
+        Response<PlayerBean> responsePlayer = gamesService.subscribePlayer(playerBean);
+        PlayerBean p = responsePlayer.getContent();
+        String token = null;
+        HttpStatus httpS = HttpStatus.CONFLICT;
+        if (p != null) {
+            token = p.getToken();
+            httpS = HttpStatus.OK;
+        }
+        
+        Response<String> response = new Response<>();
+        response.setContent(token);
+        response.setStatus(responsePlayer.getStatus());
+        return new ResponseEntity<>(response, httpS);
+    }
+    
+    @RequestMapping(value = { "players" }, method = RequestMethod.GET)
+    public ResponseEntity<Response<List<String>>> findAllPlayers(ModelMap model) {
+        List<String> players = gamesService.getPlayers();
+        Response<List<String>> response = new Response<>();
+        response.setContent(players);
+        response.setStatus(StatusResponse.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    
 }
