@@ -2,6 +2,7 @@ package fr.univrouen.iataaaserver.controller;
 
 import fr.univrouen.iataaaserver.entities.Board;
 import fr.univrouen.iataaaserver.entities.Case;
+import fr.univrouen.iataaaserver.entities.Response;
 import fr.univrouen.iataaaserver.entities.bean.GameBean;
 import fr.univrouen.iataaaserver.entities.status.StatusResponse;
 import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
@@ -39,14 +40,14 @@ public class GameController {
     
 
     @RequestMapping(value = { "/player/subscribe" }, method = RequestMethod.POST)
-    public ResponseEntity<StatusResponse> subscribe(ModelMap model, @RequestBody PlayerBean playerBean) {
-        StatusResponse st = gamesService.subscribePlayer(playerBean);
-        return new ResponseEntity<>(st, HttpStatus.OK);
+    public ResponseEntity<Response<PlayerBean>> subscribe(ModelMap model, @RequestBody PlayerBean playerBean) {
+        Response<PlayerBean> response = gamesService.subscribePlayer(playerBean);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
     @RequestMapping(value = { "/create" }, method = RequestMethod.POST)
-    public ResponseEntity<StatusResponse> create(ModelMap model, @RequestBody GameBean gameBean) {
-        StatusResponse st = gamesService.createGame(gameBean);
-        return new ResponseEntity<>(st, HttpStatus.OK);
+    public ResponseEntity<Response<GameBean>> create(ModelMap model, @RequestBody GameBean gameBean) {
+        Response<GameBean> response = gamesService.createGame(gameBean);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

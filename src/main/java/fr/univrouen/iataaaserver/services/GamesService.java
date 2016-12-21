@@ -8,8 +8,8 @@ package fr.univrouen.iataaaserver.services;
 
 import fr.univrouen.iataaaserver.entities.Board;
 import fr.univrouen.iataaaserver.entities.Case;
+import fr.univrouen.iataaaserver.entities.Response;
 import fr.univrouen.iataaaserver.entities.bean.GameBean;
-import fr.univrouen.iataaaserver.entities.status.StatusResponse;
 import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
 import java.util.Set;
 
@@ -22,10 +22,10 @@ public interface GamesService {
     
     int TOKEN_SIZE = 10;
     
-    StatusResponse createGame(GameBean gameBean);
+    Response<GameBean> createGame(GameBean gameBean);
     Set<String> getGameNames();
     Board<Case> getBoard(String gameID);
     
-    StatusResponse subscribePlayer(PlayerBean player);
+    Response<PlayerBean> subscribePlayer(PlayerBean player);
 
 }

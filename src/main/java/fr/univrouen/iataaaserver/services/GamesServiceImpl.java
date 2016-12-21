@@ -4,6 +4,7 @@ package fr.univrouen.iataaaserver.services;
 import fr.univrouen.iataaaserver.entities.Board;
 import fr.univrouen.iataaaserver.entities.Case;
 import fr.univrouen.iataaaserver.entities.Difficulty;
+import fr.univrouen.iataaaserver.entities.Response;
 import fr.univrouen.iataaaserver.entities.bean.GameBean;
 import fr.univrouen.iataaaserver.entities.status.StatusResponse;
 import fr.univrouen.iataaaserver.entities.Token;
@@ -33,8 +34,9 @@ public class GamesServiceImpl implements GamesService {
     }
     
     @Override
-    public StatusResponse createGame(GameBean gameBean) {
+    public Response<GameBean> createGame(GameBean gameBean) {
         
+        Response<GameBean> response = new Response<>();
         StatusResponse status = checkGameBean(gameBean);
         if (status == StatusResponse.OK) {
             String gameID = gameBean.getGameID();
@@ -59,8 +61,13 @@ public class GamesServiceImpl implements GamesService {
 
             GameRunner gr = new GameRunnerImpl(tokenGame, player1, difficultyP1, player2, difficultyP2);
             games.put(gameID, gr);
+            response.setContent(gameBean);
+        } else {
+            response.setContent(null);
         }
-        return status;
+        response.setStatus(status);
+
+        return response;
     }
 
     @Override
@@ -75,17 +82,25 @@ public class GamesServiceImpl implements GamesService {
         return gr.getGame().getPieces();
     }
     
-    public StatusResponse subscribePlayer(PlayerBean playerBean) {
+    public Response<PlayerBean> subscribePlayer(PlayerBean playerBean) {
         StatusResponse res = checkPlayerBean(playerBean);
+        Response<PlayerBean> response = new Response<>();
         
-        String token;
-        do {
-            token = RandomStringGenerator.getRandomString(TOKEN_SIZE);
-        } while (players.containsKey(token));
+        if (res == StatusResponse.OK) {
+            String token;
+            do {
+                token = RandomStringGenerator.getRandomString(TOKEN_SIZE);
+            } while (players.containsKey(token));
 
-        playerBean.setToken(token);
-        players.put(token, playerBean);
-        return res;
+            playerBean.setToken(token);
+            players.put(token, playerBean);
+            response.setContent(playerBean);
+        } else {
+            response.setContent(playerBean);
+        }
+        response.setStatus(res);
+        
+        return response;
     }
     
     
