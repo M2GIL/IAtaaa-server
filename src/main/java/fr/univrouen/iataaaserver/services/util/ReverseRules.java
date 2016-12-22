@@ -1,13 +1,9 @@
 package fr.univrouen.iataaaserver.services.util;
 
-import fr.univ.iataaaserver.domain.game.util.Couple;
 import fr.univrouen.iataaaserver.entities.Case;
-import static fr.univrouen.iataaaserver.entities.Case.BLACK_PIECE;
-import static fr.univrouen.iataaaserver.entities.Case.BLACK_QUEEN;
-import static fr.univrouen.iataaaserver.entities.Case.WHITE_PIECE;
-import static fr.univrouen.iataaaserver.entities.Case.WHITE_QUEEN;
 import fr.univrouen.iataaaserver.entities.EnumPlayer;
 import fr.univrouen.iataaaserver.services.game.Game;
+
 import java.util.ArrayList;
 import java.util.List;
 
