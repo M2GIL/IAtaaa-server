@@ -34,6 +34,7 @@ public class TestUtil {
     public static void displayBoard(Board<Case> board) {
         displayBoard(board.toArray());
     }
+    
     public static void displayBoard(Case[] boardToDisplay) {
         Case[][] board = convertFiftyToHundredBoard(boardToDisplay);
 
@@ -108,7 +109,7 @@ public class TestUtil {
     }
 
 
-    public static void affichageTableau(Object[] array) {
+    public static void displayTab(Object[] array) {
         for (int k = 0; k < array.length; ++k) {
             System.out.println(k + " -> " + array[k]);
         }

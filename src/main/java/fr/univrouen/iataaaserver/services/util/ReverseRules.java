@@ -539,15 +539,17 @@ public class ReverseRules {
 
                 jumpedPosition = k;
                 ++i;
-                k = positions.get(i);
-                if (pieces[k] != Case.EMPTY) {
-                    jumpedPosition = -1;
-                }
-                while (pieces[k] == Case.EMPTY && i < positions.size()) {
-                    positionsToJump.add(k);
-                    ++i;
-                    if (i < positions.size()) {
-                        k = positions.get(i);
+                if (i < positions.size()) {
+                    k = positions.get(i);
+                    if (pieces[k] != Case.EMPTY) {
+                        jumpedPosition = -1;
+                    }
+                    while (pieces[k] == Case.EMPTY && i < positions.size()) {
+                        positionsToJump.add(k);
+                        ++i;
+                        if (i < positions.size()) {
+                            k = positions.get(i);
+                        }
                     }
                 }
             }
