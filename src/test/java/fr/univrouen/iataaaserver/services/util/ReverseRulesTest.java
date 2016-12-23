@@ -578,16 +578,16 @@ public class ReverseRulesTest {
 
 
     @Test
-    public void getAvailableMovesJumpBeQueenAndStop() {
+    public void getAvailableMovesJumpAndNotBeQueen() {
         Case[] board = TestUtil.createBoard(
                 new HashMap.SimpleEntry<>(36, Case.WHITE_PIECE),
                 new HashMap.SimpleEntry<>(42, Case.BLACK_PIECE),
                 new HashMap.SimpleEntry<>(43, Case.BLACK_PIECE)
         );
 
-        Case[] expected = TestUtil.moveCaseFrom(board, 36, 47);
-        expected[47] = Case.WHITE_QUEEN;
+        Case[] expected = TestUtil.moveCaseFrom(board, 36, 38);
         expected[42] = Case.EMPTY;
+        expected[43] = Case.EMPTY;
 
         List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
 
