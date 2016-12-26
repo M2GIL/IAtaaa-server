@@ -67,6 +67,10 @@ public class GameController {
             httpS = HttpStatus.OK;
         }
         
+        if (responsePlayer.getStatus() != StatusResponse.OK) {
+            httpS = HttpStatus.BAD_REQUEST;
+        }
+        
         Response<String> response = new Response<>();
         response.setContent(token);
         response.setStatus(responsePlayer.getStatus());
