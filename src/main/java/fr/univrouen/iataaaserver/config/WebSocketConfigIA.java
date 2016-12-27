@@ -12,7 +12,7 @@ public class WebSocketConfigIA extends AbstractWebSocketMessageBrokerConfigurer 
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/games");
+        config.enableSimpleBroker("/api");
         config.setApplicationDestinationPrefixes("/app");
     }
 
