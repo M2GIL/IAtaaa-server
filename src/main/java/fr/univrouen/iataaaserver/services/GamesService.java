@@ -11,7 +11,7 @@ import fr.univrouen.iataaaserver.entities.Case;
 import fr.univrouen.iataaaserver.entities.Response;
 import fr.univrouen.iataaaserver.entities.bean.GameBean;
 import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
-import java.util.Collection;
+
 import java.util.List;
 import java.util.Set;
 

@@ -5,6 +5,7 @@ import fr.univrouen.iataaaserver.entities.Case;
 import fr.univrouen.iataaaserver.entities.EndGameCase;
 import fr.univrouen.iataaaserver.entities.EnumPlayer;
 import fr.univrouen.iataaaserver.services.util.Rules;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;

@@ -4,6 +4,7 @@ package fr.univrouen.iataaaserver.services.util;
 import fr.univrouen.iataaaserver.entities.Board;
 import fr.univrouen.iataaaserver.entities.Case;
 import fr.univrouen.iataaaserver.services.game.Game;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

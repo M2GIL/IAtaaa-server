@@ -4,20 +4,17 @@ import fr.univrouen.iataaaserver.entities.Board;
 import fr.univrouen.iataaaserver.entities.Case;
 import fr.univrouen.iataaaserver.entities.Response;
 import fr.univrouen.iataaaserver.entities.bean.GameBean;
-import fr.univrouen.iataaaserver.entities.status.StatusResponse;
 import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
-import java.util.Set;
+import fr.univrouen.iataaaserver.entities.status.StatusResponse;
+import fr.univrouen.iataaaserver.services.GamesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import fr.univrouen.iataaaserver.services.GamesService;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.Set;
 
 
 @RestController

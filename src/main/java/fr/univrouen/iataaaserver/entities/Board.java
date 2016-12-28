@@ -1,6 +1,7 @@
 package fr.univrouen.iataaaserver.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.*;
 
 /**

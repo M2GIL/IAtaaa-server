@@ -1,14 +1,10 @@
 package fr.univrouen.iataaaserver.services;
 
 
-import fr.univrouen.iataaaserver.entities.Board;
-import fr.univrouen.iataaaserver.entities.Case;
-import fr.univrouen.iataaaserver.entities.Difficulty;
-import fr.univrouen.iataaaserver.entities.Response;
+import fr.univrouen.iataaaserver.entities.*;
 import fr.univrouen.iataaaserver.entities.bean.GameBean;
-import fr.univrouen.iataaaserver.entities.status.StatusResponse;
-import fr.univrouen.iataaaserver.entities.Token;
 import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
+import fr.univrouen.iataaaserver.entities.status.StatusResponse;
 import fr.univrouen.iataaaserver.services.exception.BusyException;
 import fr.univrouen.iataaaserver.services.game.GameRunner;
 import fr.univrouen.iataaaserver.services.game.GameRunnerImpl;
@@ -17,13 +13,8 @@ import fr.univrouen.iataaaserver.services.player.WebServicePlayer;
 import fr.univrouen.iataaaserver.services.util.IPValidator;
 import fr.univrouen.iataaaserver.services.util.RandomStringGenerator;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.*;
 
 /**
  * Manager of games.
