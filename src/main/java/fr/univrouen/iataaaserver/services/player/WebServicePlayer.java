@@ -23,9 +23,6 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * Created by z3ddycus on 03/12/16.
- */
 public class WebServicePlayer implements Player {
 
     private final String token;
@@ -33,6 +30,7 @@ public class WebServicePlayer implements Player {
     private final String url;
     private final int port;
     private Difficulty difficulty;
+    private String gameId;
 
     public WebServicePlayer(String token, String url, int port, Difficulty difficulty) {
         this.token = token;
@@ -70,7 +68,7 @@ public class WebServicePlayer implements Player {
     }
 
     @Override
-    public String startGame(EnumPlayer player) throws BusyException {
+    public void startGame(EnumPlayer player) throws BusyException {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));
@@ -88,12 +86,11 @@ public class WebServicePlayer implements Player {
             if (startGameBean.getStatus().equals("BUSY")) {
                 throw new BusyException();
             }
-            return startGameBean.getGame_id();
+            gameId = startGameBean.getGame_id();
             
         } catch (RestClientException e ) {   
             e.getMessage();
         } 
-        return null;
     }
 
     @Override
