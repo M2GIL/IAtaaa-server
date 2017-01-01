@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import fr.univrouen.iataaaserver.services.GamesService;
+import fr.univrouen.iataaaserver.services.GamesServiceImpl;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -27,13 +28,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/")
 public class GameController {
 
-    @Autowired
+    //@Autowired
     private GamesService gamesService;
     
     private GameController() {
+       GamesService gamesService = new GamesServiceImpl();
+           
+       System.out.println("TEST1");
        PlayerBean p1 = new PlayerBean();
        p1.setIp("127.0.0.1");
-       p1.setPort(8080);
+       p1.setPort(9999);
        p1.setName("ia1");
        p1.setToken("toto");
        p1.setDifficulty(Difficulty.MEDIUM);
@@ -41,12 +45,13 @@ public class GameController {
        
        PlayerBean p2 = new PlayerBean();
        p2.setIp("127.0.0.1");
-       p2.setPort(8080);
+       p2.setPort(9999);
        p2.setName("ia2");
        p2.setToken("tata");
        p2.setDifficulty(Difficulty.MEDIUM);
        p2.setType(PlayerType.IA);
        
+       System.out.println("gamesService : " + gamesService);
        gamesService.subscribePlayer(p1);
        gamesService.subscribePlayer(p2);
        
