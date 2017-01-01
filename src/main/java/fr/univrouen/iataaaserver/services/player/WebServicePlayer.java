@@ -94,7 +94,7 @@ public class WebServicePlayer implements Player {
     }
 
     @Override
-    public Board<Case> PlayGame(Token game_id, Board<Case> boardGame, EnumPlayer player) throws IOException, Exception {
+    public Board<Case> PlayGame(Board<Case> boardGame, EnumPlayer player) throws IOException, Exception {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));

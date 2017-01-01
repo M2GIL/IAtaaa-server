@@ -15,7 +15,7 @@ public interface Player {
      * @throws BusyException 
      */
     void startGame(EnumPlayer player) throws BusyException;
-    Board<Case> PlayGame(Token game_id,Board<Case> boardGame, EnumPlayer player) throws IOException, Exception;
+    Board<Case> PlayGame(Board<Case> boardGame, EnumPlayer player) throws IOException, Exception;
     void endGame(EndGameCase endType) throws IOException, Exception;
 
 }
