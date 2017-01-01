@@ -10,13 +10,12 @@ public interface Player {
     void setDifficulty(Difficulty difficulty);
     StatusService getStatus();
     /**
-     * Renourne l'id de partie que l'ia lui a envoyé. Renvoie null en cas de problème.
      * @param player
      * @return
      * @throws BusyException 
      */
-    String startGame(EnumPlayer player) throws BusyException;
-    Board<Case> PlayGame(Token game_id,Board<Case> boardGame, EnumPlayer player) throws IOException, Exception;
+    void startGame(EnumPlayer player) throws BusyException;
+    Board<Case> PlayGame(Board<Case> boardGame, EnumPlayer player) throws IOException, Exception;
     void endGame(EndGameCase endType) throws IOException, Exception;
 
 }
