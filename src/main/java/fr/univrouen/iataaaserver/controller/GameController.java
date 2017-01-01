@@ -33,7 +33,7 @@ public class GameController {
     private GameController() {
        PlayerBean p1 = new PlayerBean();
        p1.setIp("127.0.0.1");
-       p1.setPort(8080);
+       p1.setPort(8084);
        p1.setName("ia1");
        p1.setToken("toto");
        p1.setDifficulty(Difficulty.MEDIUM);
@@ -41,7 +41,7 @@ public class GameController {
        
        PlayerBean p2 = new PlayerBean();
        p2.setIp("127.0.0.1");
-       p2.setPort(8080);
+       p2.setPort(8084);
        p2.setName("ia2");
        p2.setToken("tata");
        p2.setDifficulty(Difficulty.MEDIUM);

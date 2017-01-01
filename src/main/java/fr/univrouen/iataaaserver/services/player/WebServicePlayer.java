@@ -4,6 +4,7 @@ import fr.univrouen.iataaaserver.entities.*;
 import fr.univrouen.iataaaserver.entities.bean.EndGameBean;
 import fr.univrouen.iataaaserver.entities.bean.PlayGameBean;
 import fr.univrouen.iataaaserver.entities.bean.StartGameBean;
+import fr.univrouen.iataaaserver.entities.bean.StatusBean;
 import fr.univrouen.iataaaserver.entities.status.StatusService;
 import fr.univrouen.iataaaserver.services.exception.BusyException;
 
@@ -44,13 +45,30 @@ public class WebServicePlayer implements Player {
 
     @Override
     public StatusService getStatus() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json"));
+        StatusBean statusBean = new StatusBean();
+        HttpEntity<StatusBean> requestEntity = new HttpEntity<>(statusBean, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        
+        try {
+           ResponseEntity<StatusBean> result = restTemplate.exchange("" + url + ":" + port + "/ai/status", HttpMethod.POST, requestEntity, StatusBean.class);
+            statusBean = result.getBody();
+            statusBean.setToken(token);
+            return statusBean.getStatus();
 
-        if (token != null) {
-            return StatusService.BUSY;
-        } else {
-
-            return StatusService.AVAILABLE;
         }
+        catch (HttpStatusCodeException e) {
+            if (e.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
+                e.getMessage();
+                
+            }
+            if (e.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
+                e.getMessage();
+            }
+            
+        }
+          return statusBean.getStatus();
     }
 
     @Override
@@ -65,6 +83,7 @@ public class WebServicePlayer implements Player {
 
         try {
             startGameBean = result.getBody();
+            startGameBean.setToken(token);
             if (startGameBean.getStatus().equals("BUSY")) {
                 throw new BusyException();
             }
@@ -89,9 +108,10 @@ public class WebServicePlayer implements Player {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-        ResponseEntity<PlayGameBean> response = restTemplate.exchange("" + url + ":" + port + "/ai/games/play/" + game_id, HttpMethod.POST, requestEntity, PlayGameBean.class);
+        ResponseEntity<PlayGameBean> response = restTemplate.exchange("" + url + ":" + port + "/ai/games/play/" +token, HttpMethod.POST, requestEntity, PlayGameBean.class);
         try {
             playGameBean = response.getBody();
+            playGameBean.setToken(token);
             return playGameBean.getBoard();
 
         } catch (HttpStatusCodeException e) {
@@ -112,10 +132,11 @@ public class WebServicePlayer implements Player {
         EndGameBean endGameBean = new EndGameBean();
         HttpEntity<EndGameBean> requestEntity = new HttpEntity<>(endGameBean, headers);
         RestTemplate restTemplate = new RestTemplate();
-         ResponseEntity<EndGameBean> result = restTemplate.exchange("" + url + ":" + port + "/ai/games/end/"+id, HttpMethod.POST, requestEntity, EndGameBean.class);
+        ResponseEntity<EndGameBean> result = restTemplate.exchange("" + url + ":" + port + "/ai/games/end/" + id, HttpMethod.POST, requestEntity, EndGameBean.class);
 
-         try {
+        try {
             endGameBean = result.getBody();
+            endGameBean.setToken(token);
             if (endGameBean.getStatus().equals("BUSY")) {
                 throw new BusyException();
             }

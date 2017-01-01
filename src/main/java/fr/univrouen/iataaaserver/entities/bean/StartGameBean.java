@@ -16,17 +16,17 @@ import fr.univrouen.iataaaserver.entities.status.StatusService;
 public class StartGameBean {
 
     @JsonProperty
-    private Token token;
+    private String token;
     @JsonProperty
     private StatusService status;
     @JsonProperty
     private String game_id;
 
-    public Token getToken() {
+    public String getToken() {
         return token;
     }
 
-    public void setToken(Token token) {
+    public void setToken(String token) {
         this.token = token;
     }
 

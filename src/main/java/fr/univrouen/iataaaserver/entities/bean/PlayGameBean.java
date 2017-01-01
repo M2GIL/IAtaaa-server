@@ -18,7 +18,7 @@ import fr.univrouen.iataaaserver.entities.Token;
 public class PlayGameBean {
     
     @JsonProperty
-    private Token token;
+    private String token;
      @JsonProperty
     private Difficulty difficulty;
     @JsonProperty
@@ -26,11 +26,11 @@ public class PlayGameBean {
     @JsonProperty
     private Board<Case> board;
     
-    public Token getToken() {
+    public String getToken() {
         return token;
     }
 
-    public void setToken(Token token) {
+    public void setToken(String token) {
         this.token = token;
     }
 
