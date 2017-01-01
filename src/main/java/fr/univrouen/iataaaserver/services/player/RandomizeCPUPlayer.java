@@ -25,8 +25,8 @@ public class RandomizeCPUPlayer implements Player {
     }
 
     @Override
-    public void startGame(EnumPlayer player) throws BusyException {
-
+    public String startGame(EnumPlayer player) throws BusyException {
+        return null;
     }
 
     @Override
