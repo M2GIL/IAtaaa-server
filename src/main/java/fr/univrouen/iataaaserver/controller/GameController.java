@@ -30,33 +30,32 @@ public class GameController {
     @Autowired
     private GamesService gamesService;
     
-    // A supprimer
     private GameController() {
-        PlayerBean p1 = new PlayerBean();
-        p1.setIp("127.0.0.1");
-        p1.setPort(8080);
-        p1.setName("ia1");
-        p1.setToken("toto");
-        p1.setDifficulty(Difficulty.MEDIUM);
-        p1.setType(PlayerType.IA);
-        
-        PlayerBean p2 = new PlayerBean();
-        p2.setIp("127.0.0.1");
-        p2.setPort(8080);
-        p2.setName("ia2");
-        p2.setToken("tata");
-        p2.setDifficulty(Difficulty.MEDIUM);
-        p2.setType(PlayerType.IA);
-        
-        gamesService.subscribePlayer(p1);
-        gamesService.subscribePlayer(p2);
-        
-        GameBean g = new GameBean();
-        g.setGameID("gameOne");
-        String[] players = new String[]{"ia1", "ia2"};
-        gamesService.createGame(g);
-    }
-
+       PlayerBean p1 = new PlayerBean();
+       p1.setIp("127.0.0.1");
+       p1.setPort(8080);
+       p1.setName("ia1");
+       p1.setToken("toto");
+       p1.setDifficulty(Difficulty.MEDIUM);
+       p1.setType(PlayerType.IA);
+       
+       PlayerBean p2 = new PlayerBean();
+       p2.setIp("127.0.0.1");
+       p2.setPort(8080);
+       p2.setName("ia2");
+       p2.setToken("tata");
+       p2.setDifficulty(Difficulty.MEDIUM);
+       p2.setType(PlayerType.IA);
+       
+       gamesService.subscribePlayer(p1);
+       gamesService.subscribePlayer(p2);
+       
+       GameBean g = new GameBean();
+       g.setGameID("gameOne");
+       String[] players = new String[]{"ia1", "ia2"};
+       gamesService.createGame(g);
+   }
+   
     @RequestMapping(value = { "games" }, method = RequestMethod.GET)
     public ResponseEntity<Response<Set<String>>> getGameNames(ModelMap model) {
         Set<String> names = gamesService.getGameNames();
