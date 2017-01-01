@@ -3,8 +3,10 @@ package fr.univrouen.iataaaserver.services.player;
 import fr.univrouen.iataaaserver.entities.*;
 import fr.univrouen.iataaaserver.entities.bean.EndGameBean;
 import fr.univrouen.iataaaserver.entities.bean.PlayGameBean;
-import fr.univrouen.iataaaserver.entities.bean.StartGameBean;
-import fr.univrouen.iataaaserver.entities.bean.StatusBean;
+import fr.univrouen.iataaaserver.entities.bean.StartGameRequestBean;
+import fr.univrouen.iataaaserver.entities.bean.StartGameResponseBean;
+import fr.univrouen.iataaaserver.entities.bean.StatusRequestBean;
+import fr.univrouen.iataaaserver.entities.bean.StatusResponseBean;
 import fr.univrouen.iataaaserver.entities.status.StatusService;
 import fr.univrouen.iataaaserver.services.exception.BusyException;
 
@@ -18,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -47,55 +50,50 @@ public class WebServicePlayer implements Player {
     public StatusService getStatus() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));
-        StatusBean statusBean = new StatusBean();
-        HttpEntity<StatusBean> requestEntity = new HttpEntity<>(statusBean, headers);
+        StatusRequestBean statusRequestBean = new StatusRequestBean();
+        statusRequestBean.setToken(token);
+        
+        HttpEntity<StatusRequestBean> requestEntity = new HttpEntity<>(statusRequestBean, headers);
         RestTemplate restTemplate = new RestTemplate();
         
         try {
-           ResponseEntity<StatusBean> result = restTemplate.exchange("" + url + ":" + port + "/ai/status", HttpMethod.POST, requestEntity, StatusBean.class);
-            statusBean = result.getBody();
-            statusBean.setToken(token);
+            ResponseEntity<StatusResponseBean> result = restTemplate.exchange(url + ":" + port + "/ai/status", HttpMethod.POST, requestEntity, StatusResponseBean.class);
+            StatusResponseBean statusBean = result.getBody();
             return statusBean.getStatus();
 
         }
-        catch (HttpStatusCodeException e) {
-            if (e.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
-                e.getMessage();
-                
-            }
-            if (e.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
-                e.getMessage();
-            }
+        catch (RestClientException e) {        
+            e.getMessage();
             
         }
-          return statusBean.getStatus();
+          return StatusService.BUSY;
     }
 
     @Override
-    public void startGame(EnumPlayer player) throws BusyException {
+    public String startGame(EnumPlayer player) throws BusyException {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));
-        StartGameBean startGameBean = new StartGameBean();
-        HttpEntity<StartGameBean> requestEntity = new HttpEntity<>(startGameBean, headers);
+        StartGameRequestBean startGameRequestBean = new StartGameRequestBean();
+        startGameRequestBean.setDifficulty(difficulty);
+        startGameRequestBean.setPlayer(player);
+        startGameRequestBean.setToken(token);
+        
+        HttpEntity<StartGameRequestBean> requestEntity = new HttpEntity<>(startGameRequestBean, headers);
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<StartGameBean> result = restTemplate.exchange("" + url + ":" + port + "/ai/games/start", HttpMethod.POST, requestEntity, StartGameBean.class);
-
+        
         try {
-            startGameBean = result.getBody();
-            startGameBean.setToken(token);
+            ResponseEntity<StartGameResponseBean> result = restTemplate.exchange(url + ":" + port + "/ai/games/start", HttpMethod.POST, requestEntity, StartGameResponseBean.class);
+            StartGameResponseBean startGameBean = result.getBody();
             if (startGameBean.getStatus().equals("BUSY")) {
                 throw new BusyException();
             }
-        } catch (HttpStatusCodeException e) {
-            if (e.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
-                e.getMessage();
-            }
-            if (e.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
-                e.getMessage();
-            }
-        }
-
+            return startGameBean.getGame_id();
+            
+        } catch (RestClientException e ) {   
+            e.getMessage();
+        } 
+        return null;
     }
 
     @Override
@@ -104,6 +102,10 @@ public class WebServicePlayer implements Player {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));
         PlayGameBean playGameBean = new PlayGameBean();
+        playGameBean.setBoard(boardGame);
+        playGameBean.setDifficulty(difficulty);
+        playGameBean.setPlayer(player);
+        playGameBean.setToken(token);
         HttpEntity<PlayGameBean> requestEntity = new HttpEntity<>(playGameBean, headers);
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());

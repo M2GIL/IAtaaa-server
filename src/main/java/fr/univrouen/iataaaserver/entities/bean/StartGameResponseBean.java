@@ -12,11 +12,14 @@ import fr.univrouen.iataaaserver.entities.status.StatusService;
  *
  * @author najwa
  */
-public class StatusBean {
-   @JsonProperty
+public class StartGameResponseBean {
+
+    @JsonProperty
     private String token;
     @JsonProperty
-    private StatusService status; 
+    private StatusService status;
+    @JsonProperty
+    private String game_id;
 
     public String getToken() {
         return token;
@@ -33,10 +36,15 @@ public class StatusBean {
     public void setStatus(StatusService status) {
         this.status = status;
     }
+
+    public String getGame_id() {
+        return game_id;
+    }
+
+    public void setGame_id(String game_id) {
+        this.game_id = game_id;
+    }
+
     
-    
-    
-    
-    
-    
+
 }

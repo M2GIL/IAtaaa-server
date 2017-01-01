@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.univrouen.iataaaserver.entities.Board;
 import fr.univrouen.iataaaserver.entities.Case;
 import fr.univrouen.iataaaserver.entities.Difficulty;
-import fr.univrouen.iataaaserver.entities.Token;
+import fr.univrouen.iataaaserver.entities.EnumPlayer;
 
 /**
  *
@@ -22,7 +22,7 @@ public class PlayGameBean {
      @JsonProperty
     private Difficulty difficulty;
     @JsonProperty
-    private String player ;
+    private EnumPlayer player ;
     @JsonProperty
     private Board<Case> board;
     
@@ -42,11 +42,11 @@ public class PlayGameBean {
         this.difficulty = difficulty;
     }
 
-    public String getPlayer() {
+    public EnumPlayer getPlayer() {
         return player;
     }
 
-    public void setPlayer(String player) {
+    public void setPlayer(EnumPlayer player) {
         this.player = player;
     }
 

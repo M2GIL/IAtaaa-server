@@ -6,21 +6,17 @@
 package fr.univrouen.iataaaserver.entities.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.univrouen.iataaaserver.entities.Token;
 import fr.univrouen.iataaaserver.entities.status.StatusService;
 
 /**
  *
  * @author najwa
  */
-public class StartGameBean {
-
-    @JsonProperty
+public class StatusResponseBean {
+   @JsonProperty
     private String token;
     @JsonProperty
-    private StatusService status;
-    @JsonProperty
-    private String game_id;
+    private StatusService status; 
 
     public String getToken() {
         return token;
@@ -37,13 +33,10 @@ public class StartGameBean {
     public void setStatus(StatusService status) {
         this.status = status;
     }
-
-    public String getGame_id() {
-        return game_id;
-    }
-
-    public void setGame_id(String game_id) {
-        this.game_id = game_id;
-    }
-
+    
+    
+    
+    
+    
+    
 }
