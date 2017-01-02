@@ -27,5 +27,5 @@ public interface GameRunner extends Observable{
     Game getGame();
     Player getPlayer(EnumPlayer player);
     Difficulty getDifficulty(EnumPlayer player);
-    void startGame() throws BusyException;
+    void startGame() throws Exception;
 }
