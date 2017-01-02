@@ -23,7 +23,7 @@ public class GameImpl extends ObservableImpl implements Game {
     // CONSTRUCTOR
 
     public GameImpl() {
-        this.currentPlayer = EnumPlayer.PLAYER_1;
+        this.currentPlayer = EnumPlayer.J1;
         this.pieces = initializeGame();
         firePropertyChange(EVENT_BOARD_CHANGED, null, getPieces());
     }

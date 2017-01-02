@@ -21,7 +21,7 @@ public class ReverseRules {
     // positionpieces est la liste des position pièces que l'on veut analyser.
     public static List<Case[]> getAvailableMoves(Case[] cases, EnumPlayer p) {
         List<Integer> whiteCases;
-        if (p == EnumPlayer.PLAYER_2) {
+        if (p == EnumPlayer.J2) {
             cases = reverseCases(cases);
         }
         whiteCases = getWhiteCases(cases);
@@ -32,7 +32,7 @@ public class ReverseRules {
         transformPieceToQueen();
 
         List<Case[]> avalaibleMovesList;
-        if (p == EnumPlayer.PLAYER_2) {
+        if (p == EnumPlayer.J2) {
             avalaibleMovesList = new ArrayList<>();
             availableMoves.stream().forEach((c) -> {
                 avalaibleMovesList.add(reverseCases(c));

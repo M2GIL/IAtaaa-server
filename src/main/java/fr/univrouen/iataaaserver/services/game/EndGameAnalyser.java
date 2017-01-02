@@ -25,8 +25,8 @@ class EndGameAnalyser {
     // CONSTRUCTOR
     EndGameAnalyser(GameImpl board) {
         countBoardByPlayer = new HashMap<>();
-        countBoardByPlayer.put(EnumPlayer.PLAYER_1, new HashMap<>());
-        countBoardByPlayer.put(EnumPlayer.PLAYER_2, new HashMap<>());
+        countBoardByPlayer.put(EnumPlayer.J1, new HashMap<>());
+        countBoardByPlayer.put(EnumPlayer.J2, new HashMap<>());
 
         board.addPropertyChangeListener(GameImpl.EVENT_BOARD_CHANGED, evt -> {
             if (status == EndGameCase.CONTINUE) {
@@ -108,13 +108,13 @@ class EndGameAnalyser {
 
         // Impossibilité de jouer ==> Victoire adversaire
         if (Rules.getAvailableMoves(oldBoard, lastPlayer).size() == 0) {
-            status = (lastPlayer == EnumPlayer.PLAYER_1 ? EndGameCase.PLAYER_1_VICTORY : EndGameCase.PLAYER_2_VICTORY);
+            status = (lastPlayer == EnumPlayer.J1 ? EndGameCase.PLAYER_1_VICTORY : EndGameCase.PLAYER_2_VICTORY);
             return;
         }
 
         // Troisième occurence d'un plateau => DRAW
-        if (countBoardByPlayer.get(EnumPlayer.PLAYER_1).values().contains(3)
-            || countBoardByPlayer.get(EnumPlayer.PLAYER_2).values().contains(3)) {
+        if (countBoardByPlayer.get(EnumPlayer.J1).values().contains(3)
+            || countBoardByPlayer.get(EnumPlayer.J2).values().contains(3)) {
             status = EndGameCase.DRAW;
             return;
         }
@@ -168,7 +168,7 @@ class EndGameAnalyser {
     }
 
     private EnumPlayer playerToPlay() {
-        return stories.size() % 2 == 0 ? EnumPlayer.PLAYER_1 : EnumPlayer.PLAYER_2;
+        return stories.size() % 2 == 0 ? EnumPlayer.J1 : EnumPlayer.J2;
     }
 
 }

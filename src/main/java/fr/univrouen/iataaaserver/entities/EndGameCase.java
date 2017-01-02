@@ -11,7 +11,7 @@ public enum EndGameCase {
         if (player == null) {
             return ERROR;
         }
-        if (player == EnumPlayer.PLAYER_1) {
+        if (player == EnumPlayer.J1) {
             return PLAYER_1_VICTORY;
         }
         return PLAYER_2_VICTORY;

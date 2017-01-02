@@ -22,9 +22,7 @@ public class PlayerBean {
     @JsonProperty
     private String token;
     @JsonProperty
-    private String ip;
-    @JsonProperty
-    private int port;
+    private String url;
     @JsonProperty
     private Difficulty difficulty;
 
@@ -52,20 +50,12 @@ public class PlayerBean {
         this.token = token;
     }
 
-    public String getIp() {
-        return ip;
+    public String getUrl() {
+        return url;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Difficulty getDifficulty() {

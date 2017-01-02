@@ -5,8 +5,8 @@
  */
 package fr.univrouen.iataaaserver.entities.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.univrouen.iataaaserver.entities.Board;
 import fr.univrouen.iataaaserver.entities.Case;
 import fr.univrouen.iataaaserver.entities.Difficulty;
 import fr.univrouen.iataaaserver.entities.EnumPlayer;
@@ -24,8 +24,8 @@ public class PlayGameBean {
     @JsonProperty
     private EnumPlayer player ;
     @JsonProperty
-    private Board<Case> board;
-    
+    private Case[] board;
+
     public String getToken() {
         return token;
     }
@@ -50,14 +50,22 @@ public class PlayGameBean {
         this.player = player;
     }
 
-    public Board<Case> getBoard() {
+    public Case[] getBoard() {
         return board;
     }
 
-    public void setBoard(Board<Case> board) {
+    public void setBoard(Case[] board) {
         this.board = board;
     }
+
+    @Override
+    @JsonIgnore
+    public String toString() {
+        return "PlayGameBean{" + "token=" + token + ", difficulty=" + difficulty + ", player=" + player + ", board=" + board + '}';
+    }
     
+    
+
     
     
 }

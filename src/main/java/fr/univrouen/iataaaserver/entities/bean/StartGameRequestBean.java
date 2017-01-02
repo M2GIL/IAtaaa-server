@@ -46,6 +46,11 @@ public class StartGameRequestBean {
         this.player = player;
     }
 
+    @Override
+    public String toString() {
+        return "StartGameRequestBean{" + "token=" + token + ", difficulty=" + difficulty + ", player=" + player + '}';
+    }
+
     
     
     

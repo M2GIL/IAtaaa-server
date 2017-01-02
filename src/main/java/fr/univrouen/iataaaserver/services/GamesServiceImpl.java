@@ -5,7 +5,6 @@ import fr.univrouen.iataaaserver.entities.*;
 import fr.univrouen.iataaaserver.entities.bean.GameBean;
 import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
 import fr.univrouen.iataaaserver.entities.status.StatusResponse;
-import fr.univrouen.iataaaserver.services.exception.BusyException;
 import fr.univrouen.iataaaserver.services.game.GameRunner;
 import fr.univrouen.iataaaserver.services.game.GameRunnerImpl;
 import fr.univrouen.iataaaserver.services.player.Player;
@@ -42,25 +41,23 @@ public class GamesServiceImpl implements GamesService {
             PlayerBean p1 = getPlayerBean(playersBean[0]);
             PlayerBean p2 = getPlayerBean(playersBean[1]);
 
-            String ipP1 = p1.getIp(); 
-            int portP1 = p1.getPort(); 
+            String urlP1 = p1.getUrl(); 
             Difficulty difficultyP1 = p1.getDifficulty();
             String tokenP1 = p1.getToken();
 
-            String ipP2 = p2.getIp(); 
-            int portP2 = p2.getPort(); 
+            String urlP2 = p2.getUrl(); 
             Difficulty difficultyP2 = p2.getDifficulty();
             String tokenP2 = p2.getToken();
 
             Token tokenGame = new Token(gameID);
-            Player player1 = new WebServicePlayer(tokenP1, ipP1, portP1, difficultyP1);
-            Player player2 = new WebServicePlayer(tokenP2, ipP2, portP2, difficultyP2);
+            Player player1 = new WebServicePlayer(tokenP1, urlP1, difficultyP1);
+            Player player2 = new WebServicePlayer(tokenP2, urlP2, difficultyP2);
 
             GameRunner gr = gr = new GameRunnerImpl(tokenGame, player1, difficultyP1, player2, difficultyP2);
             games.put(gameID, gr);
             try {
                 gr.startGame();
-            } catch (BusyException ex) {
+            } catch (Exception ex) {
                 status = StatusResponse.BUSY_IA;
             }
             response.setContent(gameBean);
@@ -153,20 +150,17 @@ public class GamesServiceImpl implements GamesService {
     }
     
     private StatusResponse checkPlayerBean(PlayerBean player) {
-        String ip = player.getIp();
+        String url = player.getUrl();
         String name = player.getName();
         
         if (player.getDifficulty() == null 
-            || player.getIp() == null 
+            || player.getUrl() == null 
             || name == null) {
             return StatusResponse.INVALIDE_ARGUMENT;
         }
         
         IPValidator ipValidador = new IPValidator();
-        if (!ipValidador.validate(ip)) {
-            return StatusResponse.BAD_IP;
-        }
-        
+
         Collection<PlayerBean> playersBean = players.values();
         
         for (PlayerBean p : playersBean) {

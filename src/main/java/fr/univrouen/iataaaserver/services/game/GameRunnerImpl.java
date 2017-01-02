@@ -12,8 +12,8 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
 
     // CONSTANTS
 
-    private final static int J1 = EnumPlayer.PLAYER_1.ordinal();
-    private final static int J2 = EnumPlayer.PLAYER_2.ordinal();
+    private final static int J1 = EnumPlayer.J1.ordinal();
+    private final static int J2 = EnumPlayer.J2.ordinal();
 
     // ATTRIBUTES
 
@@ -69,9 +69,9 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
         }
 
 
-        players[J1].startGame(EnumPlayer.PLAYER_1);
+        players[J1].startGame(EnumPlayer.J1);
         try {
-            players[J2].startGame(EnumPlayer.PLAYER_2);
+            players[J2].startGame(EnumPlayer.J2);
         } catch (BusyException e) {
             victoryAborted = EndGameCase.ERROR;
             players[J1].endGame(victoryAborted);

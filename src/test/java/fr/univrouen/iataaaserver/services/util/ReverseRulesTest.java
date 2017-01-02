@@ -155,7 +155,7 @@ public class ReverseRulesTest {
                 TestUtil.moveCaseFrom(board, 18, 24),
                 TestUtil.moveCaseFrom(board, 19, 24)
         );
-        assertThat(ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1))
+        assertThat(ReverseRules.getAvailableMoves(board, EnumPlayer.J1))
                 .containsOnlyElementsOf(expected);
     }
 
@@ -168,7 +168,7 @@ public class ReverseRulesTest {
         );
         Case[] expected = TestUtil.moveCaseFrom(board, 5, 16);
         expected[11] = Case.EMPTY;
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnly(expected);
     }
@@ -188,7 +188,7 @@ public class ReverseRulesTest {
         Case[] expected2 = TestUtil.moveCaseFrom(board, 6, 17);
         expected2[12] = Case.EMPTY;
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnly(expected1, expected2);
     }
@@ -205,7 +205,7 @@ public class ReverseRulesTest {
         Case[] expected = TestUtil.moveCaseFrom(board, 6, 26);
         expected[11] = Case.EMPTY;
         expected[21] = Case.EMPTY;
-        assertThat(ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1))
+        assertThat(ReverseRules.getAvailableMoves(board, EnumPlayer.J1))
                 .containsOnly(expected);
     }
 
@@ -224,7 +224,7 @@ public class ReverseRulesTest {
         expected[26] = Case.EMPTY;
         expected[25] = Case.EMPTY;
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
         assertThat(result).containsOnly(expected);
     }
 
@@ -242,7 +242,7 @@ public class ReverseRulesTest {
                 TestUtil.moveCaseFrom(board, 16, 22)
         );
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnlyElementsOf(expected);
     }
@@ -267,7 +267,7 @@ public class ReverseRulesTest {
                 TestUtil.moveCaseFrom(board, 0, 49)
         );
 
-        assertThat(ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1))
+        assertThat(ReverseRules.getAvailableMoves(board, EnumPlayer.J1))
                 .containsOnlyElementsOf(expected);
     }
 
@@ -283,7 +283,7 @@ public class ReverseRulesTest {
                 TestUtil.moveCaseFrom(board, 0, 11)
         );
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnlyElementsOf(expected);
     }
@@ -307,7 +307,7 @@ public class ReverseRulesTest {
             e[16] = Case.EMPTY;
         }
 
-        assertThat(ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1))
+        assertThat(ReverseRules.getAvailableMoves(board, EnumPlayer.J1))
                 .containsOnlyElementsOf(expected);
     }
 
@@ -328,7 +328,7 @@ public class ReverseRulesTest {
             e[23] = Case.EMPTY;
         }
 
-        assertThat(ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1))
+        assertThat(ReverseRules.getAvailableMoves(board, EnumPlayer.J1))
                 .containsOnlyElementsOf(expected);
     }
 
@@ -346,7 +346,7 @@ public class ReverseRulesTest {
         expected[32] = Case.EMPTY;
         expected[41] = Case.EMPTY;
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnly(expected);
     }
@@ -373,7 +373,7 @@ public class ReverseRulesTest {
             e[23] = Case.EMPTY;
         }
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
         assertThat(result).containsOnlyElementsOf(expected);
     }
 
@@ -417,7 +417,7 @@ public class ReverseRulesTest {
         */
 
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnlyElementsOf(expected);
     }
@@ -445,7 +445,7 @@ public class ReverseRulesTest {
         Case[] expected = TestUtil.moveCaseFrom(board, 31, 22);
         expected[26] = Case.EMPTY;
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_2);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J2);
 
         assertThat(result).containsOnly(expected);
     }
@@ -463,7 +463,7 @@ public class ReverseRulesTest {
         expected.add(expected1);
         expected.add(expected2);
          
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_2);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J2);
          
         assertThat(result).containsOnlyElementsOf(expected);
     }
@@ -477,7 +477,7 @@ public class ReverseRulesTest {
         Case[] expected = TestUtil.createBoard(); 
         expected[0] = Case.BLACK_QUEEN;
         
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_2);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J2);
 
         assertThat(result).containsOnly(expected);
     }
@@ -497,7 +497,7 @@ public class ReverseRulesTest {
                 TestUtil.moveCaseFrom(board, 33, 38)
         );
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnlyElementsOf(expected);
     }
@@ -514,7 +514,7 @@ public class ReverseRulesTest {
         Case[] expected = TestUtil.moveCaseFrom(board, 25, 36);
         expected[31] = Case.EMPTY;
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnly(expected);
     }
@@ -534,7 +534,7 @@ public class ReverseRulesTest {
         Case[] expected2 = TestUtil.moveCaseFrom(board, 27, 36);
         expected2[32] = Case.EMPTY;
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnly(expected1 , expected2);
     }
@@ -552,7 +552,7 @@ public class ReverseRulesTest {
         Case[] expected = TestUtil.moveCaseFrom(board, 44, 48);
         expected[48] = Case.WHITE_QUEEN;
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnly(expected);
     }
@@ -571,7 +571,7 @@ public class ReverseRulesTest {
         Case[] expected = TestUtil.moveCaseFrom(board, 32, 41);
         expected[36] = Case.EMPTY;
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnly(expected);
     }
@@ -589,7 +589,7 @@ public class ReverseRulesTest {
         expected[42] = Case.EMPTY;
         expected[43] = Case.EMPTY;
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnly(expected);
     }
@@ -615,7 +615,7 @@ public class ReverseRulesTest {
                 TestUtil.moveCaseFrom(board, 47, 29)
         );
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnlyElementsOf(expected);
     }
@@ -649,7 +649,7 @@ public class ReverseRulesTest {
         expected2[34] = Case.EMPTY;
         expected2[44] = Case.EMPTY;
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnly(expected1, expected2);
     }
@@ -671,7 +671,7 @@ public class ReverseRulesTest {
         expected[18] = Case.EMPTY;
         expected[28] = Case.EMPTY;
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnly(expected);
     }
@@ -694,7 +694,7 @@ public class ReverseRulesTest {
         expected[28] = Case.EMPTY;
         expected[38] = Case.EMPTY;
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnly(expected);
     }
@@ -718,7 +718,7 @@ public class ReverseRulesTest {
         expected[27] = Case.EMPTY;
         expected[37] = Case.EMPTY;
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnly(expected);
     }
@@ -736,7 +736,7 @@ public class ReverseRulesTest {
         Case[] expected2 = TestUtil.moveCaseFrom(board, 22, 4);
         expected2[8] = Case.EMPTY;
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_1);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J1);
 
         assertThat(result).containsOnly(expected1, expected2);
     }
@@ -776,7 +776,7 @@ public class ReverseRulesTest {
         expected4[32] = Case.EMPTY;
         expected4[33] = Case.EMPTY;
 
-        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.PLAYER_2);
+        List<Case[]> result = ReverseRules.getAvailableMoves(board, EnumPlayer.J2);
 
         assertThat(result).containsOnly(expected1, expected2, expected3, expected4);
     }

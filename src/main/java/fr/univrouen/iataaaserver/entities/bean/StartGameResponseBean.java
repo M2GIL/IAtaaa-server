@@ -5,6 +5,7 @@
  */
 package fr.univrouen.iataaaserver.entities.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.univrouen.iataaaserver.entities.status.StatusService;
 
@@ -43,6 +44,12 @@ public class StartGameResponseBean {
 
     public void setGame_id(String game_id) {
         this.game_id = game_id;
+    }
+
+    @Override
+    @JsonIgnore
+    public String toString() {
+        return "StartGameResponseBean{" + "token=" + token + ", status=" + status + ", game_id=" + game_id + '}';
     }
 
     

@@ -1,24 +1,26 @@
 package fr.univrouen.iataaaserver.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 
 public enum Case {
-    EMPTY(0, " "),
-    BLACK_PIECE(1, "o"),
-    BLACK_QUEEN(2, "O"),
-    WHITE_PIECE(3, "x"),
-    WHITE_QUEEN(4, "X");
+    EMPTY('0', " "),
+    BLACK_PIECE('1', "o"),
+    BLACK_QUEEN('2', "O"),
+    WHITE_PIECE('3', "x"),
+    WHITE_QUEEN('4', "X");
     
 
     // ATTRIBUTES
 
-    private final int value;
+    private final char value;
+    @JsonIgnore
     private final String abstraction;
 
     // CONSTRUCTOR
 
-    Case(int value, String abstraction) {
+    Case(char value, String abstraction) {
         this.value = value;
         this.abstraction = abstraction;
     }
@@ -26,10 +28,12 @@ public enum Case {
     // REQUEST
 
     @JsonValue
-    public int getValue() {
+    public char getValue() {
             return value;
     }
 
+    @Override
+    @JsonIgnore
     public String toString() {
         return abstraction;
     }
