@@ -58,6 +58,7 @@ public class GameController {
        GameBean g = new GameBean();
        g.setGameID("gameOne");
        String[] players = new String[]{"ia1", "ia2"};
+       g.setPlayers(players);
        gamesService.createGame(g);
    }
    

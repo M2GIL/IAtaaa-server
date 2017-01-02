@@ -2,7 +2,7 @@ package fr.univrouen.iataaaserver.entities;
 
 
 public enum EnumPlayer {
-    PLAYER_1, PLAYER_2;
+    PLAYER_1, PLAYER_2, DRAW;
 
     public static EnumPlayer getNextPlayer(EnumPlayer player) {
         if (player == null) throw new AssertionError();
