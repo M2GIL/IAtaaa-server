@@ -83,7 +83,7 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
             Player current = players[player.ordinal()];
             Difficulty difficulty = difficulties[player.ordinal()];
             try {
-                Board<Case> move = current.PlayGame(id,game.getPieces(), player);
+                Board<Case> move = current.PlayGame(game.getPieces(), player);
                 game.move(move);
                 firePropertyChange(EVENT_NEW_MOVE, null, null); // TODO: 13/12/16
            /* } catch (ForbiddenMoveException e) {
