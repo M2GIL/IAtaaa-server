@@ -117,9 +117,6 @@ public class WebServicePlayer implements Player {
         //try {
         System.out.println("playGameBean = " +  playGameBean);
         Case[] cases = playGameBean.getBoard();
-        for (Case c : cases) {
-            System.out.println("\"" + c.getValue() + "\",");
-        }
         
         ResponseEntity<PlayGameBean> response = restTemplate.exchange(url + "/ai/games/play/" + gameId, HttpMethod.POST, requestEntity, PlayGameBean.class);
         System.out.println("RESPONSE = " + response);
