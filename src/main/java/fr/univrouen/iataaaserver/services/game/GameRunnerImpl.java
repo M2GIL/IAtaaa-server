@@ -61,7 +61,7 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
     // METHODS
 
     @Override
-    public void startGame() throws Exception {
+    public void startGame() throws BusyException {
 
         if (players[J1].getStatus() != StatusService.AVAILABLE
             || players[J2].getStatus() != StatusService.AVAILABLE) {
@@ -74,7 +74,9 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
             players[J2].startGame(EnumPlayer.PLAYER_2);
         } catch (BusyException e) {
             victoryAborted = EndGameCase.ERROR;
-            players[J1].endGame(victoryAborted);
+            try {
+                players[J1].endGame(victoryAborted);
+            } catch (Exception ignored) {}
             return;
         }
         firePropertyChange(EVENT_START_GAME, null, null);
