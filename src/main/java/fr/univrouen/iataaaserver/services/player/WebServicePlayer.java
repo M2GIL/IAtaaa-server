@@ -16,7 +16,6 @@ import java.io.IOException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -29,18 +28,17 @@ public class WebServicePlayer implements Player {
 
     private final String token;
     private String id;
-    private final String url;
+    private final String url = "http://localhost:9999/DameRESTJava";
     private final int port;
     private Difficulty difficulty;
     private String gameId;
-    private EnumPlayer enumPlayer;
     
     
 
     public WebServicePlayer(String token, String url, int port, Difficulty difficulty) {
         this.token = token;
         this.difficulty = difficulty;
-        this.url = url;
+        //this.url = url;
         this.port = port;
     }
 
@@ -60,7 +58,7 @@ public class WebServicePlayer implements Player {
         RestTemplate restTemplate = new RestTemplate();
         
         try {
-            ResponseEntity<StatusResponseBean> result = restTemplate.exchange(url + ":" + port + "/ai/status", HttpMethod.POST, requestEntity, StatusResponseBean.class);
+            ResponseEntity<StatusResponseBean> result = restTemplate.exchange(url + "/ai/status", HttpMethod.POST, requestEntity, StatusResponseBean.class);
             StatusResponseBean statusBean = result.getBody();
             return statusBean.getStatus();
 
@@ -86,7 +84,7 @@ public class WebServicePlayer implements Player {
         RestTemplate restTemplate = new RestTemplate();
         
         try {
-            ResponseEntity<StartGameResponseBean> result = restTemplate.exchange(url + ":" + port + "/ai/games/start", HttpMethod.POST, requestEntity, StartGameResponseBean.class);
+            ResponseEntity<StartGameResponseBean> result = restTemplate.exchange(url + "/ai/games/start", HttpMethod.POST, requestEntity, StartGameResponseBean.class);
             StartGameResponseBean startGameBean = result.getBody();
             if (startGameBean.getStatus().equals("BUSY")) {
                 throw new BusyException();
@@ -101,7 +99,6 @@ public class WebServicePlayer implements Player {
     @Override
     public Board<Case> PlayGame(Board<Case> boardGame, EnumPlayer player) throws IOException, Exception {
 
-        enumPlayer = player;
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));
         PlayGameBean playGameBean = new PlayGameBean();
@@ -115,7 +112,7 @@ public class WebServicePlayer implements Player {
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         
         try {
-            ResponseEntity<PlayGameBean> response = restTemplate.exchange("" + url + ":" + port + "/ai/games/play/" + gameId, HttpMethod.POST, requestEntity, PlayGameBean.class);
+            ResponseEntity<PlayGameBean> response = restTemplate.exchange(url + "/ai/games/play/" + gameId, HttpMethod.POST, requestEntity, PlayGameBean.class);
             playGameBean = response.getBody();
             return playGameBean.getBoard();
 
@@ -153,7 +150,7 @@ public class WebServicePlayer implements Player {
         RestTemplate restTemplate = new RestTemplate();
 
         try {
-            ResponseEntity<EndGameResponseBean> result = restTemplate.exchange(url + ":" + port + "/ai/games/end/" + id, HttpMethod.POST, requestEntity, EndGameResponseBean.class);
+            ResponseEntity<EndGameResponseBean> result = restTemplate.exchange(url + "/ai/games/end/" + id, HttpMethod.POST, requestEntity, EndGameResponseBean.class);
             EndGameResponseBean endGameBean = result.getBody();
             if (endGameBean.getStatus().equals("BUSY")) {
                 throw new BusyException();
