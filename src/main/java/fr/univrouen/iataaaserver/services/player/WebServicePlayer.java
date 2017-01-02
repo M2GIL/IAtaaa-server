@@ -1,13 +1,15 @@
 package fr.univrouen.iataaaserver.services.player;
 
 import fr.univrouen.iataaaserver.entities.*;
-import fr.univrouen.iataaaserver.entities.bean.EndGameBean;
+import fr.univrouen.iataaaserver.entities.bean.EndGameRequestBean;
+import fr.univrouen.iataaaserver.entities.bean.EndGameResponseBean;
 import fr.univrouen.iataaaserver.entities.bean.PlayGameBean;
 import fr.univrouen.iataaaserver.entities.bean.StartGameRequestBean;
 import fr.univrouen.iataaaserver.entities.bean.StartGameResponseBean;
 import fr.univrouen.iataaaserver.entities.bean.StatusRequestBean;
 import fr.univrouen.iataaaserver.entities.bean.StatusResponseBean;
 import fr.univrouen.iataaaserver.entities.status.StatusService;
+import fr.univrouen.iataaaserver.entities.util.CodeEndGame;
 import fr.univrouen.iataaaserver.services.exception.BusyException;
 
 import java.io.IOException;
@@ -31,6 +33,9 @@ public class WebServicePlayer implements Player {
     private final int port;
     private Difficulty difficulty;
     private String gameId;
+    private EnumPlayer enumPlayer;
+    
+    
 
     public WebServicePlayer(String token, String url, int port, Difficulty difficulty) {
         this.token = token;
@@ -61,7 +66,7 @@ public class WebServicePlayer implements Player {
 
         }
         catch (RestClientException e) {        
-            e.getMessage();
+            e.printStackTrace();
             
         }
           return StatusService.BUSY;
@@ -89,13 +94,14 @@ public class WebServicePlayer implements Player {
             gameId = startGameBean.getGame_id();
             
         } catch (RestClientException e ) {   
-            e.getMessage();
+            e.printStackTrace();
         } 
     }
 
     @Override
     public Board<Case> PlayGame(Board<Case> boardGame, EnumPlayer player) throws IOException, Exception {
 
+        enumPlayer = player;
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));
         PlayGameBean playGameBean = new PlayGameBean();
@@ -107,19 +113,14 @@ public class WebServicePlayer implements Player {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-        ResponseEntity<PlayGameBean> response = restTemplate.exchange("" + url + ":" + port + "/ai/games/play/" +token, HttpMethod.POST, requestEntity, PlayGameBean.class);
+        
         try {
+            ResponseEntity<PlayGameBean> response = restTemplate.exchange("" + url + ":" + port + "/ai/games/play/" + gameId, HttpMethod.POST, requestEntity, PlayGameBean.class);
             playGameBean = response.getBody();
-            playGameBean.setToken(token);
             return playGameBean.getBoard();
 
-        } catch (HttpStatusCodeException e) {
-            if (e.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
-                return null;
-            }
-            if (e.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
-                return null;
-            }
+        } catch (RestClientException e) {
+           e.printStackTrace();
         }
         return boardGame;
     }
@@ -128,24 +129,37 @@ public class WebServicePlayer implements Player {
     public void endGame(EndGameCase endType) throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));
-        EndGameBean endGameBean = new EndGameBean();
-        HttpEntity<EndGameBean> requestEntity = new HttpEntity<>(endGameBean, headers);
+        EndGameRequestBean endGameRequestBean = new EndGameRequestBean();
+        endGameRequestBean.setCode(CodeEndGame.CLASSICAL);
+        endGameRequestBean.setToken(token);
+        
+        EnumPlayer winner;
+        switch (endType) {
+            case PLAYER_1_VICTORY :
+                winner = EnumPlayer.PLAYER_1;
+                break;
+            case PLAYER_2_VICTORY :
+                winner = EnumPlayer.PLAYER_2;
+                break;
+            case DRAW :
+                winner = EnumPlayer.DRAW;
+                break;
+            default :
+                winner = EnumPlayer.DRAW;
+        }      
+        endGameRequestBean.setWinner(winner);
+        
+        HttpEntity<EndGameRequestBean> requestEntity = new HttpEntity<>(endGameRequestBean, headers);
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<EndGameBean> result = restTemplate.exchange("" + url + ":" + port + "/ai/games/end/" + id, HttpMethod.POST, requestEntity, EndGameBean.class);
 
         try {
-            endGameBean = result.getBody();
-            endGameBean.setToken(token);
+            ResponseEntity<EndGameResponseBean> result = restTemplate.exchange(url + ":" + port + "/ai/games/end/" + id, HttpMethod.POST, requestEntity, EndGameResponseBean.class);
+            EndGameResponseBean endGameBean = result.getBody();
             if (endGameBean.getStatus().equals("BUSY")) {
                 throw new BusyException();
             }
         } catch (HttpStatusCodeException e) {
-            if (e.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
-                e.getMessage();
-            }
-            if (e.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
-                e.getMessage();
-            }
+            e.printStackTrace();
         }
     }
 }
