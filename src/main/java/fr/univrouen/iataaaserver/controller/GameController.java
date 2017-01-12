@@ -3,11 +3,7 @@ package fr.univrouen.iataaaserver.controller;
 import fr.univrouen.iataaaserver.entities.Board;
 import fr.univrouen.iataaaserver.entities.Case;
 import fr.univrouen.iataaaserver.entities.Response;
-import fr.univrouen.iataaaserver.entities.Difficulty;
-import fr.univrouen.iataaaserver.entities.EnumPlayer;
-import fr.univrouen.iataaaserver.entities.PlayerType;
 import fr.univrouen.iataaaserver.entities.bean.GameBean;
-import fr.univrouen.iataaaserver.entities.bean.PlayGameBean;
 import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
 import fr.univrouen.iataaaserver.entities.status.StatusResponse;
 import org.springframework.http.HttpStatus;
@@ -21,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import fr.univrouen.iataaaserver.services.GamesService;
-import fr.univrouen.iataaaserver.services.GamesServiceImpl;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -33,52 +28,8 @@ public class GameController {
     private GamesService gamesService;
     
     private GameController() {
-        
-       GamesService gamesService = new GamesServiceImpl();
-           
-       PlayerBean p1 = new PlayerBean();
-       p1.setUrl("http://localhost:9999/DameRESTJava");
-       p1.setName("ia1");
-       p1.setToken("toto");
-       p1.setDifficulty(Difficulty.MEDIUM);
-       p1.setType(PlayerType.IA);
-       
-       PlayerBean p2 = new PlayerBean();
-       p2.setUrl("http://localhost:9999/DameRESTJava");
-       p2.setName("ia2");
-       p2.setToken("tata");
-       p2.setDifficulty(Difficulty.MEDIUM);
-       p2.setType(PlayerType.IA);
-       
-       System.out.println("gamesService : " + gamesService);
-       gamesService.subscribePlayer(p1);
-       gamesService.subscribePlayer(p2);
-       
-       GameBean g = new GameBean();
-       g.setGameID("gameOne");
-       String[] players = new String[]{"ia1", "ia2"};
-       g.setPlayers(players);
-       gamesService.createGame(g);
-       
+
    }
-    
-    /******/
-    //TEST
-    @RequestMapping(value = { "test" }, method = RequestMethod.GET)
-    public ResponseEntity<PlayGameBean> test() {
-        PlayGameBean t = new PlayGameBean();
-        t.setDifficulty(Difficulty.MEDIUM);
-        t.setPlayer(EnumPlayer.DRAW);
-        t.setToken("token");
-        Case[] cases = new Case[50];
-        for (int i = 0; i < 50; ++ i) {
-            cases[i] = Case.EMPTY;
-        }
-        t.setBoard(cases);
-        return new ResponseEntity<>(t, HttpStatus.OK);
-    }
-    
-    /********/
    
     @RequestMapping(value = { "games" }, method = RequestMethod.GET)
     public ResponseEntity<Response<Set<String>>> getGameNames(ModelMap model) {

@@ -9,7 +9,6 @@ import fr.univrouen.iataaaserver.services.game.GameRunner;
 import fr.univrouen.iataaaserver.services.game.GameRunnerImpl;
 import fr.univrouen.iataaaserver.services.player.Player;
 import fr.univrouen.iataaaserver.services.player.WebServicePlayer;
-import fr.univrouen.iataaaserver.services.util.IPValidator;
 import fr.univrouen.iataaaserver.services.util.RandomStringGenerator;
 import org.springframework.stereotype.Service;
 
@@ -158,8 +157,6 @@ public class GamesServiceImpl implements GamesService {
             || name == null) {
             return StatusResponse.INVALIDE_ARGUMENT;
         }
-        
-        IPValidator ipValidador = new IPValidator();
 
         Collection<PlayerBean> playersBean = players.values();
         
