@@ -39,7 +39,8 @@ public class WebServicePlayer implements Player {
     
 
     public WebServicePlayer(String token, String url, Difficulty difficulty) {
-        this.token = token;
+        //this.token = token;
+        this.token = "toto";
         this.difficulty = difficulty;
         this.url = url;
     }
@@ -62,20 +63,17 @@ public class WebServicePlayer implements Player {
         try {
             ResponseEntity<StatusResponseBean> result = restTemplate.exchange(url + "/ai/status", HttpMethod.POST, requestEntity, StatusResponseBean.class);
             StatusResponseBean statusBean = result.getBody();
-            System.out.println("RETOUR STATUS : " + result.getStatusCodeValue());
             return statusBean.getStatus();
 
         }
         catch (RestClientException e) {        
             e.printStackTrace();
-            
         }
           return StatusService.BUSY;
     }
 
     @Override
     public void startGame(EnumPlayer player) throws BusyException {
-        System.out.println("START GAME TEST");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));
         StartGameRequestBean startGameRequestBean = new StartGameRequestBean();
@@ -88,7 +86,6 @@ public class WebServicePlayer implements Player {
         
         try {
             ResponseEntity<StartGameResponseBean> result = restTemplate.exchange(url + "/ai/games/start/", HttpMethod.POST, requestEntity, StartGameResponseBean.class);
-            System.out.println("Result : " + result);
             StartGameResponseBean startGameBean = result.getBody();
             if (startGameBean.getStatus().equals("BUSY")) {
                 throw new BusyException();
@@ -96,14 +93,12 @@ public class WebServicePlayer implements Player {
             gameId = startGameBean.getGame_id();
             
         } catch (RestClientException e ) {   
-            e.printStackTrace();
+            throw new BusyException();
         } 
     }
 
     @Override
     public Board<Case> PlayGame(Board<Case> boardGame, EnumPlayer player) throws IOException, Exception {
-        System.out.println("PLAY TEST");
-
         PlayGameBean playGameBean = new PlayGameBean();
         playGameBean.setBoard(boardGame.toArray());
         playGameBean.setDifficulty(difficulty);
@@ -117,20 +112,16 @@ public class WebServicePlayer implements Player {
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         
-        System.out.println("URL = " + url + "/ai/games/play/" + gameId);
-        //try {
-        System.out.println("playGameBean = " +  playGameBean);
-        Case[] cases = playGameBean.getBoard();
-        
-        ResponseEntity<PlayGameBean> response = restTemplate.exchange(url + "/ai/games/play/" + gameId, HttpMethod.POST, requestEntity, PlayGameBean.class);
-        System.out.println("RESPONSE = " + response);
-        playGameBean = response.getBody();
-        return new Board<Case>(playGameBean.getBoard());
+        try {
+            Case[] cases = playGameBean.getBoard();
 
-       /* } catch (RestClientException e) {
-           e.printStackTrace();
+            ResponseEntity<PlayGameBean> response = restTemplate.exchange(url + "/ai/games/play/" + gameId, HttpMethod.POST, requestEntity, PlayGameBean.class);
+            playGameBean = response.getBody();
+            return new Board<Case>(playGameBean.getBoard());
+
+        } catch (RestClientException e) {
+           throw new Exception();
         }
-        return boardGame;*/
     }
 
     @Override
@@ -167,7 +158,7 @@ public class WebServicePlayer implements Player {
                 throw new BusyException();
             }
         } catch (HttpStatusCodeException e) {
-            e.printStackTrace();
+            throw new Exception();
         }
     }
 }
