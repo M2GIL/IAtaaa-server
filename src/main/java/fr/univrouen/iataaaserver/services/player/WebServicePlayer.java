@@ -39,8 +39,7 @@ public class WebServicePlayer implements Player {
     
 
     public WebServicePlayer(String token, String url, Difficulty difficulty) {
-        //this.token = token;
-        this.token = "toto";
+        this.token = token;
         this.difficulty = difficulty;
         this.url = url;
     }
