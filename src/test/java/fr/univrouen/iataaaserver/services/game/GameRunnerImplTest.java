@@ -1,9 +1,9 @@
 package fr.univrouen.iataaaserver.services.game;
 
-import fr.univrouen.iataaaserver.entities.Board;
-import fr.univrouen.iataaaserver.entities.Case;
-import fr.univrouen.iataaaserver.entities.Difficulty;
-import fr.univrouen.iataaaserver.entities.Token;
+import fr.univrouen.iataaaserver.domain.game.Board;
+import fr.univrouen.iataaaserver.domain.game.Case;
+import fr.univrouen.iataaaserver.domain.request.Difficulty;
+import fr.univrouen.iataaaserver.domain.game.Token;
 import fr.univrouen.iataaaserver.services.player.Player;
 import fr.univrouen.iataaaserver.services.player.RandomizeCPUPlayer;
 import fr.univrouen.iataaaserver.services.util.TestUtil;

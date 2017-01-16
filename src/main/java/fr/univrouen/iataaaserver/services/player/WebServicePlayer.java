@@ -1,15 +1,19 @@
 package fr.univrouen.iataaaserver.services.player;
 
-import fr.univrouen.iataaaserver.entities.*;
-import fr.univrouen.iataaaserver.entities.bean.EndGameRequestBean;
-import fr.univrouen.iataaaserver.entities.bean.EndGameResponseBean;
-import fr.univrouen.iataaaserver.entities.bean.PlayGameBean;
-import fr.univrouen.iataaaserver.entities.bean.StartGameRequestBean;
-import fr.univrouen.iataaaserver.entities.bean.StartGameResponseBean;
-import fr.univrouen.iataaaserver.entities.bean.StatusRequestBean;
-import fr.univrouen.iataaaserver.entities.bean.StatusResponseBean;
-import fr.univrouen.iataaaserver.entities.status.StatusService;
-import fr.univrouen.iataaaserver.entities.util.CodeEndGame;
+import fr.univrouen.iataaaserver.domain.request.EnumPlayer;
+import fr.univrouen.iataaaserver.domain.game.Case;
+import fr.univrouen.iataaaserver.domain.game.Board;
+import fr.univrouen.iataaaserver.domain.request.Difficulty;
+import fr.univrouen.iataaaserver.domain.game.EndGameCase;
+import fr.univrouen.iataaaserver.domain.request.EndGameRequestBean;
+import fr.univrouen.iataaaserver.domain.request.EndGameResponseBean;
+import fr.univrouen.iataaaserver.domain.request.PlayGameBean;
+import fr.univrouen.iataaaserver.domain.request.StartGameRequestBean;
+import fr.univrouen.iataaaserver.domain.request.StartGameResponseBean;
+import fr.univrouen.iataaaserver.domain.request.StatusRequestBean;
+import fr.univrouen.iataaaserver.domain.request.StatusResponseBean;
+import fr.univrouen.iataaaserver.domain.request.StatusService;
+import fr.univrouen.iataaaserver.domain.request.CodeEndGame;
 import fr.univrouen.iataaaserver.services.exception.BusyException;
 
 import java.io.IOException;

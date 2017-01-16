@@ -6,11 +6,11 @@
 package fr.univrouen.iataaaserver.services;
 
 
-import fr.univrouen.iataaaserver.entities.Board;
-import fr.univrouen.iataaaserver.entities.Case;
-import fr.univrouen.iataaaserver.entities.Response;
-import fr.univrouen.iataaaserver.entities.bean.GameBean;
-import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
+import fr.univrouen.iataaaserver.domain.game.Board;
+import fr.univrouen.iataaaserver.domain.game.Case;
+import fr.univrouen.iataaaserver.domain.request.Response;
+import fr.univrouen.iataaaserver.domain.request.GameBean;
+import fr.univrouen.iataaaserver.domain.request.PlayerBean;
 
 import java.util.List;
 import java.util.Set;

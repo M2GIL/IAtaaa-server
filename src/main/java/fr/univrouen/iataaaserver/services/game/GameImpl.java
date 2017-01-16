@@ -1,11 +1,11 @@
 package fr.univrouen.iataaaserver.services.game;
 
-import fr.univrouen.iataaaserver.entities.Board;
-import fr.univrouen.iataaaserver.entities.Case;
-import fr.univrouen.iataaaserver.entities.EnumPlayer;
-import fr.univrouen.iataaaserver.entities.util.observable.ObservableImpl;
+import fr.univrouen.iataaaserver.domain.game.Board;
+import fr.univrouen.iataaaserver.domain.game.Case;
+import fr.univrouen.iataaaserver.domain.request.EnumPlayer;
+import fr.univrouen.iataaaserver.domain.util.observable.ObservableImpl;
 import fr.univrouen.iataaaserver.services.exception.ForbiddenMoveException;
-import fr.univrouen.iataaaserver.services.util.Rules;
+import fr.univrouen.iataaaserver.services.game.rules.Rules;
 
 
 

@@ -1,10 +1,14 @@
 package fr.univrouen.iataaaserver.services.player;
 
 
-import fr.univrouen.iataaaserver.entities.*;
-import fr.univrouen.iataaaserver.entities.status.StatusService;
+import fr.univrouen.iataaaserver.domain.request.EnumPlayer;
+import fr.univrouen.iataaaserver.domain.request.Difficulty;
+import fr.univrouen.iataaaserver.domain.game.EndGameCase;
+import fr.univrouen.iataaaserver.domain.game.Case;
+import fr.univrouen.iataaaserver.domain.game.Board;
+import fr.univrouen.iataaaserver.domain.request.StatusService;
 import fr.univrouen.iataaaserver.services.exception.BusyException;
-import fr.univrouen.iataaaserver.services.util.Rules;
+import fr.univrouen.iataaaserver.services.game.rules.Rules;
 
 import java.util.List;
 import java.util.Random;

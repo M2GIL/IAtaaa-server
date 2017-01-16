@@ -1,11 +1,11 @@
 package fr.univrouen.iataaaserver.controller;
 
-import fr.univrouen.iataaaserver.entities.Board;
-import fr.univrouen.iataaaserver.entities.Case;
-import fr.univrouen.iataaaserver.entities.Response;
-import fr.univrouen.iataaaserver.entities.bean.GameBean;
-import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
-import fr.univrouen.iataaaserver.entities.status.StatusResponse;
+import fr.univrouen.iataaaserver.domain.game.Board;
+import fr.univrouen.iataaaserver.domain.game.Case;
+import fr.univrouen.iataaaserver.domain.request.Response;
+import fr.univrouen.iataaaserver.domain.request.GameBean;
+import fr.univrouen.iataaaserver.domain.request.PlayerBean;
+import fr.univrouen.iataaaserver.domain.request.StatusResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import fr.univrouen.iataaaserver.services.GamesService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -24,12 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/")
 public class GameController {
 
-    //@Autowired
+    @Autowired
     private GamesService gamesService;
-    
-    private GameController() {
-
-   }
    
     @RequestMapping(value = { "games" }, method = RequestMethod.GET)
     public ResponseEntity<Response<Set<String>>> getGameNames(ModelMap model) {

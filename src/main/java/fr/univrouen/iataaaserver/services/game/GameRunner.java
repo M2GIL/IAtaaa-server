@@ -5,10 +5,10 @@
  */
 package fr.univrouen.iataaaserver.services.game;
 
-import fr.univrouen.iataaaserver.entities.Difficulty;
-import fr.univrouen.iataaaserver.entities.EndGameCase;
-import fr.univrouen.iataaaserver.entities.EnumPlayer;
-import fr.univrouen.iataaaserver.entities.util.observable.Observable;
+import fr.univrouen.iataaaserver.domain.request.Difficulty;
+import fr.univrouen.iataaaserver.domain.game.EndGameCase;
+import fr.univrouen.iataaaserver.domain.request.EnumPlayer;
+import fr.univrouen.iataaaserver.domain.util.observable.Observable;
 import fr.univrouen.iataaaserver.services.exception.BusyException;
 import fr.univrouen.iataaaserver.services.player.Player;
 

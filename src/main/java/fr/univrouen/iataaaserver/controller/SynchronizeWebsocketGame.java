@@ -5,8 +5,8 @@
  */
 package fr.univrouen.iataaaserver.controller;
 
-import fr.univrouen.iataaaserver.entities.bean.GameBean;
-import fr.univrouen.iataaaserver.entities.bean.PlayerBean;
+import fr.univrouen.iataaaserver.domain.request.GameBean;
+import fr.univrouen.iataaaserver.domain.request.PlayerBean;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
