@@ -57,7 +57,7 @@ public class GamesServiceImpl implements GamesService {
             Player player1 = new WebServicePlayer(tokenP1, urlP1, difficultyP1);
             Player player2 = new WebServicePlayer(tokenP2, urlP2, difficultyP2);
 
-            GameRunner gr = gr = new GameRunnerImpl(tokenGame, player1, difficultyP1, player2, difficultyP2);
+            GameRunner gr = gr = new GameRunnerImpl(tokenGame, player1, player2);
             synchronizeWebSocketGame.registerGame(gr);
 
             games.put(gameID, gr);

@@ -44,7 +44,7 @@ public class GameImpl extends ObservableImpl implements Game {
 
     @Override
     public void move(Board<Case> pieces) throws ForbiddenMoveException {
-
+        System.out.println("move");
         if (!Rules.getAvailableMoves(getPieces(), currentPlayer).contains(pieces)) {
             throw new ForbiddenMoveException();
         }

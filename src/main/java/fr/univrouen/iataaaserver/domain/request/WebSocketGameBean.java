@@ -1,10 +1,11 @@
 package fr.univrouen.iataaaserver.domain.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.univrouen.iataaaserver.domain.game.Board;
+import fr.univrouen.iataaaserver.domain.game.Case;
 import fr.univrouen.iataaaserver.domain.game.EndGameCase;
 import fr.univrouen.iataaaserver.domain.game.PlayerType;
 import fr.univrouen.iataaaserver.services.game.GameRunner;
-import fr.univrouen.iataaaserver.services.player.WebServicePlayer;
 
 
 public class WebSocketGameBean {
@@ -13,7 +14,7 @@ public class WebSocketGameBean {
 
     public WebSocketGameBean (GameRunner gameRunner) {
         this.endGameCode = gameRunner.getStatus();
-        this.board = gameRunner.getGame().toString();
+        this.board = gameRunner.getGame().getPieces();
         this.endGameCode = gameRunner.getStatus();
         this.whiteToPlay = gameRunner.getGame().getCurrentPlayer() == EnumPlayer.J1;
         this.gameId = gameRunner.getId().getId();
@@ -23,7 +24,8 @@ public class WebSocketGameBean {
         p1.setDifficulty(gameRunner.getPlayer(EnumPlayer.J1).getDifficulty());
         p1.setToken(gameRunner.getPlayer(EnumPlayer.J1).getName());
         p1.setType(PlayerType.IA);
-        p1.setUrl(((WebServicePlayer) (gameRunner.getPlayer(EnumPlayer.J1))).getUrl());
+        //p1.setUrl(((WebServicePlayer) (gameRunner.getPlayer(EnumPlayer.J1))).getUrl());
+        p1.setUrl("urlJ1"); // test
         this.players[J1] = p1;
 
         PlayerBean p2 = new PlayerBean();
@@ -31,7 +33,8 @@ public class WebSocketGameBean {
         p2.setDifficulty(gameRunner.getPlayer(EnumPlayer.J2).getDifficulty());
         p2.setToken(gameRunner.getPlayer(EnumPlayer.J2).getName());
         p2.setType(PlayerType.IA);
-        p2.setUrl(((WebServicePlayer) (gameRunner.getPlayer(EnumPlayer.J2))).getUrl());
+        //p2.setUrl(((WebServicePlayer) (gameRunner.getPlayer(EnumPlayer.J2))).getUrl());
+        p2.setUrl("url J2"); // test
         this.players[J2] = p2;
     }
     
@@ -40,7 +43,7 @@ public class WebSocketGameBean {
     @JsonProperty
     private PlayerBean[] players = new PlayerBean[2];
     @JsonProperty
-    private String board;
+    private Board<Case> board;
     @JsonProperty
     private boolean whiteToPlay;
     @JsonProperty
@@ -70,11 +73,11 @@ public class WebSocketGameBean {
         this.players = players;
     }
 
-    public String getBoard() {
+    public Board<Case> getBoard() {
         return board;
     }
 
-    public void setBoard(String board) {
+    public void setBoard(Board<Case> board) {
         this.board = board;
     }
 

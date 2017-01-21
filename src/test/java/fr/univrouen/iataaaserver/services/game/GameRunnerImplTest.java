@@ -3,7 +3,6 @@ package fr.univrouen.iataaaserver.services.game;
 import fr.univrouen.iataaaserver.domain.game.Board;
 import fr.univrouen.iataaaserver.domain.game.Case;
 import fr.univrouen.iataaaserver.domain.game.Token;
-import fr.univrouen.iataaaserver.domain.request.Difficulty;
 import fr.univrouen.iataaaserver.services.player.Player;
 import fr.univrouen.iataaaserver.services.player.RandomizeCPUPlayer;
 import fr.univrouen.iataaaserver.services.util.TestUtil;
@@ -19,7 +18,7 @@ public class GameRunnerImplTest {
         try {
             Player p1 = new RandomizeCPUPlayer("j1");
             Player p2 = new RandomizeCPUPlayer("j2");
-            GameRunner runner = new GameRunnerImpl(new Token("a"), p1, Difficulty.EASY, p2, Difficulty.EASY);
+            GameRunner runner = new GameRunnerImpl(new Token("a"), p1, p2);
             runner.getGame().addPropertyChangeListener(Game.EVENT_BOARD_CHANGED, evt -> {
                 if (display) TestUtil.displayBoard(((Board<Case>)evt.getNewValue()));
             });

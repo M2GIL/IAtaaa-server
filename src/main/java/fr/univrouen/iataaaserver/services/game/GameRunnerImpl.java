@@ -29,19 +29,16 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
 
     private final Token id;
     private final Player[] players = new Player[2];
-    private final Difficulty[] difficulties = new Difficulty[2];
     private final GameImpl game;
     private final EndGameAnalyser analyser;
     private EndGameCase victoryAborted = null;
 
     // CONSTRUCTOR
 
-    public GameRunnerImpl(Token id, Player p1, Difficulty difficulty1, Player p2, Difficulty difficulty2) {
+    public GameRunnerImpl(Token id, Player p1, Player p2) {
         this.id = id;
         players[J1] = p1;
         players[J2] = p2;
-        difficulties[J1] = difficulty1;
-        difficulties[J2] = difficulty2;
         game = new GameImpl();
         analyser = new EndGameAnalyser(game);
         firePropertyChange(EVENT_NEW_MOVE, null, this); // TODO: 13/12/16
@@ -66,7 +63,7 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
 
     @Override
     public Difficulty getDifficulty(EnumPlayer player) {
-        return difficulties[player.ordinal()];
+        return players[player.ordinal()].getDifficulty();
     }
 
     // METHODS
@@ -94,7 +91,6 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
         while (getStatus() == EndGameCase.CONTINUE) {
             EnumPlayer player = game.getCurrentPlayer();
             Player current = players[player.ordinal()];
-            Difficulty difficulty = difficulties[player.ordinal()];
             try {
                 Board<Case> move = current.PlayGame(game.getPieces(), player);
                 game.move(move);
