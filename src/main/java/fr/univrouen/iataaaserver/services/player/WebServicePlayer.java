@@ -148,7 +148,7 @@ public class WebServicePlayer implements Player {
                 winner = EnumPlayer.DRAW;
         }
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url + "/ai/games/end/" + id)
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url + "/ai/games/end/" + gameId)
                 .queryParam("token", token)
                 .queryParam("winner", winner.toString())
                 .queryParam("code", CodeEndGame.CLASSICAL.toString());
