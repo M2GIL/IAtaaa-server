@@ -10,7 +10,7 @@ import fr.univrouen.iataaaserver.domain.request.StatusService;
 import fr.univrouen.iataaaserver.domain.util.observable.ObservableImpl;
 import fr.univrouen.iataaaserver.services.exception.BusyException;
 import fr.univrouen.iataaaserver.services.player.Player;
-
+import fr.univrouen.iataaaserver.services.util.TestUtil;
 
 
 public class GameRunnerImpl extends ObservableImpl implements GameRunner {
@@ -94,10 +94,11 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
             try {
                 Board<Case> move = current.PlayGame(game.getPieces(), player);
                 game.move(move);
-                firePropertyChange(EVENT_NEW_MOVE, null, this); // TODO: 13/12/16
-//            } catch (ForbiddenMoveException e) {
-//                // Specify what to do if ia dont play in rules
-//                victoryAborted = EndGameCase.getVictory(EnumPlayer.getNextPlayer(player));
+                firePropertyChange(EVENT_NEW_MOVE, null, null); // TODO: 13/12/16
+                TestUtil.displayBoard(game.getPieces());
+           /* } catch (ForbiddenMoveException e) {
+                // Specify what to do if ia dont play in rules
+                victoryAborted = EndGameCase.getVictory(EnumPlayer.getNextPlayer(player));*/
             } catch (Exception e) {
                 victoryAborted = EndGameCase.getVictory(EnumPlayer.getNextPlayer(player));
             }
