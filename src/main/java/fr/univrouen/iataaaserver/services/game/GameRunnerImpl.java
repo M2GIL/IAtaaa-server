@@ -93,6 +93,7 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
                 Board<Case> move = current.PlayGame(game.getPieces(), player);
                 game.move(move);
                 firePropertyChange(EVENT_NEW_MOVE, null, null); // TODO: 13/12/16
+                display(game);
            /* } catch (ForbiddenMoveException e) {
                 // Specify what to do if ia dont play in rules
                 victoryAborted = EndGameCase.getVictory(EnumPlayer.getNextPlayer(player));*/
@@ -108,5 +109,19 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
             players[J2].endGame(getStatus());
         } catch (Exception ignored) {}
         firePropertyChange(EVENT_END_GAME, EndGameCase.CONTINUE, getStatus()); // TODO: 13/12/16
+    }
+
+    private void display(GameImpl game) {
+        Case[] board = game.getPieces().toArray();
+        int k = 0;
+        System.out.println("---------------------");
+        for (int x = 0; x < 10; ++x) {
+            System.out.print("|");
+            for(int y = 0; y < 10; ++y) {
+                System.out.println(board[k].toString() + "|");
+                ++k;
+            }
+            System.out.println("|\n---------------------");
+        }
     }
 }

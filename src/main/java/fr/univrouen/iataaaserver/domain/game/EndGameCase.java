@@ -5,7 +5,11 @@ import fr.univrouen.iataaaserver.domain.request.EnumPlayer;
 
 public enum EndGameCase {
 
-    PLAYER_1_VICTORY, PLAYER_2_VICTORY, DRAW, ERROR, CONTINUE;
+    PLAYER_1_VICTORY,
+    PLAYER_2_VICTORY,
+    DRAW,
+    ERROR,
+    CONTINUE;
 
 
 
