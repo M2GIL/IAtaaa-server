@@ -1,11 +1,11 @@
 package fr.univrouen.iataaaserver.services.game;
 
-import fr.univrouen.iataaaserver.domain.request.EnumPlayer;
-import fr.univrouen.iataaaserver.domain.request.Difficulty;
+import fr.univrouen.iataaaserver.domain.game.Board;
+import fr.univrouen.iataaaserver.domain.game.Case;
 import fr.univrouen.iataaaserver.domain.game.EndGameCase;
 import fr.univrouen.iataaaserver.domain.game.Token;
-import fr.univrouen.iataaaserver.domain.game.Case;
-import fr.univrouen.iataaaserver.domain.game.Board;
+import fr.univrouen.iataaaserver.domain.request.Difficulty;
+import fr.univrouen.iataaaserver.domain.request.EnumPlayer;
 import fr.univrouen.iataaaserver.domain.request.StatusService;
 import fr.univrouen.iataaaserver.domain.util.observable.ObservableImpl;
 import fr.univrouen.iataaaserver.services.exception.BusyException;
@@ -22,12 +22,18 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
 
     // ATTRIBUTES
 
+    @Override
+    public Token getId() {
+        return id;
+    }
+
     private final Token id;
     private final Player[] players = new Player[2];
     private final Difficulty[] difficulties = new Difficulty[2];
     private final GameImpl game;
     private final EndGameAnalyser analyser;
     private EndGameCase victoryAborted = null;
+
     // CONSTRUCTOR
 
     public GameRunnerImpl(Token id, Player p1, Difficulty difficulty1, Player p2, Difficulty difficulty2) {
@@ -38,7 +44,7 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
         difficulties[J2] = difficulty2;
         game = new GameImpl();
         analyser = new EndGameAnalyser(game);
-        firePropertyChange(EVENT_NEW_MOVE, null, null); // TODO: 13/12/16
+        firePropertyChange(EVENT_NEW_MOVE, null, this); // TODO: 13/12/16
     }
 
     // REQUESTS
@@ -92,10 +98,10 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
             try {
                 Board<Case> move = current.PlayGame(game.getPieces(), player);
                 game.move(move);
-                firePropertyChange(EVENT_NEW_MOVE, null, null); // TODO: 13/12/16
-           /* } catch (ForbiddenMoveException e) {
-                // Specify what to do if ia dont play in rules
-                victoryAborted = EndGameCase.getVictory(EnumPlayer.getNextPlayer(player));*/
+                firePropertyChange(EVENT_NEW_MOVE, null, this); // TODO: 13/12/16
+//            } catch (ForbiddenMoveException e) {
+//                // Specify what to do if ia dont play in rules
+//                victoryAborted = EndGameCase.getVictory(EnumPlayer.getNextPlayer(player));
             } catch (Exception e) {
                 victoryAborted = EndGameCase.getVictory(EnumPlayer.getNextPlayer(player));
             }
@@ -107,6 +113,6 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
         try {
             players[J2].endGame(getStatus());
         } catch (Exception ignored) {}
-        firePropertyChange(EVENT_END_GAME, EndGameCase.CONTINUE, getStatus()); // TODO: 13/12/16
+        firePropertyChange(EVENT_END_GAME, null, this); // TODO: 13/12/16
     }
 }

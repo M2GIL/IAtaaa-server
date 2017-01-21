@@ -9,11 +9,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.univrouen.iataaaserver.domain.game.Case;
 
+import java.io.Serializable;
+
 /**
  *
  * @author najwa
  */
-public class PlayGameBean {
+public class PlayGameBean implements Serializable {
     
     @JsonProperty
     private String token;

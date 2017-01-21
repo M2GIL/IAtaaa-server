@@ -5,48 +5,38 @@
  */
 package fr.univrouen.iataaaserver.controller;
 
-import fr.univrouen.iataaaserver.domain.request.GameBean;
-import fr.univrouen.iataaaserver.domain.request.PlayerBean;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.stereotype.Controller;
+import fr.univrouen.iataaaserver.domain.request.WebSocketGameBean;
+import fr.univrouen.iataaaserver.services.game.GameRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-/**
- *
- * @author m_s info
- */
-@Controller
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import static fr.univrouen.iataaaserver.services.game.GameRunner.EVENT_END_GAME;
+import static fr.univrouen.iataaaserver.services.game.GameRunner.EVENT_NEW_MOVE;
+
+
+@Service
 public class SynchronizeWebsocketGame {
 
-    @MessageMapping("/connectUser")
-    @SendTo("/api-webSocket/connectUserNotif")
-    public String connectUser() {
-        return "NEW USER CONNECTED";
-    }
+    @Autowired
+    SynchronizeHandlerIA synchronizeHandlerIA;
 
-    @MessageMapping("/requestPlay/{playerID}")
-    @SendTo("/api-webSocket/requestPlayNotif/{playerID}")
-    public PlayerBean requestToPlay(PlayerBean playerRequest, @DestinationVariable String playerID) {
-        return playerRequest;
-    }
-
-    @MessageMapping("/startGame/{playerID}")
-    @SendTo("/api-webSocket/startGameNotif/{playerID}")
-    public GameBean startGame(GameBean gameBean, @DestinationVariable String playerID) {
-        return gameBean;
-    }
-
-    @MessageMapping("/playGame/{gameID}")
-    @SendTo("/api-webSocket/playGameNotif/{gameID}")
-    public GameBean playGame(@DestinationVariable GameBean gameBean) {
-        return gameBean;
-    }
-
-    @MessageMapping("/endGame/{gameID}")
-    @SendTo("/api-webSocket/endGameNotif")
-    public String endGame(@DestinationVariable GameBean gameBean) {
-        return "end game";
+    public void registerGame(GameRunner game) {
+        game.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                switch (evt.getPropertyName()) {
+                    case EVENT_END_GAME :
+                        synchronizeHandlerIA.gameChangement(new WebSocketGameBean((GameRunner) evt.getNewValue()));
+                        break;
+                    case EVENT_NEW_MOVE :
+                        synchronizeHandlerIA.gameChangement(new WebSocketGameBean((GameRunner) evt.getNewValue()));
+                        break;
+                }
+            }
+        });
     }
 
 }

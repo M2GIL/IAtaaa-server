@@ -1,19 +1,17 @@
 package fr.univrouen.iataaaserver.services;
 
 
-import fr.univrouen.iataaaserver.domain.request.Response;
-import fr.univrouen.iataaaserver.domain.request.Difficulty;
-import fr.univrouen.iataaaserver.domain.game.Token;
-import fr.univrouen.iataaaserver.domain.game.Case;
+import fr.univrouen.iataaaserver.controller.SynchronizeWebsocketGame;
 import fr.univrouen.iataaaserver.domain.game.Board;
-import fr.univrouen.iataaaserver.domain.request.GameBean;
-import fr.univrouen.iataaaserver.domain.request.PlayerBean;
-import fr.univrouen.iataaaserver.domain.request.StatusResponse;
+import fr.univrouen.iataaaserver.domain.game.Case;
+import fr.univrouen.iataaaserver.domain.game.Token;
+import fr.univrouen.iataaaserver.domain.request.*;
 import fr.univrouen.iataaaserver.services.game.GameRunner;
 import fr.univrouen.iataaaserver.services.game.GameRunnerImpl;
 import fr.univrouen.iataaaserver.services.player.Player;
 import fr.univrouen.iataaaserver.services.player.WebServicePlayer;
 import fr.univrouen.iataaaserver.services.util.RandomStringGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -23,7 +21,10 @@ import java.util.*;
  */
 @Service
 public class GamesServiceImpl implements GamesService {
-    
+
+    @Autowired
+    private SynchronizeWebsocketGame synchronizeWebSocketGame;
+
     private final Map<String, GameRunner> games;
     private final Map<String, PlayerBean> players;
 
@@ -57,6 +58,8 @@ public class GamesServiceImpl implements GamesService {
             Player player2 = new WebServicePlayer(tokenP2, urlP2, difficultyP2);
 
             GameRunner gr = gr = new GameRunnerImpl(tokenGame, player1, difficultyP1, player2, difficultyP2);
+            synchronizeWebSocketGame.registerGame(gr);
+
             games.put(gameID, gr);
             try {
                 gr.startGame();

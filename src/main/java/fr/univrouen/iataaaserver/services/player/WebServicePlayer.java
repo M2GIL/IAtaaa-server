@@ -1,32 +1,18 @@
 package fr.univrouen.iataaaserver.services.player;
 
-import fr.univrouen.iataaaserver.domain.request.EnumPlayer;
-import fr.univrouen.iataaaserver.domain.game.Case;
 import fr.univrouen.iataaaserver.domain.game.Board;
-import fr.univrouen.iataaaserver.domain.request.Difficulty;
+import fr.univrouen.iataaaserver.domain.game.Case;
 import fr.univrouen.iataaaserver.domain.game.EndGameCase;
-import fr.univrouen.iataaaserver.domain.request.EndGameRequestBean;
-import fr.univrouen.iataaaserver.domain.request.EndGameResponseBean;
-import fr.univrouen.iataaaserver.domain.request.PlayGameBean;
-import fr.univrouen.iataaaserver.domain.request.StartGameRequestBean;
-import fr.univrouen.iataaaserver.domain.request.StartGameResponseBean;
-import fr.univrouen.iataaaserver.domain.request.StatusRequestBean;
-import fr.univrouen.iataaaserver.domain.request.StatusResponseBean;
-import fr.univrouen.iataaaserver.domain.request.StatusService;
-import fr.univrouen.iataaaserver.domain.request.CodeEndGame;
+import fr.univrouen.iataaaserver.domain.request.*;
 import fr.univrouen.iataaaserver.services.exception.BusyException;
-
-import java.io.IOException;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
 
 public class WebServicePlayer implements Player {
 
@@ -36,12 +22,24 @@ public class WebServicePlayer implements Player {
     private Difficulty difficulty;
     private String gameId;
     
-    
+    public String getUrl() {
+        return url;
+    }
 
     public WebServicePlayer(String token, String url, Difficulty difficulty) {
         this.token = token;
         this.difficulty = difficulty;
         this.url = url;
+    }
+
+    @Override
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 
     @Override

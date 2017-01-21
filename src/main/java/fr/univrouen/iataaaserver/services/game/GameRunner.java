@@ -5,8 +5,9 @@
  */
 package fr.univrouen.iataaaserver.services.game;
 
-import fr.univrouen.iataaaserver.domain.request.Difficulty;
 import fr.univrouen.iataaaserver.domain.game.EndGameCase;
+import fr.univrouen.iataaaserver.domain.game.Token;
+import fr.univrouen.iataaaserver.domain.request.Difficulty;
 import fr.univrouen.iataaaserver.domain.request.EnumPlayer;
 import fr.univrouen.iataaaserver.domain.util.observable.Observable;
 import fr.univrouen.iataaaserver.services.exception.BusyException;
@@ -23,6 +24,7 @@ public interface GameRunner extends Observable{
     String EVENT_END_GAME = "party over";
     String EVENT_START_GAME = "starting block";
 
+    Token getId();
     EndGameCase getStatus();
     Game getGame();
     Player getPlayer(EnumPlayer player);

@@ -13,10 +13,24 @@ import fr.univrouen.iataaaserver.services.game.rules.Rules;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by z3ddycus on 04/12/16.
- */
+
 public class RandomizeCPUPlayer implements Player {
+
+    private String name;
+
+    public RandomizeCPUPlayer(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public Difficulty getDifficulty() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
 
     @Override
     public void setDifficulty(Difficulty difficulty) {

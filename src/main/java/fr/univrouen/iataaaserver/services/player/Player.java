@@ -11,6 +11,8 @@ import fr.univrouen.iataaaserver.services.exception.BusyException;
 import java.io.IOException;
 
 public interface Player {
+    Difficulty getDifficulty();
+    String getName();
     void setDifficulty(Difficulty difficulty);
     StatusService getStatus();
     /**
