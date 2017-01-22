@@ -2,8 +2,6 @@ package fr.univrouen.iataaaserver.controller;
 
 import fr.univrouen.iataaaserver.domain.game.Board;
 import fr.univrouen.iataaaserver.domain.game.Case;
-import fr.univrouen.iataaaserver.domain.game.PlayerType;
-import fr.univrouen.iataaaserver.domain.request.Difficulty;
 import fr.univrouen.iataaaserver.domain.request.Response;
 import fr.univrouen.iataaaserver.domain.request.GameBean;
 import fr.univrouen.iataaaserver.domain.request.PlayerBean;
@@ -82,9 +80,9 @@ public class GameController {
     }
     
     @RequestMapping(value = { "players" }, method = RequestMethod.GET)
-    public ResponseEntity<Response<List<String>>> findAllPlayers(ModelMap model) {
-        List<String> players = gamesService.getPlayers();
-        Response<List<String>> response = new Response<>();
+    public ResponseEntity<Response<List<PlayerBean>>> findAllPlayers(ModelMap model) {
+        List<PlayerBean> players = gamesService.getPlayers();
+        Response<List<PlayerBean>> response = new Response<>();
         response.setContent(players);
         response.setStatus(StatusResponse.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);

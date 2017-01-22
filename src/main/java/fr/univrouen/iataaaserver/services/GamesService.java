@@ -28,5 +28,6 @@ public interface GamesService {
     Set<String> getGameNames();
     Board<Case> getBoard(String gameID);
     Response<PlayerBean> subscribePlayer(PlayerBean player);
-    List<String> getPlayers();
+    List<String> getPlayersNames();
+    List<PlayerBean> getPlayers();
 }

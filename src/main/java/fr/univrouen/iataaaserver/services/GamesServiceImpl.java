@@ -86,10 +86,9 @@ public class GamesServiceImpl implements GamesService {
         GameRunner gr = games.get(gameID);
         return gr.getGame().getPieces();
     }
-    
 
     @Override
-    public List<String> getPlayers() {
+    public List<String> getPlayersNames() {
         Collection<PlayerBean> pls = players.values();
         List<String> playerNames = new ArrayList<>();
         for (PlayerBean p : pls) {
@@ -97,7 +96,12 @@ public class GamesServiceImpl implements GamesService {
         }
         return playerNames;
     }
-    
+
+    @Override
+    public List<PlayerBean> getPlayers() {
+        return new LinkedList<>(players.values());
+    }
+
     @Override
     public Response<PlayerBean> subscribePlayer(PlayerBean playerBean) {
         Response<PlayerBean> response = new Response<>();
