@@ -49,13 +49,10 @@ public class GameController {
 
     @RequestMapping(value = { "game" }, method = RequestMethod.POST)
     public ResponseEntity<Response<GameBean>> createGame(ModelMap model, @RequestBody GameBean gameBean) {
-        Response<GameBean> response = gamesService.createGame(gameBean);
-        StatusResponse st = response.getStatus();
-        HttpStatus httpS = HttpStatus.OK;
-        if (st != StatusResponse.OK) {
-            httpS = HttpStatus.BAD_REQUEST;
-        }
-        return new ResponseEntity<>(response, httpS);
+        return new ResponseEntity<>(
+                gamesService.createGame(gameBean),
+                HttpStatus.OK
+        );
     }
 
     @RequestMapping(value = { "player" }, method = RequestMethod.POST)
