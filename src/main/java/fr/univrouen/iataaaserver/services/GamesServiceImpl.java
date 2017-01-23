@@ -6,6 +6,7 @@ import fr.univrouen.iataaaserver.domain.game.Board;
 import fr.univrouen.iataaaserver.domain.game.Case;
 import fr.univrouen.iataaaserver.domain.game.Token;
 import fr.univrouen.iataaaserver.domain.request.*;
+import fr.univrouen.iataaaserver.exceptions.PlayerNotFoundException;
 import fr.univrouen.iataaaserver.services.game.GameRunner;
 import fr.univrouen.iataaaserver.services.game.GameRunnerImpl;
 import fr.univrouen.iataaaserver.services.player.Player;
@@ -186,7 +187,8 @@ public class GamesServiceImpl implements GamesService {
                 return p;
             }
         }
-        return null;
+
+        throw new PlayerNotFoundException(name);
     }
 
     public PlayerBean getPlayer(String name) {
