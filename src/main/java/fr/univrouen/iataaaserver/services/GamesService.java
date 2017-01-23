@@ -30,4 +30,5 @@ public interface GamesService {
     Response<PlayerBean> subscribePlayer(PlayerBean player);
     List<String> getPlayersNames();
     List<PlayerBean> getPlayers();
+    PlayerBean getPlayer(String name);
 }

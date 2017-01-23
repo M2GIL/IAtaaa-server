@@ -6,6 +6,7 @@ import fr.univrouen.iataaaserver.domain.request.Response;
 import fr.univrouen.iataaaserver.domain.request.GameBean;
 import fr.univrouen.iataaaserver.domain.request.PlayerBean;
 import fr.univrouen.iataaaserver.domain.request.StatusResponse;
+import fr.univrouen.iataaaserver.services.player.Player;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
@@ -55,7 +56,7 @@ public class GameController {
         );
     }
 
-    @RequestMapping(value = { "player" }, method = RequestMethod.POST)
+    @RequestMapping(value = { "players" }, method = RequestMethod.POST)
     public ResponseEntity<Response<String>> createPlayer(ModelMap model, @RequestBody PlayerBean playerBean) {
         Response<PlayerBean> responsePlayer = gamesService.subscribePlayer(playerBean);
         PlayerBean p = responsePlayer.getContent();
@@ -84,5 +85,13 @@ public class GameController {
         response.setStatus(StatusResponse.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    
+
+    @RequestMapping(value= {"players/{name}"}, method = RequestMethod.GET)
+    public ResponseEntity<Response<PlayerBean>> findPlayer(@PathVariable String name) {
+        Response<PlayerBean> response = new Response<>();
+        response.setContent(gamesService.getPlayer(name));
+        response.setStatus(StatusResponse.OK);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

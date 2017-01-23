@@ -189,4 +189,7 @@ public class GamesServiceImpl implements GamesService {
         return null;
     }
 
+    public PlayerBean getPlayer(String name) {
+        return this.getPlayerBean(name);
+    }
 }
