@@ -27,6 +27,7 @@ public class SynchronizeWebsocketGame {
         game.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
+                System.out.println("Toto");
                 switch (evt.getPropertyName()) {
                     case EVENT_END_GAME :
                         synchronizeHandlerIA.gameChangement(new WebSocketGameBean((GameRunner) evt.getNewValue()));

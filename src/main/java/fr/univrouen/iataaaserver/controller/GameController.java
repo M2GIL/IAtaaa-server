@@ -2,11 +2,12 @@ package fr.univrouen.iataaaserver.controller;
 
 import fr.univrouen.iataaaserver.domain.game.Board;
 import fr.univrouen.iataaaserver.domain.game.Case;
+import fr.univrouen.iataaaserver.domain.game.PlayerType;
+import fr.univrouen.iataaaserver.domain.request.Difficulty;
 import fr.univrouen.iataaaserver.domain.request.Response;
 import fr.univrouen.iataaaserver.domain.request.GameBean;
 import fr.univrouen.iataaaserver.domain.request.PlayerBean;
 import fr.univrouen.iataaaserver.domain.request.StatusResponse;
-import fr.univrouen.iataaaserver.services.player.Player;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
@@ -28,6 +29,36 @@ public class GameController {
 
     @Autowired
     private GamesService gamesService;
+    
+    
+    /******/
+//TEST
+    @RequestMapping(value = { "test" }, method = RequestMethod.GET)
+    public void test() {
+           
+       PlayerBean p1 = new PlayerBean();
+       p1.setUrl("http://localhost:9999");
+       p1.setName("ia1");
+       p1.setDifficulty(Difficulty.MEDIUM);
+       p1.setType(PlayerType.IA);
+       
+       PlayerBean p2 = new PlayerBean();
+       p2.setUrl("http://localhost:9998");
+       p2.setName("ia2");
+       p2.setDifficulty(Difficulty.MEDIUM);
+       p2.setType(PlayerType.IA);
+       
+       gamesService.subscribePlayer(p1);
+       gamesService.subscribePlayer(p2);
+       
+       GameBean g = new GameBean();
+       g.setGameID("gameOne");
+       String[] players = new String[]{"ia1", "ia2"};
+       g.setPlayers(players);
+       gamesService.createGame(g);
+       
+    }
+/******/
     
     
     @RequestMapping(value = { "games" }, method = RequestMethod.GET)
