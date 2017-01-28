@@ -6,8 +6,6 @@ import fr.univrouen.iataaaserver.domain.game.EndGameCase;
 import fr.univrouen.iataaaserver.domain.request.*;
 import fr.univrouen.iataaaserver.services.exception.BusyException;
 import org.springframework.http.*;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -97,7 +95,7 @@ public class WebServicePlayer implements Player {
     @Override
     public Board<Case> PlayGame(Board<Case> boardGame, EnumPlayer player) throws IOException, Exception {
         String boardString = "";
-        for (Case c : boardGame.getBoard()) {
+        for (Case c : boardGame.getCases()) {
             boardString += c.getValue();
         }
 

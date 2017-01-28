@@ -11,27 +11,27 @@ import java.util.*;
 public class Board<T> {
     
     @JsonProperty
-    private final ArrayList<T> board;
+    private final ArrayList<T> cases;
 
     public Board(T[] array) {
-        board = new ArrayList<>(array.length);
-        Collections.addAll(board, array);
+        cases = new ArrayList<>(array.length);
+        Collections.addAll(cases, array);
     }
 
-    public Board(Board<T> board) {
-        this.board = new ArrayList<>();
-        this.board.addAll(board.getBoard());
+    public Board(Board<T> cases) {
+        this.cases = new ArrayList<>();
+        this.cases.addAll(cases.getCases());
     }
 
-    public List<T> getBoard() {
-        return board;
+    public List<T> getCases() {
+        return cases;
     }
 
     public Case[] toArray() {
-        int sizeBoard = board.size();
+        int sizeBoard = cases.size();
         Case[] cases = new Case[sizeBoard];
         for (int i = 0; i < sizeBoard; ++ i) {
-            cases[i] = (Case) board.get(i);
+            cases[i] = (Case) this.cases.get(i);
         }
         return cases;
     }
@@ -40,7 +40,7 @@ public class Board<T> {
     public String toString() {
         StringBuilder res = new StringBuilder();
         res.append("[");
-        Iterator<T> it = board.iterator();
+        Iterator<T> it = cases.iterator();
         if (it.hasNext()) {
             res.append(it.next());
         }
@@ -70,7 +70,7 @@ public class Board<T> {
             return false;
         }
         final Board<?> other = (Board<?>) obj;
-        if (!Objects.equals(this.board, other.board)) {
+        if (!Objects.equals(this.cases, other.cases)) {
             return false;
         }
         return true;

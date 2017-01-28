@@ -13,11 +13,10 @@ public class WebSocketGameBean {
     private final static int J2 = 1;
 
     public WebSocketGameBean (GameRunner gameRunner) {
-        this.endGameCode = gameRunner.getStatus();
+        this.id = gameRunner.getId().getId();
         this.board = gameRunner.getGame().getPieces();
-        this.endGameCode = gameRunner.getStatus();
-        this.whiteToPlay = gameRunner.getGame().getCurrentPlayer() == EnumPlayer.J1;
-        this.gameId = gameRunner.getId().getId();
+        this.whiteTurn = gameRunner.getGame().getCurrentPlayer() == EnumPlayer.J1;
+        this.status = gameRunner.getStatus();
 
         PlayerBean p1 = new PlayerBean();
         p1.setName(gameRunner.getPlayer(EnumPlayer.J1).getName());
@@ -39,15 +38,19 @@ public class WebSocketGameBean {
     }
     
     @JsonProperty
-    private String gameId;
+    private String id;
+
     @JsonProperty
     private PlayerBean[] players = new PlayerBean[2];
+
     @JsonProperty
     private Board<Case> board;
+
     @JsonProperty
-    private boolean whiteToPlay;
+    private boolean whiteTurn;
+
     @JsonProperty
-    private EndGameCase endGameCode;
+    private EndGameCase status;
 
     public static int getJ1() {
         return J1;
@@ -57,12 +60,12 @@ public class WebSocketGameBean {
         return J2;
     }
 
-    public String getGameId() {
-        return gameId;
+    public String getId() {
+        return id;
     }
 
-    public void setGameId(String gameId) {
-        this.gameId = gameId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public PlayerBean[] getPlayers() {
@@ -81,19 +84,19 @@ public class WebSocketGameBean {
         this.board = board;
     }
 
-    public boolean isWhiteToPlay() {
-        return whiteToPlay;
+    public boolean isWhiteTurn() {
+        return whiteTurn;
     }
 
-    public void setWhiteToPlay(boolean whiteToPlay) {
-        this.whiteToPlay = whiteToPlay;
+    public void setWhiteTurn(boolean whiteTurn) {
+        this.whiteTurn = whiteTurn;
     }
 
-    public EndGameCase getEndGameCode() {
-        return endGameCode;
+    public EndGameCase getStatus() {
+        return status;
     }
 
-    public void setEndGameCode(EndGameCase endGameCode) {
-        this.endGameCode = endGameCode;
+    public void setStatus(EndGameCase status) {
+        this.status = status;
     }
 }

@@ -105,7 +105,7 @@ paths:
           description: Le joueur joué par l'ia
           type: string 
           
-        - name: board
+        - name: cases
           in: query
           required: true
           description: "Le plateau de jeu sur lequel jouer. L'ordre des cases est symbolisé par ces deux images (http://urlz.fr/4rc2) de plus chaque char représente un état de la case, 0 pour une case vide, 1 pour un pion blanc, 2 pour une reine blanche, 3 pour un pion noir, 4 pour une reine noire"
@@ -210,7 +210,7 @@ definitions:
         type: string
         description: La difficulté de l'IA
         
-      board:
+      cases:
         type: array
         items: 
           type: char
