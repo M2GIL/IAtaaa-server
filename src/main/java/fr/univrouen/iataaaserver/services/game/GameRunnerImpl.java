@@ -93,7 +93,7 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
             try {
                 Board<Case> move = current.PlayGame(game.getPieces(), player);
                 game.move(move);
-                firePropertyChange(EVENT_NEW_MOVE, null, null); // TODO: 13/12/16
+                firePropertyChange(EVENT_NEW_MOVE, null, this); // TODO: 13/12/16
                 //TestUtil.displayBoard(game.getPieces());
            /* } catch (ForbiddenMoveException e) {
                 // Specify what to do if ia dont play in rules

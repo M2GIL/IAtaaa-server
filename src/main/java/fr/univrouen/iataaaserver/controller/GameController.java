@@ -32,7 +32,7 @@ public class GameController {
     
     
     /******/
-//TEST
+    //TEST
     @RequestMapping(value = { "test" }, method = RequestMethod.GET)
     public void test() {
            
@@ -58,7 +58,7 @@ public class GameController {
        gamesService.createGame(g);
        
     }
-/******/
+    /******/
     
     
     @RequestMapping(value = { "games" }, method = RequestMethod.GET)
