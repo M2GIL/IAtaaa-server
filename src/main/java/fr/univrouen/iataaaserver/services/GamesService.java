@@ -1,34 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univrouen.iataaaserver.services;
 
-
-import fr.univrouen.iataaaserver.domain.game.Board;
-import fr.univrouen.iataaaserver.domain.game.Case;
-import fr.univrouen.iataaaserver.domain.request.Response;
-import fr.univrouen.iataaaserver.domain.request.GameBean;
-import fr.univrouen.iataaaserver.domain.request.PlayerBean;
-
+import fr.univrouen.iataaaserver.domain.Board;
+import fr.univrouen.iataaaserver.domain.Case;
+import fr.univrouen.iataaaserver.dto.Response;
+import fr.univrouen.iataaaserver.dto.GameDTO;
+import fr.univrouen.iataaaserver.dto.PlayerDTO;
 import java.util.List;
 import java.util.Set;
 
-/**
- *
- * @author anto
- */
-
 public interface GamesService {
     
-    int TOKEN_SIZE = 20;
+    public final static int TOKEN_SIZE = 20;
+    public static final int WAINTING_TIME = 1000;
     
-    Response<GameBean> createGame(GameBean gameBean);
+    Response<GameDTO> createGame(GameDTO gameBean);
+    boolean deleteGame(String id);
+    boolean deletePlayer(String id);
     Set<String> getGameNames();
     Board<Case> getBoard(String gameID);
-    Response<PlayerBean> subscribePlayer(PlayerBean player);
+    Response<PlayerDTO> subscribePlayer(PlayerDTO player);
     List<String> getPlayersNames();
-    List<PlayerBean> getPlayers();
-    PlayerBean getPlayer(String name);
+    List<PlayerDTO> getPlayers();
+    PlayerDTO getPlayer(String name);
 }

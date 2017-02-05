@@ -1,21 +1,28 @@
 package fr.univrouen.iataaaserver.services;
 
-
-import fr.univrouen.iataaaserver.controller.SynchronizeWebsocketGame;
-import fr.univrouen.iataaaserver.domain.game.Board;
-import fr.univrouen.iataaaserver.domain.game.Case;
-import fr.univrouen.iataaaserver.domain.game.Token;
-import fr.univrouen.iataaaserver.domain.request.*;
-import fr.univrouen.iataaaserver.exceptions.PlayerNotFoundException;
-import fr.univrouen.iataaaserver.services.game.GameRunner;
-import fr.univrouen.iataaaserver.services.game.GameRunnerImpl;
-import fr.univrouen.iataaaserver.services.player.Player;
-import fr.univrouen.iataaaserver.services.player.WebServicePlayer;
-import fr.univrouen.iataaaserver.services.util.RandomStringGenerator;
+import fr.univrouen.iataaaserver.util.exception.PlayerNotFoundException;
+import fr.univrouen.iataaaserver.dto.Difficulty;
+import fr.univrouen.iataaaserver.dto.StatusType;
+import fr.univrouen.iataaaserver.dto.GameDTO;
+import fr.univrouen.iataaaserver.dto.PlayerDTO;
+import fr.univrouen.iataaaserver.dto.Response;
+import fr.univrouen.iataaaserver.domain.Board;
+import fr.univrouen.iataaaserver.domain.Case;
+import fr.univrouen.iataaaserver.domain.Token;
+import fr.univrouen.iataaaserver.game.GameRunner;
+import fr.univrouen.iataaaserver.game.GameRunnerImpl;
+import fr.univrouen.iataaaserver.player.Player;
+import fr.univrouen.iataaaserver.player.WebServicePlayer;
+import fr.univrouen.iataaaserver.util.RandomStringGenerator;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 /**
  * Manager of games.
@@ -27,7 +34,7 @@ public class GamesServiceImpl implements GamesService {
     private SynchronizeWebsocketGame synchronizeWebSocketGame;
 
     private final Map<String, GameRunner> games;
-    private final Map<String, PlayerBean> players;
+    private final Map<String, PlayerDTO> players;
 
     public GamesServiceImpl() {
         games = new HashMap<>();
@@ -35,16 +42,16 @@ public class GamesServiceImpl implements GamesService {
     }
     
     @Override
-    public Response<GameBean> createGame(GameBean gameBean) {
+    public Response<GameDTO> createGame(GameDTO gameBean) {
         
-        Response<GameBean> response = new Response<>();
-        StatusResponse status = checkGameBean(gameBean);
-        if (status == StatusResponse.OK) {
+        Response<GameDTO> response = new Response<>();
+        StatusType status = checkGameBean(gameBean);
+        if (status == StatusType.OK) {
             String gameID = gameBean.getGameID();
             
             String[] playersBean = gameBean.getPlayers();
-            PlayerBean p1 = getPlayerBean(playersBean[0]);
-            PlayerBean p2 = getPlayerBean(playersBean[1]);
+            PlayerDTO p1 = getPlayerBean(playersBean[0]);
+            PlayerDTO p2 = getPlayerBean(playersBean[1]);
 
             String urlP1 = p1.getUrl(); 
             Difficulty difficultyP1 = p1.getDifficulty();
@@ -58,14 +65,14 @@ public class GamesServiceImpl implements GamesService {
             Player player1 = new WebServicePlayer(tokenP1, urlP1, difficultyP1);
             Player player2 = new WebServicePlayer(tokenP2, urlP2, difficultyP2);
 
-            GameRunner gr = gr = new GameRunnerImpl(tokenGame, player1, player2);
+            GameRunner gr = new GameRunnerImpl(tokenGame, player1, player2, WAINTING_TIME);
             synchronizeWebSocketGame.registerGame(gr);
 
             games.put(gameID, gr);
             try {
                 gr.startGame();
             } catch (Exception ex) {
-                status = StatusResponse.BUSY_IA;
+                status = StatusType.BUSY_IA;
             }
             response.setContent(gameBean);
         } else {
@@ -74,6 +81,16 @@ public class GamesServiceImpl implements GamesService {
         response.setStatus(status);
 
         return response;
+    }
+    
+    @Override
+    public boolean deleteGame(String id) {
+        return (games.remove(id) != null);
+    }
+    
+    @Override
+    public boolean deletePlayer(String id) {
+        return (players.remove(id) != null);
     }
 
     @Override
@@ -90,26 +107,26 @@ public class GamesServiceImpl implements GamesService {
 
     @Override
     public List<String> getPlayersNames() {
-        Collection<PlayerBean> pls = players.values();
+        Collection<PlayerDTO> pls = players.values();
         List<String> playerNames = new ArrayList<>();
-        for (PlayerBean p : pls) {
+        pls.stream().forEach((p) -> {
             playerNames.add(p.getName());
-        }
+        });
         return playerNames;
     }
 
     @Override
-    public List<PlayerBean> getPlayers() {
+    public List<PlayerDTO> getPlayers() {
         return new LinkedList<>(players.values());
     }
 
     @Override
-    public Response<PlayerBean> subscribePlayer(PlayerBean playerBean) {
-        Response<PlayerBean> response = new Response<>();
-        StatusResponse res = checkPlayerBean(playerBean);
+    public Response<PlayerDTO> subscribePlayer(PlayerDTO playerBean) {
+        Response<PlayerDTO> response = new Response<>();
+        StatusType res = checkPlayerBean(playerBean);
         String token;
-        PlayerBean p = null;
-        if (res == StatusResponse.OK) {
+        PlayerDTO p = null;
+        if (res == StatusType.OK) {
             do {
                 token = RandomStringGenerator.getRandomString(TOKEN_SIZE);
             } while (players.containsKey(token));
@@ -126,22 +143,27 @@ public class GamesServiceImpl implements GamesService {
         return response;
     }
     
+    @Override
+    public PlayerDTO getPlayer(String name) {
+        return this.getPlayerBean(name);
+    }
+    
     
 // PRIVATE
     
-    private StatusResponse checkGameBean(GameBean game) {
+    private StatusType checkGameBean(GameDTO game) {
         String[] playersNames = game.getPlayers();
         String gameName = game.getGameID();
         if (game.getGameID() == null 
             || playersNames == null 
             || playersNames.length != 2) {
-            return StatusResponse.INVALIDE_ARGUMENT;
+            return StatusType.INVALIDE_ARGUMENT;
         }
-        Collection<PlayerBean> playersBean = players.values();
+        Collection<PlayerDTO> playersBean = players.values();
         
         boolean containsP1 = false;
         boolean containsP2 = false;
-        for (PlayerBean p : playersBean) {
+        for (PlayerDTO p : playersBean) {
             if (p.getName().equals(playersNames[0]) ) {
                 containsP1 = true;
             }
@@ -150,48 +172,44 @@ public class GamesServiceImpl implements GamesService {
             }
         }
         if (!containsP1 || !containsP2) {
-            return StatusResponse.PLAYERS_NO_FOUND;
+            return StatusType.PLAYERS_NO_FOUND;
         }
         
         if (games.containsKey(gameName)) {
-            return StatusResponse.NAME_GAME_NOT_AVAILABLE;
+            return StatusType.NAME_GAME_NOT_AVAILABLE;
         }
         
-        return StatusResponse.OK;
+        return StatusType.OK;
     }
     
-    private StatusResponse checkPlayerBean(PlayerBean player) {
+    private StatusType checkPlayerBean(PlayerDTO player) {
         String url = player.getUrl();
         String name = player.getName();
         
         if (player.getDifficulty() == null 
             || player.getUrl() == null 
             || name == null) {
-            return StatusResponse.INVALIDE_ARGUMENT;
+            return StatusType.INVALIDE_ARGUMENT;
         }
 
-        Collection<PlayerBean> playersBean = players.values();
+        Collection<PlayerDTO> playersBean = players.values();
         
-        for (PlayerBean p : playersBean) {
+        for (PlayerDTO p : playersBean) {
             if (p.getName().equals(name) ) {
-                return StatusResponse.NAME_PLAYER_NOT_AVAILABLE;
+                return StatusType.NAME_PLAYER_NOT_AVAILABLE;
             }
         }
         
-        return StatusResponse.OK;
+        return StatusType.OK;
     }
     
-    private PlayerBean getPlayerBean(String name) {
-        for (PlayerBean p : players.values()) {
+    private PlayerDTO getPlayerBean(String name) {
+        for (PlayerDTO p : players.values()) {
             if (p.getName().equals(name)) {
                 return p;
             }
         }
 
         throw new PlayerNotFoundException(name);
-    }
-
-    public PlayerBean getPlayer(String name) {
-        return this.getPlayerBean(name);
     }
 }

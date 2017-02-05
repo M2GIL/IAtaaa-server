@@ -1,17 +1,14 @@
 package fr.univrouen.iataaaserver.controller;
 
-import fr.univrouen.iataaaserver.domain.game.Board;
-import fr.univrouen.iataaaserver.domain.game.Case;
-import fr.univrouen.iataaaserver.domain.game.PlayerType;
-import fr.univrouen.iataaaserver.domain.request.Difficulty;
-import fr.univrouen.iataaaserver.domain.request.Response;
-import fr.univrouen.iataaaserver.domain.request.GameBean;
-import fr.univrouen.iataaaserver.domain.request.PlayerBean;
-import fr.univrouen.iataaaserver.domain.request.StatusResponse;
+import fr.univrouen.iataaaserver.domain.Board;
+import fr.univrouen.iataaaserver.domain.Case;
+import fr.univrouen.iataaaserver.dto.Response;
+import fr.univrouen.iataaaserver.dto.GameDTO;
+import fr.univrouen.iataaaserver.dto.PlayerDTO;
+import fr.univrouen.iataaaserver.dto.StatusType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
-
 import java.util.List;
 import java.util.Set;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +19,6 @@ import fr.univrouen.iataaaserver.services.GamesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("api/")
 public class GameController {
@@ -30,43 +26,12 @@ public class GameController {
     @Autowired
     private GamesService gamesService;
     
-    
-    /******/
-    //TEST
-    @RequestMapping(value = { "test" }, method = RequestMethod.GET)
-    public void test() {
-           
-       PlayerBean p1 = new PlayerBean();
-       p1.setUrl("http://localhost:9999");
-       p1.setName("ia1");
-       p1.setDifficulty(Difficulty.MEDIUM);
-       p1.setType(PlayerType.IA);
-       
-       PlayerBean p2 = new PlayerBean();
-       p2.setUrl("http://localhost:9998");
-       p2.setName("ia2");
-       p2.setDifficulty(Difficulty.MEDIUM);
-       p2.setType(PlayerType.IA);
-       
-       gamesService.subscribePlayer(p1);
-       gamesService.subscribePlayer(p2);
-       
-       GameBean g = new GameBean();
-       g.setGameID("gameOne");
-       String[] players = new String[]{"ia1", "ia2"};
-       g.setPlayers(players);
-       gamesService.createGame(g);
-       
-    }
-    /******/
-    
-    
     @RequestMapping(value = { "games" }, method = RequestMethod.GET)
     public ResponseEntity<Response<Set<String>>> getGameNames(ModelMap model) {
         Set<String> names = gamesService.getGameNames();
         Response<Set<String>> response = new Response<>();
         response.setContent(names);
-        response.setStatus(StatusResponse.OK);
+        response.setStatus(StatusType.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
@@ -75,12 +40,22 @@ public class GameController {
         Board<Case> board = gamesService.getBoard(gameID);
         Response<Board<Case>> response = new Response<>();
         response.setContent(board);
-        response.setStatus(StatusResponse.OK);
+        response.setStatus(StatusType.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = { "game/{gameId}" }, method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteGame(ModelMap model, @PathVariable("gameId") String gameId) {
+        boolean isDelete = gamesService.deleteGame(gameId);
+        if (isDelete) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @RequestMapping(value = { "game" }, method = RequestMethod.POST)
-    public ResponseEntity<Response<GameBean>> createGame(ModelMap model, @RequestBody GameBean gameBean) {
+    public ResponseEntity<Response<GameDTO>> createGame(ModelMap model, @RequestBody GameDTO gameBean) {
         return new ResponseEntity<>(
                 gamesService.createGame(gameBean),
                 HttpStatus.OK
@@ -88,9 +63,9 @@ public class GameController {
     }
 
     @RequestMapping(value = { "players" }, method = RequestMethod.POST)
-    public ResponseEntity<Response<String>> createPlayer(ModelMap model, @RequestBody PlayerBean playerBean) {
-        Response<PlayerBean> responsePlayer = gamesService.subscribePlayer(playerBean);
-        PlayerBean p = responsePlayer.getContent();
+    public ResponseEntity<Response<String>> createPlayer(ModelMap model, @RequestBody PlayerDTO playerBean) {
+        Response<PlayerDTO> responsePlayer = gamesService.subscribePlayer(playerBean);
+        PlayerDTO p = responsePlayer.getContent();
         String token = null;
         HttpStatus httpS = HttpStatus.BAD_REQUEST;
         if (p != null) {
@@ -98,7 +73,7 @@ public class GameController {
             httpS = HttpStatus.OK;
         }
         
-        if (responsePlayer.getStatus() != StatusResponse.OK) {
+        if (responsePlayer.getStatus() != StatusType.OK) {
             httpS = HttpStatus.BAD_REQUEST;
         }
         
@@ -109,20 +84,30 @@ public class GameController {
     }
     
     @RequestMapping(value = { "players" }, method = RequestMethod.GET)
-    public ResponseEntity<Response<List<PlayerBean>>> findAllPlayers(ModelMap model) {
-        List<PlayerBean> players = gamesService.getPlayers();
-        Response<List<PlayerBean>> response = new Response<>();
+    public ResponseEntity<Response<List<PlayerDTO>>> findAllPlayers(ModelMap model) {
+        List<PlayerDTO> players = gamesService.getPlayers();
+        Response<List<PlayerDTO>> response = new Response<>();
         response.setContent(players);
-        response.setStatus(StatusResponse.OK);
+        response.setStatus(StatusType.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @RequestMapping(value= {"players/{name}"}, method = RequestMethod.GET)
-    public ResponseEntity<Response<PlayerBean>> findPlayer(@PathVariable String name) {
-        Response<PlayerBean> response = new Response<>();
+    public ResponseEntity<Response<PlayerDTO>> findPlayer(@PathVariable String name) {
+        Response<PlayerDTO> response = new Response<>();
         response.setContent(gamesService.getPlayer(name));
-        response.setStatus(StatusResponse.OK);
+        response.setStatus(StatusType.OK);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = { "players/{playerId}" }, method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deletePlayer(ModelMap model, @PathVariable("playerId") String playerId) {
+        boolean isDelete = gamesService.deletePlayer(playerId);
+        if (isDelete) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

@@ -1,6 +1,6 @@
 package fr.univrouen.iataaaserver.config;
 
-import fr.univrouen.iataaaserver.controller.SynchronizeHandlerIA;
+import fr.univrouen.iataaaserver.services.SynchronizeHandlerIA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
