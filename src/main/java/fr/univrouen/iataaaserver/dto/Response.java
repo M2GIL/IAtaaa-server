@@ -29,6 +29,13 @@ public class Response<T> {
     public void setStatus(StatusType status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Response{" + "content=" + content + ", status=" + status + '}';
+    }
+    
+    
     
     
 }

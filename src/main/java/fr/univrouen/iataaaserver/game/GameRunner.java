@@ -16,6 +16,7 @@ public interface GameRunner extends Observable {
 
     Token getId();
     EndGameCase getStatus();
+    void getPlayerStatus() throws BusyException;
     Game getGame();
     Player getPlayer(EnumPlayer player);
     Difficulty getDifficulty(EnumPlayer player);

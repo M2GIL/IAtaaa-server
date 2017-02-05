@@ -2,9 +2,11 @@ package fr.univrouen.iataaaserver.controller;
 
 import fr.univrouen.iataaaserver.domain.Board;
 import fr.univrouen.iataaaserver.domain.Case;
+import fr.univrouen.iataaaserver.dto.Difficulty;
 import fr.univrouen.iataaaserver.dto.Response;
 import fr.univrouen.iataaaserver.dto.GameDTO;
 import fr.univrouen.iataaaserver.dto.PlayerDTO;
+import fr.univrouen.iataaaserver.dto.PlayerType;
 import fr.univrouen.iataaaserver.dto.StatusType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,7 @@ public class GameController {
     private GamesService gamesService;
     
     @RequestMapping(value = { "games" }, method = RequestMethod.GET)
-    public ResponseEntity<Response<Set<String>>> getGameNames(ModelMap model) {
+    public ResponseEntity<Response<Set<String>>> getGameNames() {
         Set<String> names = gamesService.getGameNames();
         Response<Set<String>> response = new Response<>();
         response.setContent(names);
@@ -36,7 +38,7 @@ public class GameController {
     }
     
     @RequestMapping(value = { "game/{gameID}" }, method = RequestMethod.GET)
-    public ResponseEntity<Response<Board<Case>>> findGameById(ModelMap model, @PathVariable("gameID") String gameID) {
+    public ResponseEntity<Response<Board<Case>>> findGameById(@PathVariable("gameID") String gameID) {
         Board<Case> board = gamesService.getBoard(gameID);
         Response<Board<Case>> response = new Response<>();
         response.setContent(board);
@@ -45,7 +47,7 @@ public class GameController {
     }
     
     @RequestMapping(value = { "game/{gameId}" }, method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteGame(ModelMap model, @PathVariable("gameId") String gameId) {
+    public ResponseEntity<Void> deleteGame(@PathVariable("gameId") String gameId) {
         boolean isDelete = gamesService.deleteGame(gameId);
         if (isDelete) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -55,15 +57,20 @@ public class GameController {
     }
 
     @RequestMapping(value = { "game" }, method = RequestMethod.POST)
-    public ResponseEntity<Response<GameDTO>> createGame(ModelMap model, @RequestBody GameDTO gameBean) {
-        return new ResponseEntity<>(
-                gamesService.createGame(gameBean),
-                HttpStatus.OK
-        );
+    public ResponseEntity<Response<GameDTO>> createGame(@RequestBody GameDTO gameBean) {
+        Response<GameDTO> response = gamesService.createGame(gameBean); 
+        if (response.getStatus() == StatusType.OK) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(
+                    response,
+                    HttpStatus.CONFLICT
+            );
+        }
     }
 
     @RequestMapping(value = { "players" }, method = RequestMethod.POST)
-    public ResponseEntity<Response<String>> createPlayer(ModelMap model, @RequestBody PlayerDTO playerBean) {
+    public ResponseEntity<Response<String>> createPlayer(@RequestBody PlayerDTO playerBean) {
         Response<PlayerDTO> responsePlayer = gamesService.subscribePlayer(playerBean);
         PlayerDTO p = responsePlayer.getContent();
         String token = null;
@@ -84,7 +91,7 @@ public class GameController {
     }
     
     @RequestMapping(value = { "players" }, method = RequestMethod.GET)
-    public ResponseEntity<Response<List<PlayerDTO>>> findAllPlayers(ModelMap model) {
+    public ResponseEntity<Response<List<PlayerDTO>>> findAllPlayers() {
         List<PlayerDTO> players = gamesService.getPlayers();
         Response<List<PlayerDTO>> response = new Response<>();
         response.setContent(players);
@@ -102,7 +109,7 @@ public class GameController {
     }
     
     @RequestMapping(value = { "players/{playerId}" }, method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deletePlayer(ModelMap model, @PathVariable("playerId") String playerId) {
+    public ResponseEntity<Void> deletePlayer(@PathVariable("playerId") String playerId) {
         boolean isDelete = gamesService.deletePlayer(playerId);
         if (isDelete) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);

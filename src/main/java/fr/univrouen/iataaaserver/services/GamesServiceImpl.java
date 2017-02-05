@@ -14,6 +14,7 @@ import fr.univrouen.iataaaserver.game.GameRunnerImpl;
 import fr.univrouen.iataaaserver.player.Player;
 import fr.univrouen.iataaaserver.player.WebServicePlayer;
 import fr.univrouen.iataaaserver.util.RandomStringGenerator;
+import fr.univrouen.iataaaserver.util.exception.BusyException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -67,19 +68,29 @@ public class GamesServiceImpl implements GamesService {
 
             GameRunner gr = new GameRunnerImpl(tokenGame, player1, player2, WAINTING_TIME);
             synchronizeWebSocketGame.registerGame(gr);
-
             games.put(gameID, gr);
+            
             try {
-                gr.startGame();
-            } catch (Exception ex) {
+                gr.getPlayerStatus();
+            } catch (BusyException ex) {
                 status = StatusType.BUSY_IA;
             }
-            response.setContent(gameBean);
-        } else {
-            response.setContent(null);
+            
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        gr.startGame();
+                    } catch (BusyException ex) {
+                        
+                    }
+                }
+            };
+            t.start();
+            
         }
+        response.setContent(gameBean);
         response.setStatus(status);
-
         return response;
     }
     

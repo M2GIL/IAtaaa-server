@@ -31,7 +31,7 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
     private final GameImpl game;
     private final EndGameAnalyser analyser;
     private EndGameCase victoryAborted = null;
-    private int waitingTime;
+    private final int waitingTime;
 
     // CONSTRUCTOR
 
@@ -68,14 +68,17 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
     }
 
     // METHODS
-
+    
     @Override
-    public void startGame() throws BusyException {
-
+    public void getPlayerStatus() throws BusyException {
         if (players[J1].getStatus() != StatusService.AVAILABLE
             || players[J2].getStatus() != StatusService.AVAILABLE) {
             throw new BusyException();
         }
+    }
+
+    @Override
+    public void startGame() throws BusyException {
         players[J1].startGame(EnumPlayer.J1);
         try {
             players[J2].startGame(EnumPlayer.J2);
