@@ -35,7 +35,7 @@ public class GameController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
-    @RequestMapping(value = { "game/{gameID}" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "games/{gameID}" }, method = RequestMethod.GET)
     public ResponseEntity<Response<Board<Case>>> findGameById(ModelMap model, @PathVariable("gameID") String gameID) {
         Board<Case> board = gamesService.getBoard(gameID);
         Response<Board<Case>> response = new Response<>();
@@ -44,7 +44,7 @@ public class GameController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
-    @RequestMapping(value = { "game/{gameId}" }, method = RequestMethod.DELETE)
+    @RequestMapping(value = { "games/{gameId}" }, method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteGame(ModelMap model, @PathVariable("gameId") String gameId) {
         boolean isDelete = gamesService.deleteGame(gameId);
         if (isDelete) {
@@ -54,7 +54,7 @@ public class GameController {
         }
     }
 
-    @RequestMapping(value = { "game" }, method = RequestMethod.POST)
+    @RequestMapping(value = { "games" }, method = RequestMethod.POST)
     public ResponseEntity<Response<GameDTO>> createGame(ModelMap model, @RequestBody GameDTO gameBean) {
         return new ResponseEntity<>(
                 gamesService.createGame(gameBean),
