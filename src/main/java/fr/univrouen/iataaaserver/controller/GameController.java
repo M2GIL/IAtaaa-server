@@ -2,15 +2,12 @@ package fr.univrouen.iataaaserver.controller;
 
 import fr.univrouen.iataaaserver.domain.Board;
 import fr.univrouen.iataaaserver.domain.Case;
-import fr.univrouen.iataaaserver.dto.Difficulty;
 import fr.univrouen.iataaaserver.dto.Response;
 import fr.univrouen.iataaaserver.dto.GameDTO;
 import fr.univrouen.iataaaserver.dto.PlayerDTO;
-import fr.univrouen.iataaaserver.dto.PlayerType;
 import fr.univrouen.iataaaserver.dto.StatusType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
 import java.util.List;
 import java.util.Set;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +34,8 @@ public class GameController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
-    @RequestMapping(value = { "game/{gameID}" }, method = RequestMethod.GET)
+
+    @RequestMapping(value = { "games/{gameID}" }, method = RequestMethod.GET)
     public ResponseEntity<Response<Board<Case>>> findGameById(@PathVariable("gameID") String gameID) {
         Board<Case> board = gamesService.getBoard(gameID);
         Response<Board<Case>> response = new Response<>();
@@ -46,7 +44,7 @@ public class GameController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
-    @RequestMapping(value = { "game/{gameId}" }, method = RequestMethod.DELETE)
+    @RequestMapping(value = { "games/{gameId}" }, method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteGame(@PathVariable("gameId") String gameId) {
         boolean isDelete = gamesService.deleteGame(gameId);
         if (isDelete) {
@@ -56,7 +54,7 @@ public class GameController {
         }
     }
 
-    @RequestMapping(value = { "game" }, method = RequestMethod.POST)
+    @RequestMapping(value = { "games" }, method = RequestMethod.POST)
     public ResponseEntity<Response<GameDTO>> createGame(@RequestBody GameDTO gameBean) {
         Response<GameDTO> response = gamesService.createGame(gameBean); 
         if (response.getStatus() == StatusType.OK) {
