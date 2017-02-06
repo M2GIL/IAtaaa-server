@@ -28,7 +28,7 @@ public class WebServicePlayer implements Player {
     private String gameId;
 
     public WebServicePlayer(String token, String url, Difficulty difficulty) {
-        this.token = "toto";
+        this.token = token;
         this.difficulty = difficulty;
         this.url = url;
     }
@@ -40,7 +40,11 @@ public class WebServicePlayer implements Player {
 
     @Override
     public String getName() {
-        return null;
+        return token;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     @Override
@@ -121,7 +125,7 @@ public class WebServicePlayer implements Player {
             ResponseEntity<MoveDTO> response = restTemplate.exchange(builder.build().encode().toUri(),
                     HttpMethod.GET, requestEntity, MoveDTO.class);
             MoveDTO playGameBean = response.getBody();
-            return new Board<Case>(playGameBean.getBoard());
+            return new Board<>(playGameBean.getBoard());
 
         } catch (RestClientException e) {
            throw new Exception();

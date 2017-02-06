@@ -5,6 +5,7 @@ import fr.univrouen.iataaaserver.domain.Board;
 import fr.univrouen.iataaaserver.domain.Case;
 import fr.univrouen.iataaaserver.domain.EndGameCase;
 import fr.univrouen.iataaaserver.game.GameRunner;
+import fr.univrouen.iataaaserver.player.WebServicePlayer;
 
 public class WebSocketGameBean {
     private final static int J1 = 0;
@@ -36,7 +37,11 @@ public class WebSocketGameBean {
         p1.setDifficulty(gameRunner.getPlayer(EnumPlayer.J1).getDifficulty());
         p1.setToken(gameRunner.getPlayer(EnumPlayer.J1).getName());
         p1.setType(PlayerType.IA);
-        p1.setUrl("urlJ1"); // test
+        if (gameRunner.getPlayer(EnumPlayer.J1) instanceof WebServicePlayer) {
+            p1.setUrl(((WebServicePlayer) gameRunner.getPlayer(EnumPlayer.J1)).getUrl());
+        } else {
+            p1.setUrl("urlJ1");
+        }
         this.players[J1] = p1;
 
         PlayerDTO p2 = new PlayerDTO();
@@ -44,7 +49,11 @@ public class WebSocketGameBean {
         p2.setDifficulty(gameRunner.getPlayer(EnumPlayer.J2).getDifficulty());
         p2.setToken(gameRunner.getPlayer(EnumPlayer.J2).getName());
         p2.setType(PlayerType.IA);
-        p2.setUrl("url J2"); // test
+        if (gameRunner.getPlayer(EnumPlayer.J2) instanceof WebServicePlayer) {
+            p2.setUrl(((WebServicePlayer) gameRunner.getPlayer(EnumPlayer.J2)).getUrl());
+        } else {
+            p2.setUrl("urlJ2");
+        }
         this.players[J2] = p2;
     }
 
