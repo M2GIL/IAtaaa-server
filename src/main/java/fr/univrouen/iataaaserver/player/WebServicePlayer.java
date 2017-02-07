@@ -23,12 +23,14 @@ import java.io.IOException;
 
 public class WebServicePlayer implements Player {
     private final String token;
+    private final String name;
     private final String url;
     private Difficulty difficulty;
     private String gameId;
 
-    public WebServicePlayer(String token, String url, Difficulty difficulty) {
-        this.token = token;
+    public WebServicePlayer(String name, String token, String url, Difficulty difficulty) {
+        this.token = "toto";
+        this.name = name;
         this.difficulty = difficulty;
         this.url = url;
     }
@@ -38,9 +40,13 @@ public class WebServicePlayer implements Player {
         return difficulty;
     }
 
+    public String getToken() {
+        return token;
+    }
+
     @Override
     public String getName() {
-        return token;
+        return name;
     }
 
     public String getUrl() {

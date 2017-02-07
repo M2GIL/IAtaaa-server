@@ -32,7 +32,8 @@ public class PlayerDTO {
     }
 
     public String getToken() {
-        return token;
+        //return token;
+        return "toto";
     }
 
     public void setToken(String token) {

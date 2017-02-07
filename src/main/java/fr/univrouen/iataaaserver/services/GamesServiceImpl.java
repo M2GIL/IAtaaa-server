@@ -1,29 +1,20 @@
 package fr.univrouen.iataaaserver.services;
 
-import fr.univrouen.iataaaserver.util.exception.PlayerNotFoundException;
-import fr.univrouen.iataaaserver.dto.Difficulty;
-import fr.univrouen.iataaaserver.dto.StatusType;
-import fr.univrouen.iataaaserver.dto.GameDTO;
-import fr.univrouen.iataaaserver.dto.PlayerDTO;
-import fr.univrouen.iataaaserver.dto.Response;
 import fr.univrouen.iataaaserver.domain.Board;
 import fr.univrouen.iataaaserver.domain.Case;
 import fr.univrouen.iataaaserver.domain.Token;
+import fr.univrouen.iataaaserver.dto.*;
 import fr.univrouen.iataaaserver.game.GameRunner;
 import fr.univrouen.iataaaserver.game.GameRunnerImpl;
 import fr.univrouen.iataaaserver.player.Player;
 import fr.univrouen.iataaaserver.player.WebServicePlayer;
 import fr.univrouen.iataaaserver.util.RandomStringGenerator;
 import fr.univrouen.iataaaserver.util.exception.BusyException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import fr.univrouen.iataaaserver.util.exception.PlayerNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 /**
  * Manager of games.
@@ -63,8 +54,8 @@ public class GamesServiceImpl implements GamesService {
             String tokenP2 = p2.getToken();
 
             Token tokenGame = new Token(gameID);
-            Player player1 = new WebServicePlayer(tokenP1, urlP1, difficultyP1);
-            Player player2 = new WebServicePlayer(tokenP2, urlP2, difficultyP2);
+            Player player1 = new WebServicePlayer(p1.getName(), tokenP1, urlP1, difficultyP1);
+            Player player2 = new WebServicePlayer(p2.getName(), tokenP2, urlP2, difficultyP2);
 
             GameRunner gr = new GameRunnerImpl(tokenGame, player1, player2, WAINTING_TIME);
             synchronizeWebSocketGame.registerGame(gr);
