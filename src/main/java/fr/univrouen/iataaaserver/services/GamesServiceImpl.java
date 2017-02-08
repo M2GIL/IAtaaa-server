@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static fr.univrouen.iataaaserver.dto.StatusType.OK;
+import static fr.univrouen.iataaaserver.dto.StatusType.PLAYERS_NO_FOUND;
+
 /**
  * Manager of games.
  */
@@ -126,25 +129,35 @@ public class GamesServiceImpl implements GamesService {
     public Response<PlayerDTO> subscribePlayer(PlayerDTO playerBean) {
         Response<PlayerDTO> response = new Response<>();
         StatusType res = checkPlayerBean(playerBean);
-        String token;
-        PlayerDTO p = null;
-        if (res == StatusType.OK) {
-            do {
-                token = RandomStringGenerator.getRandomString(TOKEN_SIZE);
-            } while (players.containsKey(token));
 
-            playerBean.setToken(token);
-            players.put(token, playerBean);
-            response.setContent(playerBean);
-        } else {
-            response.setContent(playerBean);
+        if (res != StatusType.OK) {
+            response.setStatus(res);
+            return response;
         }
-        
-        response.setStatus(res);
-        
+
+        String token;
+        do {
+            token = RandomStringGenerator.getRandomString(TOKEN_SIZE);
+        } while (players.containsKey(token));
+        playerBean.setToken(token);
+
+
+        if (!isConnect(playerBean)) {
+            response.setStatus(PLAYERS_NO_FOUND);
+            return response;
+        }
+
+        players.put(token, playerBean);
+        response.setContent(playerBean);
+        response.setStatus(OK);
         return response;
     }
-    
+
+    private boolean isConnect(PlayerDTO p) {
+        Player playerTest = new WebServicePlayer(p.getName(), p.getToken(), p.getUrl(), p.getDifficulty());
+        return playerTest.getStatus() != StatusService.UNAVAILABLE;
+    }
+
     @Override
     public PlayerDTO getPlayer(String name) {
         return this.getPlayerBean(name);
@@ -179,7 +192,7 @@ public class GamesServiceImpl implements GamesService {
             }
         }
         if (!containsP1 || !containsP2) {
-            return StatusType.PLAYERS_NO_FOUND;
+            return PLAYERS_NO_FOUND;
         }
         
         if (games.containsKey(gameName)) {
@@ -206,7 +219,7 @@ public class GamesServiceImpl implements GamesService {
                 return StatusType.NAME_PLAYER_NOT_AVAILABLE;
             }
         }
-        
+
         return StatusType.OK;
     }
     

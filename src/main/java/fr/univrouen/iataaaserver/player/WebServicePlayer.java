@@ -75,11 +75,9 @@ public class WebServicePlayer implements Player {
             StatusResponse statusBean = result.getBody();
             return statusBean.getStatus();
 
+        } catch (Exception e) {
+            return StatusService.UNAVAILABLE;
         }
-        catch (RestClientException e) {        
-            e.printStackTrace();
-        }
-        return StatusService.BUSY;
     }
 
     @Override
