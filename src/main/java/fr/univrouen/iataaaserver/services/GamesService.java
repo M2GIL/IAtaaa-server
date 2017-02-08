@@ -5,6 +5,8 @@ import fr.univrouen.iataaaserver.domain.Case;
 import fr.univrouen.iataaaserver.dto.Response;
 import fr.univrouen.iataaaserver.dto.GameDTO;
 import fr.univrouen.iataaaserver.dto.PlayerDTO;
+import fr.univrouen.iataaaserver.game.GameRunner;
+
 import java.util.List;
 import java.util.Set;
 
@@ -22,4 +24,5 @@ public interface GamesService {
     List<String> getPlayersNames();
     List<PlayerDTO> getPlayers();
     PlayerDTO getPlayer(String name);
+    GameRunner getGame(String gameID);
 }

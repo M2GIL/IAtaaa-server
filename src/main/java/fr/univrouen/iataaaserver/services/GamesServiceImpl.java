@@ -149,8 +149,13 @@ public class GamesServiceImpl implements GamesService {
     public PlayerDTO getPlayer(String name) {
         return this.getPlayerBean(name);
     }
-    
-    
+
+    @Override
+    public GameRunner getGame(String gameID) {
+        return games.get(gameID);
+    }
+
+
 // PRIVATE
     
     private StatusType checkGameBean(GameDTO game) {

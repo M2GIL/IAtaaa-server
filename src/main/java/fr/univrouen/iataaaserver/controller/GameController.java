@@ -1,22 +1,15 @@
 package fr.univrouen.iataaaserver.controller;
 
-import fr.univrouen.iataaaserver.domain.Board;
-import fr.univrouen.iataaaserver.domain.Case;
-import fr.univrouen.iataaaserver.dto.Response;
-import fr.univrouen.iataaaserver.dto.GameDTO;
-import fr.univrouen.iataaaserver.dto.PlayerDTO;
-import fr.univrouen.iataaaserver.dto.StatusType;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import java.util.List;
-import java.util.Set;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import fr.univrouen.iataaaserver.dto.*;
+import fr.univrouen.iataaaserver.game.GameRunner;
 import fr.univrouen.iataaaserver.services.GamesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/")
@@ -25,7 +18,7 @@ public class GameController {
     @Autowired
     private GamesService gamesService;
     
-    @RequestMapping(value = { "games" }, method = RequestMethod.GET)
+    @GetMapping(value = { "games" })
     public ResponseEntity<Response<Set<String>>> getGameNames() {
         Set<String> names = gamesService.getGameNames();
         Response<Set<String>> response = new Response<>();
@@ -35,26 +28,29 @@ public class GameController {
     }
     
 
-    @RequestMapping(value = { "games/{gameID}" }, method = RequestMethod.GET)
-    public ResponseEntity<Response<Board<Case>>> findGameById(@PathVariable("gameID") String gameID) {
-        Board<Case> board = gamesService.getBoard(gameID);
-        Response<Board<Case>> response = new Response<>();
-        response.setContent(board);
+    @GetMapping(value = { "games/{gameID}" })
+    public ResponseEntity<Response<WebSocketGameBean>> findGameById(@PathVariable("gameID") String gameID) {
+        Response<WebSocketGameBean> response = new Response<>();
+        GameRunner game = gamesService.getGame(gameID);
+        if (game == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        response.setContent(new WebSocketGameBean(game));
         response.setStatus(StatusType.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
-    @RequestMapping(value = { "games/{gameId}" }, method = RequestMethod.DELETE)
+    @DeleteMapping(value = { "games/{gameId}" })
     public ResponseEntity<Void> deleteGame(@PathVariable("gameId") String gameId) {
         boolean isDelete = gamesService.deleteGame(gameId);
         if (isDelete) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @RequestMapping(value = { "games" }, method = RequestMethod.POST)
+    @PostMapping(value = { "games" })
     public ResponseEntity<Response<GameDTO>> createGame(@RequestBody GameDTO gameBean) {
         Response<GameDTO> response = gamesService.createGame(gameBean); 
         if (response.getStatus() == StatusType.OK) {
@@ -67,7 +63,7 @@ public class GameController {
         }
     }
 
-    @RequestMapping(value = { "players" }, method = RequestMethod.POST)
+    @PostMapping(value = { "players" })
     public ResponseEntity<Response<String>> createPlayer(@RequestBody PlayerDTO playerBean) {
         Response<PlayerDTO> responsePlayer = gamesService.subscribePlayer(playerBean);
         PlayerDTO p = responsePlayer.getContent();
@@ -88,7 +84,7 @@ public class GameController {
         return new ResponseEntity<>(response, httpS);
     }
     
-    @RequestMapping(value = { "players" }, method = RequestMethod.GET)
+    @GetMapping(value = { "players" })
     public ResponseEntity<Response<List<PlayerDTO>>> findAllPlayers() {
         List<PlayerDTO> players = gamesService.getPlayers();
         Response<List<PlayerDTO>> response = new Response<>();
@@ -97,7 +93,7 @@ public class GameController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(value= {"players/{name}"}, method = RequestMethod.GET)
+    @GetMapping(value= {"players/{name}"})
     public ResponseEntity<Response<PlayerDTO>> findPlayer(@PathVariable String name) {
         Response<PlayerDTO> response = new Response<>();
         response.setContent(gamesService.getPlayer(name));
@@ -106,11 +102,11 @@ public class GameController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
-    @RequestMapping(value = { "players/{playerId}" }, method = RequestMethod.DELETE)
+    @DeleteMapping(value = { "players/{playerId}" })
     public ResponseEntity<Void> deletePlayer(@PathVariable("playerId") String playerId) {
         boolean isDelete = gamesService.deletePlayer(playerId);
         if (isDelete) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
