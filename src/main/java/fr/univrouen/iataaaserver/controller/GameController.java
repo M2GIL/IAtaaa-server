@@ -33,7 +33,7 @@ public class GameController {
         Response<WebSocketGameBean> response = new Response<>();
         GameRunner game = gamesService.getGame(gameID);
         if (game == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         response.setContent(new WebSocketGameBean(game));
         response.setStatus(StatusType.OK);
