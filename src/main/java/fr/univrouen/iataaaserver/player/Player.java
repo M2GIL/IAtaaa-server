@@ -9,13 +9,14 @@ import fr.univrouen.iataaaserver.dto.StatusService;
 import fr.univrouen.iataaaserver.util.exception.BusyException;
 
 import java.io.IOException;
+import java.net.UnknownServiceException;
 
 public interface Player {
     Difficulty getDifficulty();
     String getName();
     void setDifficulty(Difficulty difficulty);
-    StatusService getStatus();
-    void startGame(EnumPlayer player) throws BusyException;
+    StatusService getStatus() throws IOException;
+    void startGame(EnumPlayer player) throws BusyException, UnknownServiceException;
     Board<Case> playGame(Board<Case> boardGame, EnumPlayer player) throws IOException, Exception;
     void endGame(EndGameCase endType) throws IOException, Exception;
 }

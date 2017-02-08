@@ -8,6 +8,9 @@ import fr.univrouen.iataaaserver.domain.observable.Observable;
 import fr.univrouen.iataaaserver.util.exception.BusyException;
 import fr.univrouen.iataaaserver.player.Player;
 
+import java.io.IOException;
+import java.net.UnknownServiceException;
+
 public interface GameRunner extends Observable {
     
     String EVENT_NEW_MOVE = "event new move";
@@ -16,9 +19,10 @@ public interface GameRunner extends Observable {
 
     Token getId();
     EndGameCase getStatus();
-    void getPlayerStatus() throws BusyException;
+    void getPlayerStatus() throws BusyException, IOException;
     Game getGame();
     Player getPlayer(EnumPlayer player);
     Difficulty getDifficulty(EnumPlayer player);
-    void startGame() throws BusyException;
+    void startGame() throws BusyException, UnknownServiceException;
+    void abort();
 }

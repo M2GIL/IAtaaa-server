@@ -68,6 +68,12 @@ public class GamesServiceImpl implements GamesService {
                 gr.getPlayerStatus();
             } catch (BusyException ex) {
                 status = StatusType.BUSY_IA;
+                response.setStatus(status);
+                return response;
+            } catch (Exception e) {
+                status = StatusType.PLAYERS_NO_FOUND;
+                response.setStatus(status);
+                return response;
             }
             
             Thread t = new Thread() {
@@ -75,8 +81,8 @@ public class GamesServiceImpl implements GamesService {
                 public void run() {
                     try {
                         gr.startGame();
-                    } catch (BusyException ex) {
-                        
+                    } catch (Exception ignored) {
+                        gr.abort();
                     }
                 }
             };
@@ -154,8 +160,12 @@ public class GamesServiceImpl implements GamesService {
     }
 
     private boolean isConnect(PlayerDTO p) {
-        Player playerTest = new WebServicePlayer(p.getName(), p.getToken(), p.getUrl(), p.getDifficulty());
-        return playerTest.getStatus() != StatusService.UNAVAILABLE;
+        try {
+            Player playerTest = new WebServicePlayer(p.getName(), p.getToken(), p.getUrl(), p.getDifficulty());
+            return playerTest.getStatus() == StatusService.AVAILABLE || playerTest.getStatus() == StatusService.BUSY;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override

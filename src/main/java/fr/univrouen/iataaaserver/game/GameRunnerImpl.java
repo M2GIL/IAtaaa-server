@@ -4,12 +4,15 @@ import fr.univrouen.iataaaserver.domain.Board;
 import fr.univrouen.iataaaserver.domain.Case;
 import fr.univrouen.iataaaserver.domain.EndGameCase;
 import fr.univrouen.iataaaserver.domain.Token;
+import fr.univrouen.iataaaserver.domain.observable.ObservableImpl;
 import fr.univrouen.iataaaserver.dto.Difficulty;
 import fr.univrouen.iataaaserver.dto.EnumPlayer;
 import fr.univrouen.iataaaserver.dto.StatusService;
-import fr.univrouen.iataaaserver.domain.observable.ObservableImpl;
-import fr.univrouen.iataaaserver.util.exception.BusyException;
 import fr.univrouen.iataaaserver.player.Player;
+import fr.univrouen.iataaaserver.util.exception.BusyException;
+
+import java.io.IOException;
+import java.net.UnknownServiceException;
 
 
 public class GameRunnerImpl extends ObservableImpl implements GameRunner {
@@ -42,7 +45,7 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
         this.waitingTime = waitingTime;
         game = new GameImpl();
         analyser = new EndGameAnalyser(game);
-        firePropertyChange(EVENT_NEW_MOVE, null, this); // TODO: 13/12/16
+        firePropertyChange(EVENT_NEW_MOVE, null, this);
     }
 
     // REQUESTS
@@ -70,33 +73,33 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
     // METHODS
     
     @Override
-    public void getPlayerStatus() throws BusyException {
-        if (players[J1].getStatus() != StatusService.AVAILABLE
-            || players[J2].getStatus() != StatusService.AVAILABLE) {
-            throw new BusyException();
-        }
+    public void getPlayerStatus() throws BusyException, IOException {
+            if (players[J1].getStatus() != StatusService.AVAILABLE
+                    || players[J2].getStatus() != StatusService.AVAILABLE) {
+                throw new BusyException();
+            }
     }
 
     @Override
-    public void startGame() throws BusyException {
+    public void startGame() throws BusyException, UnknownServiceException {
         players[J1].startGame(EnumPlayer.J1);
         try {
             players[J2].startGame(EnumPlayer.J2);
-        } catch (BusyException e) {
+        } catch (Exception e) {
             victoryAborted = EndGameCase.ERROR;
             try {
                 players[J1].endGame(victoryAborted);
             } catch (Exception ignored) {}
             return;
         }
-        firePropertyChange(EVENT_START_GAME, null, null);
+        firePropertyChange(EVENT_START_GAME, null, this);
         while (getStatus() == EndGameCase.CONTINUE) {
             EnumPlayer player = game.getCurrentPlayer();
             Player currentPlayer = players[player.ordinal()];
             try {
                 Board<Case> move = currentPlayer.playGame(game.getPieces(), player);
                 game.move(move);
-                firePropertyChange(EVENT_NEW_MOVE, null, this); // TODO: 13/12/16
+                firePropertyChange(EVENT_NEW_MOVE, null, this);
                 Thread.sleep(waitingTime);
             } catch (Exception e) {
                 victoryAborted = EndGameCase.getVictory(EnumPlayer.getNextPlayer(player));
@@ -110,5 +113,9 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
             players[J2].endGame(getStatus());
         } catch (Exception ignored) {}
         firePropertyChange(EVENT_END_GAME, null, this); // TODO: 13/12/16
+    }
+
+    public void abort() {
+        victoryAborted = EndGameCase.ERROR;
     }
 }
