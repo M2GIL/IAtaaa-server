@@ -61,7 +61,12 @@ class EndGameAnalyser {
 
     private boolean lastTurnWithRemainedPiece(Board<Case> newBoard) {
         int[] count = countPiece(newBoard);
-        return !(count[Case.WHITE_PIECE.ordinal()] != 0 || count[Case.BLACK_PIECE.ordinal()] != 0) && ((count[Case.WHITE_QUEEN.ordinal()] == 1 && count[Case.BLACK_QUEEN.ordinal()] <= 2) || (count[Case.BLACK_QUEEN.ordinal()] == 1 && count[Case.WHITE_QUEEN.ordinal()] <= 2));
+        return !(count[Case.WHITE_PIECE.ordinal()] != 0
+                    || count[Case.BLACK_PIECE.ordinal()] != 0)
+                && ((count[Case.WHITE_QUEEN.ordinal()] == 1
+                && count[Case.BLACK_QUEEN.ordinal()] <= 2)
+                    || (count[Case.BLACK_QUEEN.ordinal()] == 1
+                && count[Case.WHITE_QUEEN.ordinal()] <= 2));
     }
 
     private boolean isTheConfiguration3v1(Board<Case> newBoard) {

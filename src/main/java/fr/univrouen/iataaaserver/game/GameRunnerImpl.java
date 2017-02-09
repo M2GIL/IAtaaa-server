@@ -83,8 +83,10 @@ public class GameRunnerImpl extends ObservableImpl implements GameRunner {
     @Override
     public void startGame() throws BusyException, UnknownServiceException {
         players[J1].startGame(EnumPlayer.J1);
+        System.out.println(players[J1].getName() + " démarrée.");
         try {
             players[J2].startGame(EnumPlayer.J2);
+            System.out.println(players[J2].getName() + " démarrée.");
         } catch (Exception e) {
             victoryAborted = EndGameCase.ERROR;
             try {
