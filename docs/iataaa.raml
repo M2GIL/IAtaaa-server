@@ -1,0 +1,13 @@
+#%RAML 1.0
+title: Iataaa
+version: v1.0
+baseUri: /api
+mediaType: application/json
+
+uses: 
+  PlayerLibrary : types/playerLibrary.raml
+  GameLibrary : types/gameLibrary.raml
+  ResponseLibrary : types/responseLibrary.raml
+
+/games : !include endpoints/games.raml
+/players : !include endpoints/players.raml

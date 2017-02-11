@@ -1,0 +1,124 @@
+get :
+  description : Get game names.
+  responses :
+    200 :
+      body :
+        application/json :
+          type : GameLibrary.GamesNamesResponse
+          example :
+            content :
+              - game1
+              - game2
+            status : OK
+post :
+  description : Create game.
+  body:
+    application/json:
+      type: GameLibrary.GamePlayers
+  responses :
+    204 :
+      description : Game created.
+    409 :
+      description : Error in creation game.
+      body :
+        application/json :
+          type : GameLibrary.GamesPlayersResponse
+          example :
+            content :
+              - #1
+                gameID: aiGame1
+                players :
+                  - p1
+                  - p2
+              - #2
+                gameID: aiGame2
+                players :
+                  - p3
+                  - p4
+            status : PLAYERS_NO_FOUND
+
+
+/{gameId} :
+  get :
+    description : Get game with game id.
+    responses :
+      200 :
+        body :
+          application/json :
+            type : GameLibrary.GamesStatusResponse
+            example:
+              content :
+                id : string
+                players :
+                  - #1
+                    type : IA
+                    name : ai1
+                    url : localhost:9999
+                    difficulty : HARD
+                  - #2
+                    type : IA
+                    name : ai2
+                    url : localhost:9998
+                    difficulty : HARD
+                board :
+                  list :
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 1
+                    - 0
+                    - 0
+                    - 0
+                    - 0
+                    - 0
+                    - 0
+                    - 0
+                    - 0
+                    - 0
+                    - 0
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                    - 3
+                whiteTurn : true
+              status : OK
+
+  delete :
+    description : Delete game with game id.
+    responses :
+      204 :
+        description : Game deleted.
+      404 :
+        description : Game not found.
