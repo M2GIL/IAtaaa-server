@@ -1,0 +1,60 @@
+#%RAML 1.0 Library
+
+uses:
+  PlayerLibrary : playerLibrary.raml
+  ResponseLibrary : responseLibrary.raml
+
+types :
+
+  Case :
+    type : integer
+    description: It's pawn code. 0 = EMPTY, 1 = BLACK PWAN, 2 = BLACK KING, 3 = WHITE PWAN and 4 = WHITE KING
+    minimum: 0
+    maximum: 4
+
+  Board :
+    type : object
+    properties:
+      list : Case[]
+
+  GameStatus :
+    type : object
+    properties :
+      id : string
+      players : PlayerLibrary.Player[]
+      board : Board
+      whiteTurn : boolean
+
+  GamePlayers :
+    type : object
+    properties :
+      gameID : string
+      players : 
+        type : string[]
+        description : Players Names.
+    example:
+      gameID: aiGame
+      players :
+        - p1
+        - p2
+
+# -------------------
+#   RESPONSE
+# -------------------
+  GamesStatusResponse :
+    type : object
+    properties:
+      content : GameStatus
+      status : ResponseLibrary.StatusType
+
+  GamesNamesResponse :
+    type : object
+    properties:
+      content : string[]
+      status : ResponseLibrary.StatusType
+
+  GamesPlayersResponse :
+    type : object
+    properties:
+      content : GamePlayers[]
+      status : ResponseLibrary.StatusType

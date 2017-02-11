@@ -1,0 +1,65 @@
+post :
+  description : Create player.
+  body:
+    application/json:
+      type: PlayerLibrary.Player
+  responses :
+    204 :
+      description : Player created.
+    400 :
+      description : Error in request.
+      body:
+        application/json:
+          type: PlayerLibrary.PlayerResponse
+          example :
+            content :
+              type : IA
+              name : ia1
+              url : localhost:9999
+              difficulty : HARD
+            status : NAME_PLAYER_NOT_AVAILABLE
+
+get :
+  description : Get players.
+  responses :
+    200 :
+      body:
+        application/json:
+          type: PlayerLibrary.PlayersResponse
+          example :
+            content :
+              - #1
+                type : IA
+                name : ia1
+                url : localhost:9999
+                difficulty : HARD
+              - #2
+                type : IA
+                name : ia2
+                url : localhost:9998
+                difficulty : HARD
+            status : OK
+
+/{name} :
+  get :
+    description : Get player with name.
+    responses :
+      200 :
+        body:
+          application/json:
+            type: PlayerLibrary.PlayerResponse
+            example :
+              content :
+                type : IA
+                name : ia1
+                url : localhost:9999
+                difficulty : HARD
+              status : OK
+/{playerId} :
+  delete :
+    description : Get player with name.
+    responses :
+      204 :
+        description : Player deleted.
+      404 :
+        description : Player not found.

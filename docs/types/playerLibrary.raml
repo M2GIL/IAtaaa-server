@@ -1,0 +1,40 @@
+#%RAML 1.0 Library
+
+uses:
+  ResponseLibrary : responseLibrary.raml
+
+types :
+  PlayerType :
+    enum: [IA, HUMAN]
+
+  Difficulty :
+    enum : [EASY, MEDIUM, HARD]
+
+  Player :
+    type : object
+    properties :
+      type : PlayerType
+      name : string
+      url : string
+      difficulty : Difficulty
+    example:
+      type : IA
+      name : ia1
+      url : localhost:9999
+      difficulty : HARD
+
+
+# -------------------
+#   RESPONSE
+# -------------------
+  PlayerResponse :
+    type : object
+    properties:
+      content : Player
+      status : ResponseLibrary.StatusType
+
+  PlayersResponse :
+    type : object
+    properties:
+      content : Player[]
+      status : ResponseLibrary.StatusType
