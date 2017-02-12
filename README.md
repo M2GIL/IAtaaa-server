@@ -13,4 +13,4 @@ Navigate to http://localhost:8080.
 You can to change the default port in `/src/main/resources/application.properties`
 
 ## Documentation
-* [See the docs](https://github.com/M2GIL/IAtaaa-server/wiki/Communication)
+* [See the docs](https://github.com/M2GIL/IAtaaa-server/wiki)
