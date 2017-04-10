@@ -1,7 +1,6 @@
 package fr.univrouen.iataaaserver.api.services.impl;
 
 import fr.univrouen.iataaaserver.api.domain.AiPlayer;
-import fr.univrouen.iataaaserver.api.domain.Player;
 import fr.univrouen.iataaaserver.api.dto.entity.AiPlayerDTO;
 import fr.univrouen.iataaaserver.api.dto.entity.AiPlayerToCreateDTO;
 import fr.univrouen.iataaaserver.api.dto.entity.AiPlayerToUpdateDTO;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AiPlayerServiceImpl implements AiPlayerService {
@@ -33,22 +33,16 @@ public class AiPlayerServiceImpl implements AiPlayerService {
 
     @Override
     public AiPlayerDTO create(AiPlayerToCreateDTO aiPlayerToCreateDTO) {
-        AiPlayerDTO result = null;
         AiPlayer aiPlayer = AiPlayerMapper.createDTOToModel(aiPlayerToCreateDTO);
         AiPlayer createdEntity = aiPlayerRepository.save(aiPlayer);
         LOGGER.info("Player is created : {}", createdEntity);
-        if (createdEntity != null) {
-            result = AiPlayerMapper.modelToDTO(createdEntity);
-        }
-        return result;
+        return AiPlayerMapper.modelToDTO(createdEntity);
     }
 
     @Override
     public void delete(String id) throws NotFoundException {
-        AiPlayer aiPlayer = aiPlayerRepository.findOne(id);
-        if (aiPlayer == null) {
-            throw new NotFoundException("id", id, "Player");
-        }
+        AiPlayer aiPlayer = Optional.ofNullable(aiPlayerRepository.findOne(id))
+                .orElseThrow(() -> new NotFoundException("id", id, "Player"));
         aiPlayerRepository.delete(id);
         LOGGER.info("Player is deleted : {}", aiPlayer);
     }
@@ -58,33 +52,24 @@ public class AiPlayerServiceImpl implements AiPlayerService {
         Page<AiPlayer> entitiesPage = aiPlayerRepository.findAll(pageable);
         LOGGER.info("Player is found all");
         List<AiPlayerDTO> entitiesDTO = convertModelIterableToDTOList(entitiesPage.getContent());
-        Page<AiPlayerDTO> result = new PageImpl<>(entitiesDTO, pageable, entitiesPage.getTotalElements());
-        aiPlayerRepository.findAll(pageable);
-        return result;
+        return new PageImpl<>(entitiesDTO, pageable, entitiesPage.getTotalElements());
     }
 
     @Override
     public AiPlayerDTO findById(String id) throws NotFoundException {
-        AiPlayerDTO result;
-        AiPlayer aiPlayer = aiPlayerRepository.findOne(id);
-        if (aiPlayer == null) {
-            throw new NotFoundException("id", id, "Player");
-        }
+        AiPlayer aiPlayer = Optional.ofNullable(aiPlayerRepository.findOne(id))
+                .orElseThrow(() -> new NotFoundException("id", id, "Player"));
         LOGGER.info("Player is found : {}", aiPlayer);
-        result = AiPlayerMapper.modelToDTO(aiPlayer);
-        return result;
+        return AiPlayerMapper.modelToDTO(aiPlayer);
     }
 
     @Override
     public AiPlayerDTO findByName(String name) throws NotFoundException {
         AiPlayerDTO result;
-        AiPlayer aiPlayer = aiPlayerRepository.findByName(name);
-        if (aiPlayer == null) {
-            throw new NotFoundException("name", name, "Player");
-        }
+        AiPlayer aiPlayer = Optional.ofNullable(aiPlayerRepository.findByName(name))
+                .orElseThrow(() -> new NotFoundException("name", name, "Player"));
         LOGGER.info("Player is found : {}", aiPlayer);
-        result = AiPlayerMapper.modelToDTO(aiPlayer);
-        return result;
+        return AiPlayerMapper.modelToDTO(aiPlayer);
     }
 
     @Override

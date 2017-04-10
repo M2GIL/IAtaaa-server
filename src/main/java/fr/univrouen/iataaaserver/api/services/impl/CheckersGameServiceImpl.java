@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CheckersGameServiceImpl implements CheckersGameService {
@@ -48,22 +49,16 @@ public class CheckersGameServiceImpl implements CheckersGameService {
 
     @Override
     public CheckersGameDTO create(CheckersGameToCreateDTO checkersGameToCreateDTO) {
-        CheckersGameDTO result = null;
         CheckersGame checkersGame = CheckersGameMapper.createDTOToModel(checkersGameToCreateDTO);
         CheckersGame createdEntity = checkerGameRepository.save(checkersGame);
         LOGGER.info("Checkers game is created : {}", createdEntity);
-        if (createdEntity != null) {
-            result = CheckersGameMapper.modelToDTO(createdEntity);
-        }
-        return result;
+        return CheckersGameMapper.modelToDTO(createdEntity);
     }
 
     @Override
     public void delete(String id) throws NotFoundException {
-        CheckersGame checkersGame = checkerGameRepository.findOne(id);
-        if (checkersGame == null) {
-            throw new NotFoundException("id", id, "Checkers game");
-        }
+        CheckersGame checkersGame = Optional.ofNullable(checkerGameRepository.findOne(id))
+                .orElseThrow(() -> new NotFoundException("id", id, "Checkers game"));
         checkerGameRepository.delete(id);
         LOGGER.info("Checkers game is deleted : {}", checkersGame);
     }
@@ -73,33 +68,23 @@ public class CheckersGameServiceImpl implements CheckersGameService {
         Page<CheckersGame> entitiesPage = checkerGameRepository.findAll(pageable);
         LOGGER.info("Checkers game is found all");
         List<CheckersGameDTO> entitiesDTO = convertModelIterableToDTOList(entitiesPage.getContent());
-        Page<CheckersGameDTO> result = new PageImpl<>(entitiesDTO, pageable, entitiesPage.getTotalElements());
-        checkerGameRepository.findAll(pageable);
-        return result;
+        return new PageImpl<>(entitiesDTO, pageable, entitiesPage.getTotalElements());
     }
 
     @Override
     public CheckersGameDTO findById(String id) throws NotFoundException {
-        CheckersGameDTO result;
-        CheckersGame checkersGame = checkerGameRepository.findOne(id);
-        if (checkersGame == null) {
-            throw new NotFoundException("id", id, "Checkers game");
-        }
+        CheckersGame checkersGame = Optional.ofNullable(checkerGameRepository.findOne(id))
+                .orElseThrow(() -> new NotFoundException("id", id, "Checkers game"));
         LOGGER.info("Checkers game is found : {}", checkersGame);
-        result = CheckersGameMapper.modelToDTO(checkersGame);
-        return result;
+        return CheckersGameMapper.modelToDTO(checkersGame);
     }
 
     @Override
     public CheckersGameDTO findByName(String name) throws NotFoundException {
-        CheckersGameDTO result;
-        CheckersGame checkersGame = checkerGameRepository.findByName(name);
-        if (checkersGame == null) {
-            throw new NotFoundException("name", name, "Checkers game");
-        }
+        CheckersGame checkersGame = Optional.ofNullable(checkerGameRepository.findByName(name))
+                .orElseThrow(() -> new NotFoundException("name", name, "Checkers game"));
         LOGGER.info("Checkers game is found : {}", checkersGame);
-        result = CheckersGameMapper.modelToDTO(checkersGame);
-        return result;
+        return CheckersGameMapper.modelToDTO(checkersGame);
     }
 
     @Override
