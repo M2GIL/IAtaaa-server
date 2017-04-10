@@ -10,10 +10,13 @@ import javax.validation.constraints.Size;
 public class CheckersGameDTO extends EntityDTO {
 
     @NotNull
+    @Size(min = 1, max = 50)
     private String name;
     @NotNull
+    @Size(min = 1, max = 50)
     private String firstPlayerId;
     @NotNull
+    @Size(min = 1, max = 50)
     private String secondPlayerId;
     @NotNull
     @Size(min=50, max=50)
