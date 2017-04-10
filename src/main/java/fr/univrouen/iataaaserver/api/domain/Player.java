@@ -24,5 +24,7 @@ public abstract class Player extends Entity {
     private String token;
     @NotNull
     @NotEmpty
-    private String url;
+    private String ip;
+    private int port;
+    private String path;
 }

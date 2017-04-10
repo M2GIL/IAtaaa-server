@@ -28,9 +28,11 @@ public class AiPlayerSteps extends AbstractSteps {
             Difficulty difficulty = Difficulty.valueOf(map.get("difficulty"));
             String name = map.get("name");
             String token = map.get("token");
-            String url = map.get("url");
+            String ip = map.get("ip");
+            int port = Integer.valueOf(map.get("port"));
+            String path = map.get("path");
 
-            persistAiPlayer(id, difficulty, name, token, url);
+            persistAiPlayer(id, difficulty, name, token, ip, port, path);
         });
     }
 
@@ -45,14 +47,16 @@ public class AiPlayerSteps extends AbstractSteps {
 
     // PRIVATE
     private void persistAiPlayer(
-            String id, Difficulty difficulty, String name, String token, String url
+            String id, Difficulty difficulty, String name, String token, String ip, int port, String path
     ) {
         AiPlayer aiPlayer = new AiPlayer();
         aiPlayer.setId(id);
         aiPlayer.setDifficulty(difficulty);
         aiPlayer.setName(name);
         aiPlayer.setToken(token);
-        aiPlayer.setUrl(url);
+        aiPlayer.setIp(ip);
+        aiPlayer.setPort(port);
+        aiPlayer.setPath(path);
 
         entityManager.persist(aiPlayer);
     }
@@ -71,36 +75,42 @@ public class AiPlayerSteps extends AbstractSteps {
             Difficulty difficulty = Difficulty.valueOf(map.get("difficulty"));
             String name = map.get("name");
             String token = map.get("token");
-            String url = map.get("url");
+            String ip = map.get("ip");
+            int port = Integer.valueOf(map.get("port"));
+            String path = map.get("path");
 
             if (id == null)
-                aiPlayerIsInDatabase(difficulty, name, token, url);
+                aiPlayerIsInDatabase(difficulty, name, token, ip, port, path);
             else
-                aiPlayerIsInDatabase(id, difficulty, name, token, url);
+                aiPlayerIsInDatabase(id, difficulty, name, token, ip, port, path);
         });
     }
 
     private void aiPlayerIsInDatabase(
-            Difficulty difficulty, String name, String token, String url
+            Difficulty difficulty, String name, String token, String ip, int port, String path
     ) {
         AiPlayer aiPlayer = entityManager.createQuery(
                 "SELECT l FROM AiPlayer l WHERE " +
                         "l.difficulty = :difficulty " +
                         "AND l.name = :name " +
                         "AND l.token = :token " +
-                        "AND l.url = :url "
+                        "AND l.ip = :ip " +
+                        "AND l.port = :port " +
+                        "AND l.path = :path "
                 , AiPlayer.class)
 
                 .setParameter("difficulty", difficulty)
                 .setParameter("name", name)
                 .setParameter("token", token)
-                .setParameter("url", url)
+                .setParameter("ip", ip)
+                .setParameter("port", port)
+                .setParameter("path", path)
                 .getSingleResult();
         assertThat(aiPlayer).isNotNull();
     }
 
     private void aiPlayerIsInDatabase(
-            String id, Difficulty difficulty, String name, String token, String url
+            String id, Difficulty difficulty, String name, String token, String ip, int port, String path
     ) {
         AiPlayer aiPlayer = entityManager.createQuery(
                 "SELECT l FROM AiPlayer l WHERE " +
@@ -108,13 +118,17 @@ public class AiPlayerSteps extends AbstractSteps {
                         "AND l.difficulty = :difficulty " +
                         "AND l.name = :name " +
                         "AND l.token = :token " +
-                        "AND l.url = :url "
+                        "AND l.ip = :ip " +
+                        "AND l.port = :port " +
+                        "AND l.path = :path "
                 , AiPlayer.class)
                 .setParameter("id", id)
                 .setParameter("difficulty", difficulty)
                 .setParameter("name", name)
                 .setParameter("token", token)
-                .setParameter("url", url)
+                .setParameter("ip", ip)
+                .setParameter("port", port)
+                .setParameter("path", path)
                 .getSingleResult();
         assertThat(aiPlayer).isNotNull();
     }

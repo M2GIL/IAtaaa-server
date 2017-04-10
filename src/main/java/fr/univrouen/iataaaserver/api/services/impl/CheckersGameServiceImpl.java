@@ -116,12 +116,12 @@ public class CheckersGameServiceImpl implements CheckersGameService {
 
 
         String firstPlayerName = firstPlayer.getName();
-        String firstPlayerUrl = firstPlayer.getUrl();
+        String firstPlayerUrl = getUrl(firstPlayer.getIp(), firstPlayer.getPort(), firstPlayer.getPath());
         Difficulty firstPlayerDifficulty = firstPlayer.getDifficulty();
         String firstPlayerToken = firstPlayer.getToken();
 
         String secondPlayerName = secondPlayer.getName();
-        String secondPlayerUrl = secondPlayer.getUrl();
+        String secondPlayerUrl = getUrl(secondPlayer.getIp(), secondPlayer.getPort(), secondPlayer.getPath());
         Difficulty secondPlayerDifficulty = secondPlayer.getDifficulty();
         String secondPlayerToken = secondPlayer.getToken();
 
@@ -141,5 +141,11 @@ public class CheckersGameServiceImpl implements CheckersGameService {
             }
         };
         new Thread(runGame).start();
+    }
+
+    // PRIVATE
+
+    private String getUrl(String ip, int port, String path) {
+        return ip + ":" + port + "/" + path;
     }
 }
